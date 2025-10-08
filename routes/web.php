@@ -62,9 +62,14 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
         Route::delete('{id}', [GuruJurnalController::class, 'destroy'])->name('destroy');
     });
     // Supervisi Route
+    // Supervisi Route
     Route::prefix('supervisi')->name('supervisi.')->group(function () {
         Route::get('/', [GuruSupervisiController::class, 'index'])->name('index');
+        Route::post('/', [GuruSupervisiController::class, 'store'])->name('store');
+        Route::put('/{supervisi}', [GuruSupervisiController::class, 'update'])->name('update');
+        Route::delete('/{supervisi}', [GuruSupervisiController::class, 'destroy'])->name('destroy');
         Route::get('/history', [GuruSupervisiController::class, 'log'])->name('log');
+        Route::get('/{supervisi}', [GuruSupervisiController::class, 'show'])->name('show');
     });
 });
 
