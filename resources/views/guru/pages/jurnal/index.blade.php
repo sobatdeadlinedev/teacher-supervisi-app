@@ -109,7 +109,7 @@
                                         <td class="text-end">
                                             <button class="btn btn-light btn-active-light-primary btn-sm"
                                                 data-bs-toggle="modal" data-bs-target="#jurnalModal"
-                                                onclick="editJurnal({{ $jurnal }})">
+                                                onclick="editJurnal({{ $jurnal->toJson() }})">
                                                 Edit
                                             </button>
                                             <form action="{{ route('guru.jurnal.destroy', $jurnal->id) }}" method="POST"
@@ -212,7 +212,11 @@
     <script>
         function editJurnal(jurnal) {
             document.getElementById('modalTitle').textContent = 'Edit Jurnal';
-            document.getElementById('jurnalForm').action = `/jurnal/${jurnal.id}`;
+            document.getElementById('jurnalForm').action = `/guru/jurnal/${jurnal.id}`;
+
+            // Format tanggal dari YYYY-MM-DD
+            const tanggalFormatted = jurnal.hari_tanggal.split('T')[0];
+
             document.getElementById('jurnalForm').innerHTML = `
                 @csrf
                 @method('PUT')
@@ -220,7 +224,7 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <label class="form-label">Tanggal</label>
-                            <input type="date" class="form-control" name="hari_tanggal" value="${jurnal.hari_tanggal}" required>
+                            <input type="date" class="form-control" name="hari_tanggal" value="${tanggalFormatted}" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Kelas</label>

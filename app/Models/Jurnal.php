@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Jurnal extends Model
 {
     protected $fillable = [
+        'user_id',
         'hari_tanggal',
         'kelas',
         'jam_ke',
@@ -20,4 +21,9 @@ class Jurnal extends Model
         'hari_tanggal' => 'date',
         'kehadiran_peserta_didik' => 'array',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

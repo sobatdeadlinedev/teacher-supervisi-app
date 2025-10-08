@@ -10,7 +10,7 @@ class JurnalController extends Controller
 {
     public function index()
     {
-        $jurnals = Jurnal::latest()->get();
+        $jurnals = Jurnal::where('user_id', auth()->id())->latest()->get();
         return view('guru.pages.jurnal.index', compact('jurnals'));
     }
 
@@ -38,6 +38,8 @@ class JurnalController extends Controller
 
         unset($validated['hadir'], $validated['sakit'], $validated['izin'], $validated['alfa']);
 
+        $validated['user_id'] = auth()->id();
+
         Jurnal::create($validated);
 
         return redirect()->route('guru.jurnal.index')->with('success', 'Jurnal berhasil ditambahkan');
@@ -45,7 +47,7 @@ class JurnalController extends Controller
 
     public function update(Request $request, $id)
     {
-        $jurnal = Jurnal::findOrFail($id);
+        $jurnal = Jurnal::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
 
         $validated = $request->validate([
             'hari_tanggal' => 'required|date',
@@ -71,14 +73,14 @@ class JurnalController extends Controller
 
         $jurnal->update($validated);
 
-        return redirect()->route('jurnal.index')->with('success', 'Jurnal berhasil diperbarui');
+        return redirect()->route('guru.jurnal.index')->with('success', 'Jurnal berhasil diperbarui');
     }
 
     public function destroy($id)
     {
-        $jurnal = Jurnal::findOrFail($id);
+        $jurnal = Jurnal::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
         $jurnal->delete();
 
-        return redirect()->route('jurnal.index')->with('success', 'Jurnal berhasil dihapus');
+        return redirect()->route('guru.jurnal.index')->with('success', 'Jurnal berhasil dihapus');
     }
 }

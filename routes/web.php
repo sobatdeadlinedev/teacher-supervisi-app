@@ -50,6 +50,9 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
     // Administrasi Route
     Route::prefix('administrasi')->name('administrasi.')->group(function () {
         Route::get('/', [GuruAdministrasiController::class, 'index'])->name('index');
+        Route::post('/', [GuruAdministrasiController::class, 'store'])->name('store');
+        Route::put('{id}', [GuruAdministrasiController::class, 'update'])->name('update');
+        Route::delete('{id}', [GuruAdministrasiController::class, 'destroy'])->name('destroy');
     });
     // Jurnal Route
     Route::prefix('jurnal')->name('jurnal.')->group(function () {
