@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Guest\AuthController;
 use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 //     }
 //     return redirect()->route('login');
 // });
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/', [GuruDashboardController::class, 'index'])->name('login');
 // Route::middleware('guest')->group(function () {
 //     Route::prefix('reset-password')->name('reset-password.')->group(function () {
