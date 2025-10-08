@@ -77,10 +77,10 @@ License: For each use you must have a valid license purchased only from above li
     <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
         <!--begin::Page-->
         <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
-            @include('kepala-sekolah.components.header')
+            @include('admin.components.header')
             <!--begin::Wrapper-->
             <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
-                @include('kepala-sekolah.components.sidebar')
+                @include('admin.components.sidebar')
                 <!--begin::Main-->
                 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
                     <!--begin::Content wrapper-->
@@ -88,7 +88,7 @@ License: For each use you must have a valid license purchased only from above li
                         @yield('content')
                     </div>
                     <!--end::Content wrapper-->
-                    @include('kepala-sekolah.components.footer')
+                    @include('admin.components.footer')
                 </div>
                 <!--end:::Main-->
             </div>

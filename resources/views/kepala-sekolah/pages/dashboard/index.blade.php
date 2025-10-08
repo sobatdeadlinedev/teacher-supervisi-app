@@ -1,4 +1,4 @@
-@extends('guru.layouts.app')
+@extends('kepala-sekolah.layouts.app')
 @section('content')
 <!--begin::Toolbar-->
                         <div id="kt_app_toolbar" class="app-toolbar pt-5 pt-lg-10">
@@ -12,7 +12,7 @@
                                         <!--begin::Title-->
                                         <h1
                                             class="page-heading d-flex flex-column justify-content-center text-gray-900 fw-bold fs-3 m-0">
-                                            Hello Tyler</h1>
+                                            Hello Kepala Sekolah</h1>
                                         <!--end::Title-->
                                         <!--begin::Breadcrumb-->
                                         <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0">

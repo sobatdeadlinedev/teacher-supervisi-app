@@ -327,7 +327,13 @@
                 <!--end::Menu item-->
                 <!--begin::Menu item-->
                 <div class="menu-item px-5">
-                    <a href="authentication/layouts/corporate/sign-in.html" class="menu-link px-5">Sign Out</a>
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="menu-link px-5"
+                            style="background: none; border: none; cursor: pointer; width: 100%; text-align: left;">
+                            Sign Out
+                        </button>
+                    </form>
                 </div>
                 <!--end::Menu item-->
             </div>

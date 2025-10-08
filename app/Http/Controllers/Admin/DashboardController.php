@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Pengawas;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,6 +9,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('pengawas.pages.dashboard.index');
+        return view('admin.pages.dashboard.index');
     }
 }

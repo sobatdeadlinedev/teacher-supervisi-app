@@ -9,42 +9,31 @@
                 <!--begin::Wrapper-->
                 <div class="d-flex flex-center flex-column flex-column-fluid pb-15 pb-lg-20">
                     <!--begin::Form-->
-                    <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" data-kt-redirect-url="index.html"
-                        action="#">
+                    <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" action="{{ route('login.process') }}"
+                        method="POST">
+                        @csrf
                         <!--begin::Heading-->
                         <div class="text-center mb-11">
                             <!--begin::Title-->
                             <h1 class="text-gray-900 fw-bolder mb-3">Sign In</h1>
                             <!--end::Title-->
-                            <!--begin::Subtitle-->
-                            {{-- <div class="text-gray-500 fw-semibold fs-6">Your Social Campaigns</div> --}}
-                            <!--end::Subtitle-->
                         </div>
                         <!--begin::Heading-->
                         <!--begin::Input group=-->
                         <div class="fv-row mb-8">
                             <!--begin::Email-->
                             <input type="text" placeholder="Email" name="email" autocomplete="off"
-                                class="form-control bg-transparent" />
+                                class="form-control bg-transparent" value="{{ old('email') }}" />
                             <!--end::Email-->
                         </div>
                         <!--end::Input group=-->
-                        <div class="fv-row mb-3">
+                        <div class="fv-row mb-8">
                             <!--begin::Password-->
                             <input type="password" placeholder="Password" name="password" autocomplete="off"
                                 class="form-control bg-transparent" />
                             <!--end::Password-->
                         </div>
                         <!--end::Input group=-->
-                        <!--begin::Wrapper-->
-                        <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
-                            <div></div>
-                            <!--begin::Link-->
-                            {{-- <a href="authentication/layouts/overlay/reset-password.html" class="link-primary">Forgot
-                                Password ?</a> --}}
-                            <!--end::Link-->
-                        </div>
-                        <!--end::Wrapper-->
                         <!--begin::Submit button-->
                         <div class="d-grid mb-10">
                             <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
