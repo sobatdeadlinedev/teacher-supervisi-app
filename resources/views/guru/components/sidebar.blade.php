@@ -31,7 +31,7 @@
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link active" href="#">
+                    <a class="menu-link @if (Route::is('guru.dashboard*')) active @endif" href="#">
                         <span class="menu-icon">
                             <i class="ki-outline ki-element-11 fs-2"></i>
                         </span>
@@ -41,22 +41,56 @@
                 </div>
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
-                <div class="menu-item pt-5">
-                    <!--begin:Menu content-->
-                    <div class="menu-content">
-                        <span class="menu-heading fw-bold text-uppercase fs-7">Pages</span>
-                    </div>
-                    <!--end:Menu content-->
+                <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link @if (Route::is('guru.administrasi*')) active @endif"
+                        href="{{ route('guru.administrasi.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-data fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                                <span class="path4"></span>
+                                <span class="path5"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Administrasi Pembelajaran</span>
+                    </a>
+                    <!--end:Menu link-->
                 </div>
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                <div class="menu-item">
                     <!--begin:Menu link-->
-                    <span class="menu-link">
+                    <a class="menu-link @if (Route::is('guru.jurnal*')) active @endif"
+                        href="{{ route('guru.jurnal.index') }}">
                         <span class="menu-icon">
-                            <i class="ki-outline ki-address-book fs-2"></i>
+                            <i class="ki-duotone ki-book fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                                <span class="path4"></span>
+                            </i>
                         </span>
-                        <span class="menu-title">User Profile</span>
+                        <span class="menu-title">Jurnal Mengajar</span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+                <!--end:Menu item-->
+                <!--begin:Menu item-->
+                <div data-kt-menu-trigger="click"
+                    class="menu-item menu-accordion @if (Route::is('guru.supervisi*')) here show @endif">
+                    <!--begin:Menu link-->
+                    <span class="menu-link @if (Route::is('guru.supervisi*')) active @endif">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-chart-simple-2 fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                                <span class="path4"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Supervisi</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <!--end:Menu link-->
@@ -65,11 +99,12 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link" href="pages/user-profile/overview.html">
+                            <a class="menu-link @if (Route::is('guru.supervisi.index')) active @endif"
+                                href="{{ route('guru.supervisi.index') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Overview</span>
+                                <span class="menu-title">Ajukan Supervisi</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
@@ -77,17 +112,18 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link" href="pages/user-profile/projects.html">
+                            <a class="menu-link @if (Route::is('guru.supervisi.log')) active @endif"
+                                href="{{ route('guru.supervisi.log') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Projects</span>
+                                <span class="menu-title">History Supervisi</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
                         <!--end:Menu item-->
                     </div>
-                    <!--end:Menu sub-->
+                    <!--end::Menu sub-->
                 </div>
                 <!--end:Menu item-->
             </div>
@@ -131,88 +167,13 @@
                             <div class="fw-bold d-flex align-items-center fs-5">Eugenia
                                 <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span>
                             </div>
-                            <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">eugenia@kt.com</a>
+                            <a href="#"
+                                class="fw-semibold text-muted text-hover-primary fs-7">eugenia@kt.com</a>
                         </div>
                         <!--end::Username-->
                     </div>
                 </div>
                 <!--end::Menu item-->
-                <!--begin::Menu separator-->
-                <div class="separator my-2"></div>
-                <!--end::Menu separator-->
-                <!--begin::Menu item-->
-                <div class="menu-item px-5">
-                    <a href="account/overview.html" class="menu-link px-5">My Profile</a>
-                </div>
-                <!--end::Menu item-->
-                <!--begin::Menu item-->
-                <div class="menu-item px-5">
-                    <a href="apps/projects/list.html" class="menu-link px-5">
-                        <span class="menu-text">My Projects</span>
-                        <span class="menu-badge">
-                            <span class="badge badge-light-danger badge-circle fw-bold fs-7">3</span>
-                        </span>
-                    </a>
-                </div>
-                <!--end::Menu item-->
-                <!--begin::Menu item-->
-                <div class="menu-item px-5" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
-                    data-kt-menu-placement="right-end" data-kt-menu-offset="-15px, 0">
-                    <a href="#" class="menu-link px-5">
-                        <span class="menu-title">My Subscription</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <!--begin::Menu sub-->
-                    <div class="menu-sub menu-sub-dropdown w-175px py-4">
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3">
-                            <a href="account/referrals.html" class="menu-link px-5">Referrals</a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3">
-                            <a href="account/billing.html" class="menu-link px-5">Billing</a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3">
-                            <a href="account/statements.html" class="menu-link px-5">Payments</a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3">
-                            <a href="account/statements.html" class="menu-link d-flex flex-stack px-5">Statements
-                                <span class="ms-2 lh-0" data-bs-toggle="tooltip" title="View your statements">
-                                    <i class="ki-outline ki-information-5 fs-5"></i>
-                                </span></a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu separator-->
-                        <div class="separator my-2"></div>
-                        <!--end::Menu separator-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3">
-                            <div class="menu-content px-3">
-                                <label class="form-check form-switch form-check-custom form-check-solid">
-                                    <input class="form-check-input w-30px h-20px" type="checkbox" value="1"
-                                        checked="checked" name="notifications" />
-                                    <span class="form-check-label text-muted fs-7">Notifications</span>
-                                </label>
-                            </div>
-                        </div>
-                        <!--end::Menu item-->
-                    </div>
-                    <!--end::Menu sub-->
-                </div>
-                <!--end::Menu item-->
-                <!--begin::Menu item-->
-                <div class="menu-item px-5">
-                    <a href="account/statements.html" class="menu-link px-5">My Statements</a>
-                </div>
-                <!--end::Menu item-->
-                <!--begin::Menu separator-->
-                <div class="separator my-2"></div>
-                <!--end::Menu separator-->
                 <!--begin::Menu item-->
                 <div class="menu-item px-5" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
                     data-kt-menu-placement="left-start" data-kt-menu-offset="-15px, 0">
@@ -248,81 +209,8 @@
                             </a>
                         </div>
                         <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3 my-0">
-                            <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
-                                data-kt-value="system">
-                                <span class="menu-icon" data-kt-element="icon">
-                                    <i class="ki-outline ki-screen fs-2"></i>
-                                </span>
-                                <span class="menu-title">System</span>
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
                     </div>
                     <!--end::Menu-->
-                </div>
-                <!--end::Menu item-->
-                <!--begin::Menu item-->
-                <div class="menu-item px-5" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
-                    data-kt-menu-placement="right-end" data-kt-menu-offset="-15px, 0">
-                    <a href="#" class="menu-link px-5">
-                        <span class="menu-title position-relative">Language
-                            <span
-                                class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">English
-                                <img class="w-15px h-15px rounded-1 ms-2" src="assets/media/flags/united-states.svg"
-                                    alt="" /></span></span>
-                    </a>
-                    <!--begin::Menu sub-->
-                    <div class="menu-sub menu-sub-dropdown w-175px py-4">
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3">
-                            <a href="account/settings.html" class="menu-link d-flex px-5 active">
-                                <span class="symbol symbol-20px me-4">
-                                    <img class="rounded-1" src="assets/media/flags/united-states.svg"
-                                        alt="" />
-                                </span>English</a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3">
-                            <a href="account/settings.html" class="menu-link d-flex px-5">
-                                <span class="symbol symbol-20px me-4">
-                                    <img class="rounded-1" src="assets/media/flags/spain.svg" alt="" />
-                                </span>Spanish</a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3">
-                            <a href="account/settings.html" class="menu-link d-flex px-5">
-                                <span class="symbol symbol-20px me-4">
-                                    <img class="rounded-1" src="assets/media/flags/germany.svg" alt="" />
-                                </span>German</a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3">
-                            <a href="account/settings.html" class="menu-link d-flex px-5">
-                                <span class="symbol symbol-20px me-4">
-                                    <img class="rounded-1" src="assets/media/flags/japan.svg" alt="" />
-                                </span>Japanese</a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3">
-                            <a href="account/settings.html" class="menu-link d-flex px-5">
-                                <span class="symbol symbol-20px me-4">
-                                    <img class="rounded-1" src="assets/media/flags/france.svg" alt="" />
-                                </span>French</a>
-                        </div>
-                        <!--end::Menu item-->
-                    </div>
-                    <!--end::Menu sub-->
-                </div>
-                <!--end::Menu item-->
-                <!--begin::Menu item-->
-                <div class="menu-item px-5 my-1">
-                    <a href="account/settings.html" class="menu-link px-5">Account Settings</a>
                 </div>
                 <!--end::Menu item-->
                 <!--begin::Menu item-->

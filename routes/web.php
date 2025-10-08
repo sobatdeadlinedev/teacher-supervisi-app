@@ -3,10 +3,12 @@
 use App\Http\Controllers\Guest\AuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
+use App\Http\Controllers\Guru\AdministrasiController as GuruAdministrasiController;
+use App\Http\Controllers\Guru\JurnalController as GuruJurnalController;
+use App\Http\Controllers\Guru\SupervisiController as GuruSupervisiController;
 use App\Http\Controllers\KepalaSekolah\DashboardController as KepalaSekolahDashboardController;
 use App\Http\Controllers\Pengawas\DashboardController as PengawasDashboardController;
 use Illuminate\Support\Facades\Route;
-
 // Root route dengan logic
 Route::get('/', function () {
     if (auth()->check()) {
@@ -44,6 +46,20 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 // Guru Routes
 Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(function () {
     Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('dashboard.index');
+
+    // Administrasi Route
+    Route::prefix('administrasi')->name('administrasi.')->group(function () {
+        Route::get('/', [GuruAdministrasiController::class, 'index'])->name('index');
+    });
+    // Jurnal Route
+    Route::prefix('jurnal')->name('jurnal.')->group(function () {
+        Route::get('/', [GuruJurnalController::class, 'index'])->name('index');
+    });
+    // Supervisi Route
+    Route::prefix('supervisi')->name('supervisi.')->group(function () {
+        Route::get('/', [GuruSupervisiController::class, 'index'])->name('index');
+        Route::get('/history', [GuruSupervisiController::class, 'log'])->name('log');
+    });
 });
 
 // Kepala Sekolah Routes
