@@ -9,6 +9,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('guru.layouts.app');
+        return view('guru.pages.dashboard.index');
     }
 }
