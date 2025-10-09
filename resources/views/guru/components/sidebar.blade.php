@@ -4,10 +4,11 @@
     data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
     <div class="app-sidebar-logo flex-shrink-0 d-none d-md-flex align-items-center px-8" id="kt_app_sidebar_logo">
         <!--begin::Logo-->
-        <a href="index.html">
-            <img alt="Logo" src="assets/media/logos/demo42.svg"
+        <a href="{{ route('guru.dashboard.index') }}">
+            <img alt="Logo" src="{{ asset('assets/media/logos/demo42.svg') }}"
                 class="h-25px d-none d-sm-inline app-sidebar-logo-default theme-light-show" />
-            <img alt="Logo" src="assets/media/logos/demo42-dark.svg" class="h-25px h-lg-25px theme-dark-show" />
+            <img alt="Logo" src="{{ asset('assets/media/logos/demo42-dark.svg') }}"
+                class="h-25px h-lg-25px theme-dark-show" />
         </a>
         <!--end::Logo-->
         <!--begin::Aside toggle-->
@@ -31,7 +32,8 @@
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link @if (Route::is('guru.dashboard*')) active @endif" href="#">
+                    <a class="menu-link {{ Route::is('guru.dashboard*') ? 'active' : '' }}"
+                        href="{{ route('guru.dashboard.index') }}">
                         <span class="menu-icon">
                             <i class="ki-outline ki-element-11 fs-2"></i>
                         </span>
@@ -43,7 +45,7 @@
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link @if (Route::is('guru.administrasi*')) active @endif"
+                    <a class="menu-link {{ Route::is('guru.administrasi*') ? 'active' : '' }}"
                         href="{{ route('guru.administrasi.index') }}">
                         <span class="menu-icon">
                             <i class="ki-duotone ki-data fs-2">
@@ -62,7 +64,7 @@
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link @if (Route::is('guru.jurnal*')) active @endif"
+                    <a class="menu-link {{ Route::is('guru.jurnal*') ? 'active' : '' }}"
                         href="{{ route('guru.jurnal.index') }}">
                         <span class="menu-icon">
                             <i class="ki-duotone ki-book fs-2">
@@ -79,9 +81,9 @@
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
                 <div data-kt-menu-trigger="click"
-                    class="menu-item menu-accordion @if (Route::is('guru.supervisi*')) here show @endif">
+                    class="menu-item menu-accordion {{ Route::is('guru.supervisi*') ? 'here show' : '' }}">
                     <!--begin:Menu link-->
-                    <span class="menu-link @if (Route::is('guru.supervisi*')) active @endif">
+                    <span class="menu-link {{ Route::is('guru.supervisi*') ? 'active' : '' }}">
                         <span class="menu-icon">
                             <i class="ki-duotone ki-chart-simple-2 fs-2">
                                 <span class="path1"></span>
@@ -99,7 +101,7 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link @if (Route::is('guru.supervisi.index')) active @endif"
+                            <a class="menu-link {{ Route::is('guru.supervisi.index') ? 'active' : '' }}"
                                 href="{{ route('guru.supervisi.index') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
@@ -112,7 +114,7 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link @if (Route::is('guru.supervisi.log')) active @endif"
+                            <a class="menu-link {{ Route::is('guru.supervisi.log') ? 'active' : '' }}"
                                 href="{{ route('guru.supervisi.log') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
@@ -140,7 +142,7 @@
             <div class="d-flex align-items-center" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
                 data-kt-menu-overflow="true" data-kt-menu-placement="top-start">
                 <div class="d-flex flex-center cursor-pointer symbol symbol-circle symbol-40px">
-                    <img src="assets/media/avatars/300-1.jpg" alt="image" />
+                    <img src="{{ asset('assets/media/avatars/300-1.jpg') }}" alt="image" />
                 </div>
                 <!--begin::Name-->
                 <div class="d-flex flex-column align-items-start justify-content-center ms-3">
@@ -158,7 +160,7 @@
                     <div class="menu-content d-flex align-items-center px-3">
                         <!--begin::Avatar-->
                         <div class="symbol symbol-50px me-5">
-                            <img alt="Logo" src="assets/media/avatars/300-1.jpg" />
+                            <img alt="Logo" src="{{ asset('assets/media/avatars/300-1.jpg') }}" />
                         </div>
                         <!--end::Avatar-->
                         <!--begin::Username-->

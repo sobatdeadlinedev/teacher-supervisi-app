@@ -4,10 +4,11 @@
     data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
     <div class="app-sidebar-logo flex-shrink-0 d-none d-md-flex align-items-center px-8" id="kt_app_sidebar_logo">
         <!--begin::Logo-->
-        <a href="index.html">
-            <img alt="Logo" src="assets/media/logos/demo42.svg"
+        <a href="{{ route('kepala-sekolah.dashboard.index') }}">
+            <img alt="Logo" src="{{ asset('assets/media/logos/demo42.svg') }}"
                 class="h-25px d-none d-sm-inline app-sidebar-logo-default theme-light-show" />
-            <img alt="Logo" src="assets/media/logos/demo42-dark.svg" class="h-25px h-lg-25px theme-dark-show" />
+            <img alt="Logo" src="{{ asset('assets/media/logos/demo42-dark.svg') }}"
+                class="h-25px h-lg-25px theme-dark-show" />
         </a>
         <!--end::Logo-->
         <!--begin::Aside toggle-->
@@ -31,7 +32,8 @@
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link active" href="#">
+                    <a class="menu-link {{ Route::is('kepala-sekolah.dashboard*') ? 'active' : '' }}"
+                        href="{{ route('kepala-sekolah.dashboard.index') }}">
                         <span class="menu-icon">
                             <i class="ki-outline ki-element-11 fs-2"></i>
                         </span>
@@ -41,9 +43,11 @@
                 </div>
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                <div data-kt-menu-trigger="click"
+                    class="menu-item menu-accordion {{ Route::is('kepala-sekolah.administrasi*') || Route::is('kepala-sekolah.jurnal*') ? 'here show' : '' }}">
                     <!--begin:Menu link-->
-                    <span class="menu-link">
+                    <span
+                        class="menu-link {{ Route::is('kepala-sekolah.administrasi*') || Route::is('kepala-sekolah.jurnal*') ? 'active' : '' }}">
                         <span class="menu-icon">
                             <i class="ki-duotone ki-people fs-2">
                                 <span class="path1"></span>
@@ -62,7 +66,8 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link" href="{{ route('kepala-sekolah.administrasi.index') }}">
+                            <a class="menu-link {{ Route::is('kepala-sekolah.administrasi*') ? 'active' : '' }}"
+                                href="{{ route('kepala-sekolah.administrasi.index') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -74,7 +79,8 @@
                         <!--begin:Menu item-->
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link" href="{{ route('kepala-sekolah.jurnal.index') }}">
+                            <a class="menu-link {{ Route::is('kepala-sekolah.jurnal*') ? 'active' : '' }}"
+                                href="{{ route('kepala-sekolah.jurnal.index') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -85,23 +91,24 @@
                         <!--end:Menu item-->
                     </div>
                     <!--end:Menu sub-->
-                    <!--begin:Menu item-->
-                    <div class="menu-item">
-                        <!--begin:Menu link-->
-                        <a class="menu-link" href="{{ route('kepala-sekolah.supervisi.index') }}">
-                            <span class="menu-icon">
-                                <i class="ki-duotone ki-chart-simple-2 fs-2">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                    <span class="path3"></span>
-                                    <span class="path4"></span>
-                                </i>
-                            </span>
-                            <span class="menu-title">Supervisi</span>
-                        </a>
-                        <!--end:Menu link-->
-                    </div>
-                    <!--end:Menu item-->
+                </div>
+                <!--end:Menu item-->
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link {{ Route::is('kepala-sekolah.supervisi*') ? 'active' : '' }}"
+                        href="{{ route('kepala-sekolah.supervisi.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-chart-simple-2 fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                                <span class="path4"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Supervisi</span>
+                    </a>
+                    <!--end:Menu link-->
                 </div>
                 <!--end:Menu item-->
             </div>
@@ -118,7 +125,7 @@
             <div class="d-flex align-items-center" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
                 data-kt-menu-overflow="true" data-kt-menu-placement="top-start">
                 <div class="d-flex flex-center cursor-pointer symbol symbol-circle symbol-40px">
-                    <img src="assets/media/avatars/300-1.jpg" alt="image" />
+                    <img src="{{ asset('assets/media/avatars/300-1.jpg') }}" alt="image" />
                 </div>
                 <!--begin::Name-->
                 <div class="d-flex flex-column align-items-start justify-content-center ms-3">
@@ -136,7 +143,7 @@
                     <div class="menu-content d-flex align-items-center px-3">
                         <!--begin::Avatar-->
                         <div class="symbol symbol-50px me-5">
-                            <img alt="Logo" src="assets/media/avatars/300-1.jpg" />
+                            <img alt="Logo" src="{{ asset('assets/media/avatars/300-1.jpg') }}" />
                         </div>
                         <!--end::Avatar-->
                         <!--begin::Username-->
