@@ -98,8 +98,7 @@
                                                 <span class="stepper-number">1</span>
                                             </div>
                                             <div class="stepper-label">
-                                                <h3 class="stepper-title">Instrumen Penilaian</h3>
-                                                <div class="stepper-desc fw-semibold">Penilaian Kinerja Guru</div>
+                                                <h3 class="stepper-title">Percakapan Pra-Observasi</h3>
                                             </div>
                                         </div>
                                         <div class="stepper-line h-40px"></div>
@@ -115,7 +114,6 @@
                                             </div>
                                             <div class="stepper-label">
                                                 <h3 class="stepper-title">Lembar Observasi</h3>
-                                                <div class="stepper-desc fw-semibold">Observasi Pembelajaran</div>
                                             </div>
                                         </div>
                                         <div class="stepper-line h-40px"></div>
@@ -130,8 +128,7 @@
                                                 <span class="stepper-number">3</span>
                                             </div>
                                             <div class="stepper-label">
-                                                <h3 class="stepper-title">Catatan Hasil</h3>
-                                                <div class="stepper-desc fw-semibold">Dokumentasi Hasil</div>
+                                                <h3 class="stepper-title">Catatan Hasil Supervisi</h3>
                                             </div>
                                         </div>
                                         <div class="stepper-line h-40px"></div>
@@ -147,7 +144,6 @@
                                             </div>
                                             <div class="stepper-label">
                                                 <h3 class="stepper-title">Feedback</h3>
-                                                <div class="stepper-desc fw-semibold">Umpan Balik & Rekomendasi</div>
                                             </div>
                                         </div>
                                     </div>
@@ -170,72 +166,23 @@
                                 <!--begin::Step 1-->
                                 <div class="current" data-kt-stepper-element="content">
                                     <div class="w-100">
-                                        <h3 class="mb-5">Instrumen Penilaian Kinerja Guru</h3>
+                                        <h3 class="mb-5">Percakapan Pra-Observasi Kelas</h3>
 
                                         <!--begin::Form Group-->
                                         <div class="fv-row mb-6">
-                                            <label class="form-label required">1. Penguasaan Materi</label>
-                                            <select class="form-select" name="instrumen_penilaian[penguasaan_materi]"
-                                                required>
-                                                <option value="">Pilih Nilai</option>
-                                                <option value="4">Sangat Baik (4)</option>
-                                                <option value="3">Baik (3)</option>
-                                                <option value="2">Cukup (2)</option>
-                                                <option value="1">Kurang (1)</option>
-                                            </select>
+                                            <label class="form-label required">Tujuan Pembelajaran</label>
+                                            <textarea class="form-control" name="instrumen_penilaian[tujuan_pembelajaran]" rows="3" required></textarea>
                                         </div>
 
                                         <div class="fv-row mb-6">
-                                            <label class="form-label required">2. Strategi Pembelajaran</label>
-                                            <select class="form-select" name="instrumen_penilaian[strategi_pembelajaran]"
-                                                required>
-                                                <option value="">Pilih Nilai</option>
-                                                <option value="4">Sangat Baik (4)</option>
-                                                <option value="3">Baik (3)</option>
-                                                <option value="2">Cukup (2)</option>
-                                                <option value="1">Kurang (1)</option>
-                                            </select>
+                                            <label class="form-label required">Area Pengembangan yang hendak
+                                                dicapai</label>
+                                            <textarea class="form-control" name="instrumen_penilaian[area_pengembangan]" rows="3" required></textarea>
                                         </div>
 
                                         <div class="fv-row mb-6">
-                                            <label class="form-label required">3. Pengelolaan Kelas</label>
-                                            <select class="form-select" name="instrumen_penilaian[pengelolaan_kelas]"
-                                                required>
-                                                <option value="">Pilih Nilai</option>
-                                                <option value="4">Sangat Baik (4)</option>
-                                                <option value="3">Baik (3)</option>
-                                                <option value="2">Cukup (2)</option>
-                                                <option value="1">Kurang (1)</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="fv-row mb-6">
-                                            <label class="form-label required">4. Komunikasi dengan Siswa</label>
-                                            <select class="form-select" name="instrumen_penilaian[komunikasi]" required>
-                                                <option value="">Pilih Nilai</option>
-                                                <option value="4">Sangat Baik (4)</option>
-                                                <option value="3">Baik (3)</option>
-                                                <option value="2">Cukup (2)</option>
-                                                <option value="1">Kurang (1)</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="fv-row mb-6">
-                                            <label class="form-label required">5. Penggunaan Media/Alat
-                                                Pembelajaran</label>
-                                            <select class="form-select" name="instrumen_penilaian[media_pembelajaran]"
-                                                required>
-                                                <option value="">Pilih Nilai</option>
-                                                <option value="4">Sangat Baik (4)</option>
-                                                <option value="3">Baik (3)</option>
-                                                <option value="2">Cukup (2)</option>
-                                                <option value="1">Kurang (1)</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="fv-row mb-6">
-                                            <label class="form-label required">Catatan Tambahan</label>
-                                            <textarea class="form-control" name="instrumen_penilaian[catatan]" rows="3" required></textarea>
+                                            <label class="form-label required">Strategi yang dipersiapkan</label>
+                                            <textarea class="form-control" name="instrumen_penilaian[strategi_persiapan]" rows="3" required></textarea>
                                         </div>
                                         <!--end::Form Group-->
                                     </div>
@@ -245,99 +192,76 @@
                                 <!--begin::Step 2-->
                                 <div data-kt-stepper-element="content">
                                     <div class="w-100">
-                                        <h3 class="mb-5">Lembar Observasi Pembelajaran</h3>
+                                        <h3 class="mb-5">Lembar Observasi</h3>
 
                                         <!--begin::Form Group-->
-                                        <div class="fv-row mb-6">
-                                            <label class="form-label required">1. Kegiatan Pendahuluan</label>
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="checkbox"
-                                                    name="lembar_observasi[pendahuluan][]" value="apersepsi"
-                                                    id="pendahuluan1">
-                                                <label class="form-check-label" for="pendahuluan1">
-                                                    Melakukan apersepsi dengan baik
-                                                </label>
-                                            </div>
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="checkbox"
-                                                    name="lembar_observasi[pendahuluan][]" value="motivasi"
-                                                    id="pendahuluan2">
-                                                <label class="form-check-label" for="pendahuluan2">
-                                                    Memberikan motivasi kepada siswa
-                                                </label>
-                                            </div>
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="checkbox"
-                                                    name="lembar_observasi[pendahuluan][]" value="tujuan"
-                                                    id="pendahuluan3">
-                                                <label class="form-check-label" for="pendahuluan3">
-                                                    Menyampaikan tujuan pembelajaran
-                                                </label>
+                                        <div id="observasi-container">
+                                            <!-- Template Observasi Item -->
+                                            <div class="observasi-item card mb-4" data-index="0">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                                        <h5 class="mb-0">Area Observasi #<span
+                                                                class="observasi-number">1</span></h5>
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-light-danger remove-observasi"
+                                                            style="display: none;">
+                                                            <i class="ki-outline ki-trash fs-4"></i> Hapus
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-12 mb-4">
+                                                            <label class="form-label required">Aspek dan Strategi
+                                                                Pembelajaran</label>
+                                                            <textarea class="form-control" name="lembar_observasi[0][aspek_strategi]" rows="3" required
+                                                                placeholder="Contoh: Aspek kognitif/ pemahaman materi dengan memberikan sumber belajar yang beragam"></textarea>
+                                                        </div>
+
+                                                        <div class="col-md-3 mb-4">
+                                                            <label class="form-label required">Status</label>
+                                                            <div class="d-flex gap-4 mt-2">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio"
+                                                                        name="lembar_observasi[0][status]" value="ada"
+                                                                        id="status_ada_0" required>
+                                                                    <label class="form-check-label" for="status_ada_0">
+                                                                        Ada
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio"
+                                                                        name="lembar_observasi[0][status]" value="tidak"
+                                                                        id="status_tidak_0">
+                                                                    <label class="form-check-label" for="status_tidak_0">
+                                                                        Tidak
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-9 mb-4">
+                                                            <label class="form-label required">Catatan Pengamatan</label>
+                                                            <textarea class="form-control" name="lembar_observasi[0][catatan_pengamatan]" rows="3" required
+                                                                placeholder="Tuliskan catatan pengamatan detail..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="fv-row mb-6">
-                                            <label class="form-label required">2. Kegiatan Inti</label>
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="checkbox"
-                                                    name="lembar_observasi[inti][]" value="materi_sistematis"
-                                                    id="inti1">
-                                                <label class="form-check-label" for="inti1">
-                                                    Menyampaikan materi secara sistematis
-                                                </label>
-                                            </div>
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="checkbox"
-                                                    name="lembar_observasi[inti][]" value="siswa_aktif" id="inti2">
-                                                <label class="form-check-label" for="inti2">
-                                                    Melibatkan siswa secara aktif
-                                                </label>
-                                            </div>
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="checkbox"
-                                                    name="lembar_observasi[inti][]" value="media_efektif" id="inti3">
-                                                <label class="form-check-label" for="inti3">
-                                                    Menggunakan media pembelajaran dengan efektif
-                                                </label>
-                                            </div>
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="checkbox"
-                                                    name="lembar_observasi[inti][]" value="waktu_efisien" id="inti4">
-                                                <label class="form-check-label" for="inti4">
-                                                    Mengelola waktu dengan efisien
-                                                </label>
-                                            </div>
+                                        <!-- Button Tambah Observasi -->
+                                        <div class="mb-6">
+                                            <button type="button" class="btn btn-light-primary" id="add-observasi">
+                                                <i class="ki-outline ki-plus fs-2"></i> Tambah Area Observasi
+                                            </button>
                                         </div>
 
+                                        <!-- Catatan Tambahan -->
                                         <div class="fv-row mb-6">
-                                            <label class="form-label required">3. Kegiatan Penutup</label>
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="checkbox"
-                                                    name="lembar_observasi[penutup][]" value="kesimpulan" id="penutup1">
-                                                <label class="form-check-label" for="penutup1">
-                                                    Membuat kesimpulan bersama siswa
-                                                </label>
-                                            </div>
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="checkbox"
-                                                    name="lembar_observasi[penutup][]" value="evaluasi" id="penutup2">
-                                                <label class="form-check-label" for="penutup2">
-                                                    Melakukan evaluasi pembelajaran
-                                                </label>
-                                            </div>
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="checkbox"
-                                                    name="lembar_observasi[penutup][]" value="tindak_lanjut"
-                                                    id="penutup3">
-                                                <label class="form-check-label" for="penutup3">
-                                                    Memberikan tindak lanjut
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="fv-row mb-6">
-                                            <label class="form-label required">Catatan Observasi</label>
-                                            <textarea class="form-control" name="lembar_observasi[catatan]" rows="4" required></textarea>
+                                            <label class="form-label">Catatan Tambahan</label>
+                                            <textarea class="form-control" name="lembar_observasi[catatan_tambahan]" rows="4"
+                                                placeholder="Pembelajaran berjalan dengan lancar dan dilaksanakan sesuai dengan tahapan yang ada di RPP"></textarea>
+                                            <div class="form-text">Catatan umum tentang observasi pembelajaran</div>
                                         </div>
                                         <!--end::Form Group-->
                                     </div>
@@ -349,31 +273,118 @@
                                     <div class="w-100">
                                         <h3 class="mb-5">Catatan Hasil Supervisi</h3>
 
-                                        <!--begin::Form Group-->
-                                        <div class="fv-row mb-6">
-                                            <label class="form-label required">Kekuatan/Keunggulan Pembelajaran</label>
-                                            <textarea class="form-control" name="catatan_hasil[kekuatan]" rows="4" required
-                                                placeholder="Tuliskan aspek-aspek positif yang terlihat selama pembelajaran..."></textarea>
-                                        </div>
+                                        <!--begin::Catatan Refleksi Guru-->
+                                        <div class="card border border-gray-300 mb-6">
+                                            <div class="card-header bg-light">
+                                                <h4 class="card-title mb-0">Catatan Refleksi Guru</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="fv-row mb-4">
+                                                    <label class="form-label required">1. Guru merasa senang karena
+                                                        pembelajaran berjalan dengan lancar dan sesuai dengan
+                                                        langkah-langkah di RPP</label>
+                                                    <textarea class="form-control" name="catatan_hasil[refleksi_1]" rows="2" required
+                                                        placeholder="Tuliskan refleksi..."></textarea>
+                                                </div>
 
-                                        <div class="fv-row mb-6">
-                                            <label class="form-label required">Kelemahan/Area yang Perlu Diperbaiki</label>
-                                            <textarea class="form-control" name="catatan_hasil[kelemahan]" rows="4" required
-                                                placeholder="Tuliskan aspek-aspek yang perlu ditingkatkan..."></textarea>
-                                        </div>
+                                                <div class="fv-row mb-4">
+                                                    <label class="form-label required">2. Murid mengikuti pembelajaran
+                                                        secara aktif dan tujuan pembelajaran tercapai</label>
+                                                    <textarea class="form-control" name="catatan_hasil[refleksi_2]" rows="2" required
+                                                        placeholder="Tuliskan refleksi..."></textarea>
+                                                </div>
 
-                                        <div class="fv-row mb-6">
-                                            <label class="form-label required">Saran Perbaikan</label>
-                                            <textarea class="form-control" name="catatan_hasil[saran]" rows="4" required
-                                                placeholder="Tuliskan saran-saran konkret untuk perbaikan pembelajaran..."></textarea>
+                                                <div class="fv-row">
+                                                    <label class="form-label required">3. Kesenangan murid tercapai
+                                                        terlihat dari hasil refleksi</label>
+                                                    <textarea class="form-control" name="catatan_hasil[refleksi_3]" rows="2" required
+                                                        placeholder="Tuliskan refleksi..."></textarea>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <!--end::Catatan Refleksi Guru-->
 
-                                        <div class="fv-row mb-6">
-                                            <label class="form-label required">Kesimpulan Umum</label>
-                                            <textarea class="form-control" name="catatan_hasil[kesimpulan]" rows="3" required
-                                                placeholder="Tuliskan kesimpulan umum hasil supervisi..."></textarea>
+                                        <!--begin::Topik Percakapan-->
+                                        <div class="card border border-gray-300 mb-6">
+                                            <div class="card-header bg-light">
+                                                <h4 class="card-title mb-0">Topik Percakapan dan Catatan</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="fv-row mb-4">
+                                                    <label class="form-label required">1. Perasaan guru setelah
+                                                        melaksanakan kegiatan pembelajaran</label>
+                                                    <textarea class="form-control" name="catatan_hasil[topik_1]" rows="2" required
+                                                        placeholder="Tuliskan catatan..."></textarea>
+                                                </div>
+
+                                                <div class="fv-row mb-4">
+                                                    <label class="form-label required">2. Ketercapaian tujuan
+                                                        pembelajaran</label>
+                                                    <textarea class="form-control" name="catatan_hasil[topik_2]" rows="2" required
+                                                        placeholder="Tuliskan catatan..."></textarea>
+                                                </div>
+
+                                                <div class="fv-row mb-4">
+                                                    <label class="form-label required">3. Refleksi guru dan murid pada
+                                                        tahap penutup pembelajaran</label>
+                                                    <textarea class="form-control" name="catatan_hasil[topik_3]" rows="2" required
+                                                        placeholder="Tuliskan catatan..."></textarea>
+                                                </div>
+
+                                                <div class="fv-row mb-4">
+                                                    <label class="form-label required">4. Pemberian respon dari hasil
+                                                        pengamatan oleh supervisor</label>
+                                                    <textarea class="form-control" name="catatan_hasil[topik_4]" rows="2" required
+                                                        placeholder="Tuliskan catatan..."></textarea>
+                                                </div>
+
+                                                <div class="fv-row">
+                                                    <label class="form-label required">5. Strategi ke depan untuk
+                                                        memperbaiki pembelajaran</label>
+                                                    <textarea class="form-control" name="catatan_hasil[topik_5]" rows="2" required
+                                                        placeholder="Tuliskan catatan..."></textarea>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <!--end::Form Group-->
+                                        <!--end::Topik Percakapan-->
+
+                                        <!--begin::Rencana Tindak Lanjut-->
+                                        <div class="card border border-gray-300">
+                                            <div class="card-header bg-light">
+                                                <h4 class="card-title mb-0">Rencana Tindak Lanjut</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="fv-row mb-4">
+                                                    <label class="form-label required">1. Berkolaborasi dengan rekan guru
+                                                        lain dalam merencanakan pembelajaran yang lebih baik</label>
+                                                    <textarea class="form-control" name="catatan_hasil[tindak_lanjut_1]" rows="2" required
+                                                        placeholder="Tuliskan rencana..."></textarea>
+                                                </div>
+
+                                                <div class="fv-row mb-4">
+                                                    <label class="form-label required">2. Berbagi praktik baik pembelajaran
+                                                        diferensiasi dan KSE pada KKG mini</label>
+                                                    <textarea class="form-control" name="catatan_hasil[tindak_lanjut_2]" rows="2" required
+                                                        placeholder="Tuliskan rencana..."></textarea>
+                                                </div>
+
+                                                <div class="fv-row mb-4">
+                                                    <label class="form-label required">3. Melaksanakan pengembangan diri
+                                                        dengan mengikuti pelatihan</label>
+                                                    <textarea class="form-control" name="catatan_hasil[tindak_lanjut_3]" rows="2" required
+                                                        placeholder="Tuliskan rencana..."></textarea>
+                                                </div>
+
+                                                <div class="fv-row">
+                                                    <label class="form-label required">4. Melakukan pengamatan ketika teman
+                                                        guru mengajar untuk saling menilai dan memperbaiki jika ada
+                                                        kekurangan</label>
+                                                    <textarea class="form-control" name="catatan_hasil[tindak_lanjut_4]" rows="2" required
+                                                        placeholder="Tuliskan rencana..."></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end::Rencana Tindak Lanjut-->
                                     </div>
                                 </div>
                                 <!--end::Step 3-->
@@ -447,41 +458,175 @@
     </div>
     <!--end::Content-->
 @endsection
+
 @push('scripts')
     <script>
         // Stepper initialization
         var element = document.querySelector("#kt_stepper");
         var stepper = new KTStepper(element);
 
+        // Counter untuk tracking index observasi
+        let observasiCounter = 1;
+
+        // Function untuk update nomor urut observasi
+        function updateObservasiNumbers() {
+            document.querySelectorAll('.observasi-item').forEach((item, index) => {
+                item.querySelector('.observasi-number').textContent = index + 1;
+
+                // Update semua name attributes
+                const itemIndex = index;
+                item.querySelectorAll('[name*="lembar_observasi["]').forEach(input => {
+                    const name = input.getAttribute('name');
+                    const match = name.match(/\[([^\]]+)\]$/);
+                    if (match) {
+                        const fieldName = match[1];
+                        input.setAttribute('name', `lembar_observasi[${itemIndex}][${fieldName}]`);
+                    }
+                });
+
+                // Update radio button IDs dan labels
+                const statusRadios = item.querySelectorAll('input[type="radio"]');
+                statusRadios.forEach(radio => {
+                    const value = radio.value;
+                    const newId = `status_${value}_${itemIndex}`;
+                    radio.id = newId;
+                    radio.setAttribute('name', `lembar_observasi[${itemIndex}][status]`);
+                    const label = radio.nextElementSibling;
+                    if (label) {
+                        label.setAttribute('for', newId);
+                    }
+                });
+
+                // Update data-index
+                item.setAttribute('data-index', itemIndex);
+            });
+
+            // Show/hide remove buttons
+            const items = document.querySelectorAll('.observasi-item');
+            items.forEach((item, index) => {
+                const removeBtn = item.querySelector('.remove-observasi');
+                if (items.length > 1) {
+                    removeBtn.style.display = 'inline-block';
+                } else {
+                    removeBtn.style.display = 'none';
+                }
+            });
+        }
+
+        // Tambah area observasi baru
+        document.getElementById('add-observasi').addEventListener('click', function() {
+            const container = document.getElementById('observasi-container');
+            const firstItem = container.querySelector('.observasi-item');
+            const newItem = firstItem.cloneNode(true);
+
+            // Clear all inputs in new item
+            newItem.querySelectorAll('textarea').forEach(textarea => {
+                textarea.value = '';
+                textarea.classList.remove('is-invalid');
+            });
+            newItem.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+
+            // Set new index
+            newItem.setAttribute('data-index', observasiCounter);
+
+            container.appendChild(newItem);
+            observasiCounter++;
+
+            updateObservasiNumbers();
+
+            // Scroll to new item
+            newItem.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        });
+
+        // Remove observasi item
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.remove-observasi')) {
+                const item = e.target.closest('.observasi-item');
+                const items = document.querySelectorAll('.observasi-item');
+
+                if (items.length > 1) {
+                    Swal.fire({
+                        title: 'Hapus Area Observasi?',
+                        text: "Data yang telah diisi akan hilang!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, Hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            item.remove();
+                            updateObservasiNumbers();
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: 'Area observasi telah dihapus',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                        }
+                    });
+                }
+            }
+        });
+
         // Validasi step saat ini
         function validateCurrentStep() {
             var currentStepElement = document.querySelector('[data-kt-stepper-element="content"].current');
 
-            if (!currentStepElement) return true;
+            if (!currentStepElement) {
+                console.log('No current step element found');
+                return true;
+            }
 
-            var inputs = currentStepElement.querySelectorAll('input[required], select[required], textarea[required]');
             var isValid = true;
+            var checkedRadioGroups = new Set();
 
-            inputs.forEach(function(input) {
-                // Skip checkbox karena tidak wajib
-                if (input.type === 'checkbox') {
+            // Validasi textarea
+            var textareas = currentStepElement.querySelectorAll('textarea[required]');
+            textareas.forEach(function(textarea) {
+                if (!textarea.value || textarea.value.trim() === '') {
+                    isValid = false;
+                    textarea.classList.add('is-invalid');
+                } else {
+                    textarea.classList.remove('is-invalid');
+                }
+            });
+
+            // Validasi radio button groups
+            var radioInputs = currentStepElement.querySelectorAll('input[type="radio"][required]');
+
+            radioInputs.forEach(function(input) {
+                const radioName = input.getAttribute('name');
+
+                // Skip jika sudah dicek
+                if (checkedRadioGroups.has(radioName)) {
                     return;
                 }
 
-                if (!input.value || input.value === '') {
-                    isValid = false;
-                    input.classList.add('is-invalid');
+                checkedRadioGroups.add(radioName);
 
-                    // Hapus class invalid saat diisi
-                    input.addEventListener('change', function() {
-                        if (this.value) {
-                            this.classList.remove('is-invalid');
-                        }
-                    }, {
-                        once: true
-                    });
+                const radioGroup = currentStepElement.querySelectorAll(`input[name="${radioName}"]`);
+                const isChecked = Array.from(radioGroup).some(radio => radio.checked);
+
+                if (!isChecked) {
+                    isValid = false;
+                    const radioContainer = input.closest('.col-md-3');
+                    if (radioContainer) {
+                        radioContainer.classList.add('radio-error');
+                    }
                 } else {
-                    input.classList.remove('is-invalid');
+                    const radioContainer = input.closest('.col-md-3');
+                    if (radioContainer) {
+                        radioContainer.classList.remove('radio-error');
+                    }
                 }
             });
 
@@ -490,8 +635,21 @@
 
         // Update tombol visibility
         function updateButtons() {
-            var currentIndex = stepper.getCurrentStepIndex();
-            var totalSteps = stepper.getTotalStepsNumber();
+            // Hitung total steps secara manual
+            var allSteps = document.querySelectorAll('[data-kt-stepper-element="content"]');
+            var totalSteps = allSteps.length;
+
+            // Cari step yang sedang aktif
+            var currentStep = document.querySelector('[data-kt-stepper-element="content"].current');
+            var currentIndex = 0;
+
+            allSteps.forEach((step, index) => {
+                if (step === currentStep) {
+                    currentIndex = index + 1; // Index dimulai dari 1
+                }
+            });
+
+            console.log('Current step:', currentIndex, 'Total steps:', totalSteps);
 
             var prevButton = document.querySelector('[data-kt-stepper-action="previous"]');
             var nextButton = document.querySelector('[data-kt-stepper-action="next"]');
@@ -517,17 +675,43 @@
         // Initial button state
         updateButtons();
 
-        // Handle next step
-        stepper.on("kt.stepper.next", function(stepperObj) {
+        // Custom handler untuk tombol Next (bypass stepper event)
+        document.querySelector('[data-kt-stepper-action="next"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            console.log('Next button clicked');
+
             if (validateCurrentStep()) {
-                stepperObj.goNext();
+                console.log('Validation passed, moving to next step');
+
+                // Manual step navigation
+                var allContentSteps = document.querySelectorAll('[data-kt-stepper-element="content"]');
+                var allNavSteps = document.querySelectorAll('[data-kt-stepper-element="nav"]');
+                var currentContentStep = document.querySelector('[data-kt-stepper-element="content"].current');
+
+                var currentIndex = Array.from(allContentSteps).indexOf(currentContentStep);
+                var nextIndex = currentIndex + 1;
+
+                if (nextIndex < allContentSteps.length) {
+                    // Remove current class from current step
+                    currentContentStep.classList.remove('current');
+                    allNavSteps[currentIndex].classList.remove('current');
+
+                    // Add current class to next step
+                    allContentSteps[nextIndex].classList.add('current');
+                    allNavSteps[nextIndex].classList.add('current');
+
+                    console.log('Moved from step', currentIndex + 1, 'to step', nextIndex + 1);
+                }
+
                 updateButtons();
-                // Scroll ke atas
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
                 });
             } else {
+                console.log('Validation failed');
                 Swal.fire({
                     icon: 'error',
                     title: 'Validasi Gagal',
@@ -537,20 +721,44 @@
             }
         });
 
-        // Handle previous step
-        stepper.on("kt.stepper.previous", function(stepperObj) {
-            stepperObj.goPrevious();
+        // Custom handler untuk tombol Previous (bypass stepper event)
+        document.querySelector('[data-kt-stepper-action="previous"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Manual step navigation
+            var allContentSteps = document.querySelectorAll('[data-kt-stepper-element="content"]');
+            var allNavSteps = document.querySelectorAll('[data-kt-stepper-element="nav"]');
+            var currentContentStep = document.querySelector('[data-kt-stepper-element="content"].current');
+
+            var currentIndex = Array.from(allContentSteps).indexOf(currentContentStep);
+            var prevIndex = currentIndex - 1;
+
+            if (prevIndex >= 0) {
+                // Remove current class from current step
+                currentContentStep.classList.remove('current');
+                allNavSteps[currentIndex].classList.remove('current');
+
+                // Add current class to previous step
+                allContentSteps[prevIndex].classList.add('current');
+                allNavSteps[prevIndex].classList.add('current');
+
+                console.log('Moved from step', currentIndex + 1, 'to step', prevIndex + 1);
+            }
+
             updateButtons();
-            // Scroll ke atas
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
         });
 
-        // Handle form submit
-        stepper.on("kt.stepper.submit", function(stepperObj) {
-            console.log('Submit button clicked!'); // Debug log
+        // Custom handler untuk tombol Submit
+        document.querySelector('[data-kt-stepper-action="submit"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            console.log('Submit button clicked');
 
             // Validasi step terakhir
             if (!validateCurrentStep()) {
@@ -574,7 +782,7 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    console.log('Form submitting...'); // Debug log
+                    console.log('Form submitting...');
 
                     // Tampilkan loading
                     Swal.fire({
@@ -588,8 +796,6 @@
 
                     // Submit form
                     var form = document.getElementById('kt_stepper_form');
-                    console.log('Form element:', form); // Debug log
-
                     if (form) {
                         form.submit();
                     } else {
@@ -604,14 +810,26 @@
             });
         });
 
-        // Manual submit button handler sebagai backup
-        document.querySelector('[data-kt-stepper-action="submit"]').addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('Manual submit clicked'); // Debug log
-            stepper.goSubmit(); // Trigger stepper submit event
+        // Event listener untuk auto-remove invalid class saat user mengetik
+        document.addEventListener('input', function(e) {
+            if (e.target.tagName === 'TEXTAREA' && e.target.hasAttribute('required')) {
+                if (e.target.value.trim()) {
+                    e.target.classList.remove('is-invalid');
+                }
+            }
         });
 
-        // Tambahkan CSS untuk invalid input
+        // Event listener untuk auto-remove error dari radio button
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'radio') {
+                const radioContainer = e.target.closest('.col-md-3');
+                if (radioContainer) {
+                    radioContainer.classList.remove('radio-error');
+                }
+            }
+        });
+
+        // Tambahkan CSS untuk invalid input dan radio error
         var style = document.createElement('style');
         style.textContent = `
     .is-invalid {
@@ -620,9 +838,18 @@
     .is-invalid:focus {
         box-shadow: 0 0 0 0.25rem rgba(241, 65, 108, 0.25) !important;
     }
+    .radio-error {
+        border: 2px solid #f1416c;
+        border-radius: 0.475rem;
+        padding: 10px;
+        background-color: rgba(241, 65, 108, 0.05);
+    }
+    .radio-error label.form-label {
+        color: #f1416c;
+    }
 `;
         document.head.appendChild(style);
 
-        console.log('Stepper initialized:', stepper); // Debug log
+        console.log('Stepper initialized:', stepper);
     </script>
 @endpush
