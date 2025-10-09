@@ -23,5 +23,6 @@ class AppServiceProvider extends ServiceProvider
     {
         // Register view composer untuk sidebar
         View::composer('guru.layouts.app', GlobalComposer::class);
+        View::composer('kepala-sekolah.layouts.app', GlobalComposer::class);
     }
 }

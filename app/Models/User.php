@@ -29,4 +29,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function jurnals()
+    {
+        return $this->hasMany(Jurnal::class);
+    }
 }
