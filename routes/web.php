@@ -9,11 +9,11 @@ use App\Http\Controllers\Guru\SupervisiController as GuruSupervisiController;
 use App\Http\Controllers\KepalaSekolah\DashboardController as KepalaSekolahDashboardController;
 use App\Http\Controllers\Pengawas\DashboardController as PengawasDashboardController;
 use Illuminate\Support\Facades\Route;
-// Root route dengan logic
+
+// Home Route
 Route::get('/', function () {
     if (auth()->check()) {
         $user = auth()->user();
-
         if ($user->hasRole('admin')) {
             return redirect()->route('admin.dashboard.index');
         } elseif ($user->hasRole('guru')) {
@@ -24,25 +24,20 @@ Route::get('/', function () {
             return redirect()->route('pengawas.dashboard.index');
         }
     }
-
     return redirect()->route('login');
 });
-
 // Guest Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'loginProcess'])->name('login.process');
     Route::get('/register', [AuthController::class, 'register'])->name('register');
 });
-
 // Logout Route
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
-
 // Admin Routes
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard.index');
 });
-
 // Guru Routes
 Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(function () {
     Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('dashboard.index');
@@ -62,7 +57,6 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
         Route::delete('{id}', [GuruJurnalController::class, 'destroy'])->name('destroy');
     });
     // Supervisi Route
-    // Supervisi Route
     Route::prefix('supervisi')->name('supervisi.')->group(function () {
         Route::get('/', [GuruSupervisiController::class, 'index'])->name('index');
         Route::post('/', [GuruSupervisiController::class, 'store'])->name('store');
@@ -72,12 +66,10 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
         Route::get('/{supervisi}', [GuruSupervisiController::class, 'show'])->name('show');
     });
 });
-
 // Kepala Sekolah Routes
 Route::middleware(['auth', 'role:kepala_sekolah'])->prefix('kepala-sekolah')->name('kepala_sekolah.')->group(function () {
     Route::get('/dashboard', [KepalaSekolahDashboardController::class, 'index'])->name('dashboard.index');
 });
-
 // Pengawas Routes
 Route::middleware(['auth', 'role:pengawas'])->prefix('pengawas')->name('pengawas.')->group(function () {
     Route::get('/dashboard', [PengawasDashboardController::class, 'index'])->name('dashboard.index');
