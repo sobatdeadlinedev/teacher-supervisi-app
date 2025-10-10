@@ -97,9 +97,9 @@ class SupervisiController extends Controller
         }
 
         // Cek authorization
-        if ($supervisi->supervisor_id !== auth()->id()) {
-            abort(403, 'Unauthorized');
-        }
+        // if ($supervisi->supervisor_id !== auth()->id()) {
+        //     abort(403, 'Unauthorized');
+        // }
 
         if ($supervisi->status === 'completed') {
             return redirect()->back()
@@ -198,9 +198,9 @@ class SupervisiController extends Controller
      */
     public function show(Supervision $supervisi)
     {
-        if ($supervisi->supervisor_id !== auth()->id()) {
-            abort(403, 'Unauthorized');
-        }
+        // if ($supervisi->supervisor_id !== auth()->id()) {
+        //     abort(403, 'Unauthorized');
+        // }
 
         $supervisi->load(['guru', 'assessments', 'feedbacks', 'supervisor']);
 
