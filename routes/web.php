@@ -11,6 +11,7 @@ use App\Http\Controllers\KepalaSekolah\AdministrasiController as KepalaSekolahAd
 use App\Http\Controllers\KepalaSekolah\JurnalController as KepalaSekolahJurnalController;
 use App\Http\Controllers\KepalaSekolah\SupervisiController as KepalaSekolahSupervisiController;
 use App\Http\Controllers\Pengawas\DashboardController as PengawasDashboardController;
+use App\Http\Controllers\Pengawas\SupervisiController as PengawasSupervisiController;
 use Illuminate\Support\Facades\Route;
 
 // Home Route
@@ -96,4 +97,9 @@ Route::middleware(['auth', 'role:kepala_sekolah'])->prefix('kepala-sekolah')->na
 // Pengawas Routes
 Route::middleware(['auth', 'role:pengawas'])->prefix('pengawas')->name('pengawas.')->group(function () {
     Route::get('/dashboard', [PengawasDashboardController::class, 'index'])->name('dashboard.index');
+    // Supervisi Route
+    Route::prefix('supervisi')->name('supervisi.')->group(function () {
+        Route::get('/', [PengawasSupervisiController::class, 'index'])->name('index');
+        Route::get('/{supervisi}', [PengawasSupervisiController::class, 'show'])->name('show');
+    });
 });
