@@ -268,7 +268,7 @@
                                 </div>
                                 <!--end::Step 2-->
 
-                                <!--begin::Step 3-->
+                                <!--begin::Step 4-->
                                 <div data-kt-stepper-element="content">
                                     <div class="w-100">
                                         <h3 class="mb-5">Catatan Hasil Supervisi</h3>
@@ -279,26 +279,11 @@
                                                 <h4 class="card-title mb-0">Catatan Refleksi Guru</h4>
                                             </div>
                                             <div class="card-body">
-                                                <div class="fv-row mb-4">
-                                                    <label class="form-label required">1. Guru merasa senang karena
-                                                        pembelajaran berjalan dengan lancar dan sesuai dengan
-                                                        langkah-langkah di RPP</label>
-                                                    <textarea class="form-control" name="catatan_hasil[refleksi_1]" rows="2" required
-                                                        placeholder="Tuliskan refleksi..."></textarea>
-                                                </div>
-
-                                                <div class="fv-row mb-4">
-                                                    <label class="form-label required">2. Murid mengikuti pembelajaran
-                                                        secara aktif dan tujuan pembelajaran tercapai</label>
-                                                    <textarea class="form-control" name="catatan_hasil[refleksi_2]" rows="2" required
-                                                        placeholder="Tuliskan refleksi..."></textarea>
-                                                </div>
-
                                                 <div class="fv-row">
-                                                    <label class="form-label required">3. Kesenangan murid tercapai
-                                                        terlihat dari hasil refleksi</label>
-                                                    <textarea class="form-control" name="catatan_hasil[refleksi_3]" rows="2" required
-                                                        placeholder="Tuliskan refleksi..."></textarea>
+                                                    <label class="form-label required">Tuliskan catatan refleksi dari
+                                                        guru</label>
+                                                    <textarea class="form-control" name="catatan_hasil[refleksi_guru]" rows="5" required
+                                                        placeholder="Tuliskan refleksi guru mengenai pembelajaran yang telah dilaksanakan..."></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -310,39 +295,11 @@
                                                 <h4 class="card-title mb-0">Topik Percakapan dan Catatan</h4>
                                             </div>
                                             <div class="card-body">
-                                                <div class="fv-row mb-4">
-                                                    <label class="form-label required">1. Perasaan guru setelah
-                                                        melaksanakan kegiatan pembelajaran</label>
-                                                    <textarea class="form-control" name="catatan_hasil[topik_1]" rows="2" required
-                                                        placeholder="Tuliskan catatan..."></textarea>
-                                                </div>
-
-                                                <div class="fv-row mb-4">
-                                                    <label class="form-label required">2. Ketercapaian tujuan
-                                                        pembelajaran</label>
-                                                    <textarea class="form-control" name="catatan_hasil[topik_2]" rows="2" required
-                                                        placeholder="Tuliskan catatan..."></textarea>
-                                                </div>
-
-                                                <div class="fv-row mb-4">
-                                                    <label class="form-label required">3. Refleksi guru dan murid pada
-                                                        tahap penutup pembelajaran</label>
-                                                    <textarea class="form-control" name="catatan_hasil[topik_3]" rows="2" required
-                                                        placeholder="Tuliskan catatan..."></textarea>
-                                                </div>
-
-                                                <div class="fv-row mb-4">
-                                                    <label class="form-label required">4. Pemberian respon dari hasil
-                                                        pengamatan oleh supervisor</label>
-                                                    <textarea class="form-control" name="catatan_hasil[topik_4]" rows="2" required
-                                                        placeholder="Tuliskan catatan..."></textarea>
-                                                </div>
-
                                                 <div class="fv-row">
-                                                    <label class="form-label required">5. Strategi ke depan untuk
-                                                        memperbaiki pembelajaran</label>
-                                                    <textarea class="form-control" name="catatan_hasil[topik_5]" rows="2" required
-                                                        placeholder="Tuliskan catatan..."></textarea>
+                                                    <label class="form-label required">Tuliskan topik percakapan dan
+                                                        catatan hasil supervisi</label>
+                                                    <textarea class="form-control" name="catatan_hasil[topik_percakapan]" rows="5" required
+                                                        placeholder="Tuliskan topik percakapan yang dibahas dan catatan penting..."></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -354,40 +311,18 @@
                                                 <h4 class="card-title mb-0">Rencana Tindak Lanjut</h4>
                                             </div>
                                             <div class="card-body">
-                                                <div class="fv-row mb-4">
-                                                    <label class="form-label required">1. Berkolaborasi dengan rekan guru
-                                                        lain dalam merencanakan pembelajaran yang lebih baik</label>
-                                                    <textarea class="form-control" name="catatan_hasil[tindak_lanjut_1]" rows="2" required
-                                                        placeholder="Tuliskan rencana..."></textarea>
-                                                </div>
-
-                                                <div class="fv-row mb-4">
-                                                    <label class="form-label required">2. Berbagi praktik baik pembelajaran
-                                                        diferensiasi dan KSE pada KKG mini</label>
-                                                    <textarea class="form-control" name="catatan_hasil[tindak_lanjut_2]" rows="2" required
-                                                        placeholder="Tuliskan rencana..."></textarea>
-                                                </div>
-
-                                                <div class="fv-row mb-4">
-                                                    <label class="form-label required">3. Melaksanakan pengembangan diri
-                                                        dengan mengikuti pelatihan</label>
-                                                    <textarea class="form-control" name="catatan_hasil[tindak_lanjut_3]" rows="2" required
-                                                        placeholder="Tuliskan rencana..."></textarea>
-                                                </div>
-
                                                 <div class="fv-row">
-                                                    <label class="form-label required">4. Melakukan pengamatan ketika teman
-                                                        guru mengajar untuk saling menilai dan memperbaiki jika ada
-                                                        kekurangan</label>
-                                                    <textarea class="form-control" name="catatan_hasil[tindak_lanjut_4]" rows="2" required
-                                                        placeholder="Tuliskan rencana..."></textarea>
+                                                    <label class="form-label required">Tuliskan rencana tindak
+                                                        lanjut</label>
+                                                    <textarea class="form-control" name="catatan_hasil[rencana_tindak_lanjut]" rows="5" required
+                                                        placeholder="Tuliskan rencana tindak lanjut yang akan dilakukan..."></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         <!--end::Rencana Tindak Lanjut-->
                                     </div>
                                 </div>
-                                <!--end::Step 3-->
+                                <!--end::Step 4-->
 
                                 <!--begin::Step 4-->
                                 <div data-kt-stepper-element="content">
@@ -832,22 +767,22 @@
         // Tambahkan CSS untuk invalid input dan radio error
         var style = document.createElement('style');
         style.textContent = `
-    .is-invalid {
-        border-color: #f1416c !important;
-    }
-    .is-invalid:focus {
-        box-shadow: 0 0 0 0.25rem rgba(241, 65, 108, 0.25) !important;
-    }
-    .radio-error {
-        border: 2px solid #f1416c;
-        border-radius: 0.475rem;
-        padding: 10px;
-        background-color: rgba(241, 65, 108, 0.05);
-    }
-    .radio-error label.form-label {
-        color: #f1416c;
-    }
-`;
+            .is-invalid {
+                border-color: #f1416c !important;
+            }
+            .is-invalid:focus {
+                box-shadow: 0 0 0 0.25rem rgba(241, 65, 108, 0.25) !important;
+            }
+            .radio-error {
+                border: 2px solid #f1416c;
+                border-radius: 0.475rem;
+                padding: 10px;
+                background-color: rgba(241, 65, 108, 0.05);
+            }
+            .radio-error label.form-label {
+                color: #f1416c;
+            }
+        `;
         document.head.appendChild(style);
 
         console.log('Stepper initialized:', stepper);

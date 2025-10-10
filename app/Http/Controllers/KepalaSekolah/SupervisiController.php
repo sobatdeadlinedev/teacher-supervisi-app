@@ -31,9 +31,9 @@ class SupervisiController extends Controller
     public function assess(Supervision $supervisi)
     {
         // Cek apakah kepala sekolah yang berwenang
-        // if ($supervisi->supervisor_id !== auth()->id()) {
-        //     abort(403, 'Unauthorized');
-        // }
+        if ($supervisi->supervisor_id !== auth()->id()) {
+            abort(403, 'Unauthorized');
+        }
 
         // Cek apakah sudah completed
         if ($supervisi->status === 'completed') {
@@ -52,48 +52,49 @@ class SupervisiController extends Controller
     public function storeAssessment(Request $request, Supervision $supervisi)
     {
         // Log untuk debugging
-        Log::info('Submission Data:', $request->all());
+        Log::info('=== SUPERVISI SUBMISSION START ===');
+        Log::info('All Request Data:', $request->all());
+        Log::info('Lembar Observasi Data:', $request->input('lembar_observasi'));
+        Log::info('Instrumen Penilaian:', $request->input('instrumen_penilaian'));
+        Log::info('Catatan Hasil:', $request->input('catatan_hasil'));
 
-        // Validasi yang diperbaiki
-        $validated = $request->validate([
-            // Instrumen Penilaian
-            'instrumen_penilaian.penguasaan_materi' => 'required|integer|min:1|max:4',
-            'instrumen_penilaian.strategi_pembelajaran' => 'required|integer|min:1|max:4',
-            'instrumen_penilaian.pengelolaan_kelas' => 'required|integer|min:1|max:4',
-            'instrumen_penilaian.komunikasi' => 'required|integer|min:1|max:4',
-            'instrumen_penilaian.media_pembelajaran' => 'required|integer|min:1|max:4',
-            'instrumen_penilaian.catatan' => 'required|string',
+        // Validasi yang lebih fleksibel
+        try {
+            $validated = $request->validate([
+                // Step 1: Instrumen Penilaian (Percakapan Pra-Observasi)
+                'instrumen_penilaian.tujuan_pembelajaran' => 'required|string',
+                'instrumen_penilaian.area_pengembangan' => 'required|string',
+                'instrumen_penilaian.strategi_persiapan' => 'required|string',
 
-            // Lembar Observasi - checkbox array bisa kosong atau tidak ada
-            'lembar_observasi.pendahuluan' => 'nullable|array',
-            'lembar_observasi.inti' => 'nullable|array',
-            'lembar_observasi.penutup' => 'nullable|array',
-            'lembar_observasi.catatan' => 'required|string',
+                // Step 2: Lembar Observasi (Array dinamis) - Validasi minimal
+                'lembar_observasi' => 'required|array|min:1',
 
-            // Catatan Hasil
-            'catatan_hasil.kekuatan' => 'required|string',
-            'catatan_hasil.kelemahan' => 'required|string',
-            'catatan_hasil.saran' => 'required|string',
-            'catatan_hasil.kesimpulan' => 'required|string',
+                // Step 3: Catatan Hasil Supervisi
+                'catatan_hasil.refleksi_guru' => 'required|string',
+                'catatan_hasil.topik_percakapan' => 'required|string',
+                'catatan_hasil.rencana_tindak_lanjut' => 'required|string',
 
-            // Feedback
-            'feedback' => 'required|string',
-            'rekomendasi' => 'nullable|string',
-        ], [
-            // Custom error messages
-            'instrumen_penilaian.penguasaan_materi.required' => 'Penguasaan materi wajib diisi',
-            'instrumen_penilaian.strategi_pembelajaran.required' => 'Strategi pembelajaran wajib diisi',
-            'instrumen_penilaian.pengelolaan_kelas.required' => 'Pengelolaan kelas wajib diisi',
-            'instrumen_penilaian.komunikasi.required' => 'Komunikasi wajib diisi',
-            'instrumen_penilaian.media_pembelajaran.required' => 'Media pembelajaran wajib diisi',
-            'instrumen_penilaian.catatan.required' => 'Catatan tambahan wajib diisi',
-            'lembar_observasi.catatan.required' => 'Catatan observasi wajib diisi',
-            'catatan_hasil.kekuatan.required' => 'Kekuatan pembelajaran wajib diisi',
-            'catatan_hasil.kelemahan.required' => 'Kelemahan pembelajaran wajib diisi',
-            'catatan_hasil.saran.required' => 'Saran perbaikan wajib diisi',
-            'catatan_hasil.kesimpulan.required' => 'Kesimpulan wajib diisi',
-            'feedback.required' => 'Feedback wajib diisi',
-        ]);
+                // Step 4: Feedback
+                'feedback' => 'required|string',
+                'rekomendasi' => 'nullable|string',
+            ], [
+                // Custom error messages
+                'instrumen_penilaian.tujuan_pembelajaran.required' => 'Tujuan pembelajaran wajib diisi',
+                'instrumen_penilaian.area_pengembangan.required' => 'Area pengembangan wajib diisi',
+                'instrumen_penilaian.strategi_persiapan.required' => 'Strategi persiapan wajib diisi',
+                'lembar_observasi.required' => 'Lembar observasi wajib diisi',
+                'lembar_observasi.min' => 'Minimal harus ada 1 area observasi',
+                'catatan_hasil.refleksi_guru.required' => 'Refleksi guru wajib diisi',
+                'catatan_hasil.topik_percakapan.required' => 'Topik percakapan wajib diisi',
+                'catatan_hasil.rencana_tindak_lanjut.required' => 'Rencana tindak lanjut wajib diisi',
+                'feedback.required' => 'Feedback wajib diisi',
+            ]);
+
+            Log::info('Validation passed!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Validation failed:', $e->errors());
+            throw $e;
+        }
 
         // Cek authorization
         if ($supervisi->supervisor_id !== auth()->id()) {
@@ -108,36 +109,62 @@ class SupervisiController extends Controller
         try {
             DB::beginTransaction();
 
-            // Siapkan data dengan default empty array jika tidak ada checkbox yang dicentang
-            $lembarObservasiData = [
-                'pendahuluan' => $request->input('lembar_observasi.pendahuluan', []),
-                'inti' => $request->input('lembar_observasi.inti', []),
-                'penutup' => $request->input('lembar_observasi.penutup', []),
-                'catatan' => $request->input('lembar_observasi.catatan'),
-            ];
-
-            // 1. Simpan Instrumen Penilaian
+            // 1. Simpan Step 1: Instrumen Penilaian (Percakapan Pra-Observasi)
             SupervisionAssessment::create([
                 'supervision_id' => $supervisi->id,
                 'assessment_type' => 'instrumen_penilaian',
-                'assessment_data' => $validated['instrumen_penilaian'],
+                'assessment_data' => [
+                    'tujuan_pembelajaran' => $validated['instrumen_penilaian']['tujuan_pembelajaran'],
+                    'area_pengembangan' => $validated['instrumen_penilaian']['area_pengembangan'],
+                    'strategi_persiapan' => $validated['instrumen_penilaian']['strategi_persiapan'],
+                ],
             ]);
 
-            // 2. Simpan Lembar Observasi
+            // 2. Simpan Step 2: Lembar Observasi (Array dinamis)
+            // Pisahkan catatan_tambahan dari items observasi
+            $lembarObservasiItems = [];
+            $catatanTambahan = $request->input('lembar_observasi.catatan_tambahan', '');
+
+            // Ambil semua item observasi (yang bukan catatan_tambahan)
+            foreach ($validated['lembar_observasi'] as $key => $value) {
+                // Skip jika key adalah 'catatan_tambahan'
+                if ($key === 'catatan_tambahan') {
+                    continue;
+                }
+
+                // Key adalah index numeric (0, 1, 2, dst)
+                if (is_numeric($key)) {
+                    $lembarObservasiItems[] = [
+                        'aspek_strategi' => $value['aspek_strategi'],
+                        'status' => $value['status'],
+                        'catatan_pengamatan' => $value['catatan_pengamatan'],
+                    ];
+                }
+            }
+
             SupervisionAssessment::create([
                 'supervision_id' => $supervisi->id,
                 'assessment_type' => 'lembar_observasi',
-                'assessment_data' => $lembarObservasiData,
+                'assessment_data' => [
+                    'items' => $lembarObservasiItems,
+                    'catatan_tambahan' => $catatanTambahan,
+                ],
             ]);
 
-            // 3. Simpan Catatan Hasil
+            Log::info('Lembar observasi saved successfully');
+
+            // 3. Simpan Step 3: Catatan Hasil Supervisi
             SupervisionAssessment::create([
                 'supervision_id' => $supervisi->id,
                 'assessment_type' => 'catatan_hasil',
-                'assessment_data' => $validated['catatan_hasil'],
+                'assessment_data' => [
+                    'refleksi_guru' => $validated['catatan_hasil']['refleksi_guru'],
+                    'topik_percakapan' => $validated['catatan_hasil']['topik_percakapan'],
+                    'rencana_tindak_lanjut' => $validated['catatan_hasil']['rencana_tindak_lanjut'],
+                ],
             ]);
 
-            // 4. Simpan Feedback
+            // 4. Simpan Step 4: Feedback
             SupervisionFeedback::create([
                 'supervision_id' => $supervisi->id,
                 'feedback' => $validated['feedback'],

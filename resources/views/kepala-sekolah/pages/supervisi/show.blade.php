@@ -27,12 +27,12 @@
                     </ul>
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                    <button onclick="window.print()" class="btn btn-sm btn-light-primary">
-                        <i class="ki-outline ki-printer fs-3"></i>
+                    <button onclick="window.print()" class="btn btn-sm btn-primary">
+                        <i class="ki-outline ki-printer fs-4"></i>
                         Cetak
                     </button>
                     <a href="{{ route('kepala-sekolah.supervisi.index') }}" class="btn btn-sm btn-light">
-                        <i class="ki-outline ki-arrow-left fs-3"></i>
+                        <i class="ki-outline ki-arrow-left fs-4"></i>
                         Kembali
                     </a>
                 </div>
@@ -45,349 +45,249 @@
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
 
-            <!--begin::Info Card-->
-            <div class="card mb-5">
-                <div class="card-header">
-                    <h3 class="card-title">Informasi Supervisi</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <table class="table table-borderless">
+            <!--begin::Main Card-->
+            <div class="card">
+                <div class="card-body p-lg-15">
+
+                    <!--begin::Header-->
+                    <div class="text-center mb-10">
+                        <h2 class="fw-bold mb-3">LAPORAN HASIL SUPERVISI KINERJA GURU</h2>
+                        <div class="separator separator-dashed my-5"></div>
+                    </div>
+                    <!--end::Header-->
+
+                    <!--begin::Informasi Supervisi-->
+                    <div class="mb-10">
+                        <h4 class="fw-bold mb-5">I. INFORMASI SUPERVISI</h4>
+                        <table class="table table-row-bordered">
+                            <tbody>
                                 <tr>
-                                    <td class="fw-bold text-gray-600" width="150">Guru:</td>
+                                    <td class="fw-semibold text-gray-700" width="200">Nama Guru</td>
+                                    <td width="20">:</td>
                                     <td class="text-gray-800">{{ $supervisi->guru->name }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold text-gray-600">Mata Pelajaran:</td>
+                                    <td class="fw-semibold text-gray-700">Mata Pelajaran</td>
+                                    <td>:</td>
                                     <td class="text-gray-800">{{ $supervisi->mata_pelajaran }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold text-gray-600">Kelas:</td>
+                                    <td class="fw-semibold text-gray-700">Kelas</td>
+                                    <td>:</td>
                                     <td class="text-gray-800">{{ $supervisi->kelas }}</td>
                                 </tr>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <table class="table table-borderless">
                                 <tr>
-                                    <td class="fw-bold text-gray-600" width="150">Tanggal:</td>
+                                    <td class="fw-semibold text-gray-700">Tanggal Pelaksanaan</td>
+                                    <td>:</td>
                                     <td class="text-gray-800">{{ $supervisi->schedule_date->format('d F Y') }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold text-gray-600">Waktu:</td>
+                                    <td class="fw-semibold text-gray-700">Waktu</td>
+                                    <td>:</td>
                                     <td class="text-gray-800">{{ $supervisi->schedule_time ?? '-' }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold text-gray-600">Status:</td>
-                                    <td><span class="badge badge-success">Selesai</span></td>
+                                    <td class="fw-semibold text-gray-700">Supervisor</td>
+                                    <td>:</td>
+                                    <td class="text-gray-800">{{ $supervisi->supervisor->name }}</td>
                                 </tr>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
+                        @if ($supervisi->notes)
+                            <div class="mt-4">
+                                <div class="fw-semibold text-gray-700 mb-2">Catatan Awal:</div>
+                                <div class="text-gray-800 fst-italic">{{ $supervisi->notes }}</div>
+                            </div>
+                        @endif
                     </div>
-                    @if ($supervisi->notes)
-                        <div class="mt-4">
-                            <div class="fw-bold text-gray-600 mb-2">Catatan Awal:</div>
-                            <div class="text-gray-800">{{ $supervisi->notes }}</div>
+                    <!--end::Informasi Supervisi-->
+
+                    <div class="separator separator-dashed my-10"></div>
+
+                    <!--begin::Percakapan Pra-Observasi-->
+                    @if ($instrumenPenilaian)
+                        <div class="mb-10">
+                            <h4 class="fw-bold mb-5">II. PERCAKAPAN PRA-OBSERVASI KELAS</h4>
+                            @php
+                                $praObservasi = $instrumenPenilaian->assessment_data;
+                            @endphp
+
+                            <div class="mb-6">
+                                <div class="fw-semibold text-gray-800 mb-2">A. Tujuan Pembelajaran</div>
+                                <div class="p-4 bg-light border border-gray-300 rounded">
+                                    <p class="text-gray-800 mb-0">{{ $praObservasi['tujuan_pembelajaran'] ?? '-' }}</p>
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <div class="fw-semibold text-gray-800 mb-2">B. Area Pengembangan yang Hendak Dicapai</div>
+                                <div class="p-4 bg-light border border-gray-300 rounded">
+                                    <p class="text-gray-800 mb-0">{{ $praObservasi['area_pengembangan'] ?? '-' }}</p>
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <div class="fw-semibold text-gray-800 mb-2">C. Strategi yang Dipersiapkan</div>
+                                <div class="p-4 bg-light border border-gray-300 rounded">
+                                    <p class="text-gray-800 mb-0">{{ $praObservasi['strategi_persiapan'] ?? '-' }}</p>
+                                </div>
+                            </div>
                         </div>
                     @endif
+                    <!--end::Percakapan Pra-Observasi-->
+
+                    <div class="separator separator-dashed my-10"></div>
+
+                    <!--begin::Lembar Observasi-->
+                    @if ($lembarObservasi)
+                        <div class="mb-10">
+                            <h4 class="fw-bold mb-5">III. LEMBAR OBSERVASI PEMBELAJARAN</h4>
+                            @php
+                                $observasiData = $lembarObservasi->assessment_data;
+                                $items = $observasiData['items'] ?? [];
+                            @endphp
+
+                            @if (!empty($items))
+                                <div class="table-responsive mb-6">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th width="50" class="text-center">No</th>
+                                                <th>Aspek dan Strategi Pembelajaran</th>
+                                                <th width="120" class="text-center">Status</th>
+                                                <th width="350">Catatan Pengamatan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($items as $index => $item)
+                                                <tr>
+                                                    <td class="text-center">{{ $index + 1 }}</td>
+                                                    <td>{{ $item['aspek_strategi'] ?? '-' }}</td>
+                                                    <td class="text-center">
+                                                        @php
+                                                            $status = $item['status'] ?? 'tidak';
+                                                            $statusText = $status === 'ada' ? '✓ Ada' : '✗ Tidak Ada';
+                                                            $statusClass =
+                                                                $status === 'ada'
+                                                                    ? 'badge-light-success'
+                                                                    : 'badge-light-danger';
+                                                        @endphp
+                                                        <span class="badge {{ $statusClass }}">{{ $statusText }}</span>
+                                                    </td>
+                                                    <td>{{ $item['catatan_pengamatan'] ?? '-' }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endif
+
+                            @if (isset($observasiData['catatan_tambahan']) && !empty($observasiData['catatan_tambahan']))
+                                <div class="mb-6">
+                                    <div class="fw-semibold text-gray-800 mb-2">Catatan Tambahan:</div>
+                                    <div class="p-4 bg-light border border-gray-300 rounded">
+                                        <p class="text-gray-800 mb-0 fst-italic">
+                                            {{ $observasiData['catatan_tambahan'] }}</p>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+                    <!--end::Lembar Observasi-->
+
+                    <div class="separator separator-dashed my-10"></div>
+
+                    <!--begin::Catatan Hasil Supervisi-->
+                    @if ($catatanHasil)
+                        <div class="mb-10">
+                            <h4 class="fw-bold mb-5">IV. CATATAN HASIL SUPERVISI</h4>
+                            @php
+                                $catatanData = $catatanHasil->assessment_data;
+                            @endphp
+
+                            <div class="mb-6">
+                                <div class="fw-semibold text-gray-800 mb-2">A. Catatan Refleksi Guru</div>
+                                <div class="p-4 bg-light border border-gray-300 rounded">
+                                    <p class="text-gray-800 mb-0">{{ $catatanData['refleksi_guru'] ?? '-' }}</p>
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <div class="fw-semibold text-gray-800 mb-2">B. Topik Percakapan dan Catatan</div>
+                                <div class="p-4 bg-light border border-gray-300 rounded">
+                                    <p class="text-gray-800 mb-0">{{ $catatanData['topik_percakapan'] ?? '-' }}</p>
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <div class="fw-semibold text-gray-800 mb-2">C. Rencana Tindak Lanjut</div>
+                                <div class="p-4 bg-light border border-gray-300 rounded">
+                                    <p class="text-gray-800 mb-0">{{ $catatanData['rencana_tindak_lanjut'] ?? '-' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    <!--end::Catatan Hasil Supervisi-->
+
+                    <div class="separator separator-dashed my-10"></div>
+
+                    <!--begin::Feedback-->
+                    @if ($feedback)
+                        <div class="mb-10">
+                            <h4 class="fw-bold mb-5">V. UMPAN BALIK DAN REKOMENDASI</h4>
+
+                            <div class="mb-6">
+                                <div class="fw-semibold text-gray-800 mb-2">A. Umpan Balik</div>
+                                <div class="p-4 bg-light border border-gray-300 rounded">
+                                    <p class="text-gray-800 mb-0">{{ $feedback->feedback }}</p>
+                                </div>
+                            </div>
+
+                            @if ($feedback->rekomendasi)
+                                <div class="mb-6">
+                                    <div class="fw-semibold text-gray-800 mb-2">B. Rekomendasi Tindak Lanjut</div>
+                                    <div class="p-4 bg-light border border-gray-300 rounded">
+                                        <p class="text-gray-800 mb-0">{{ $feedback->rekomendasi }}</p>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+                    <!--end::Feedback-->
+
+                    <div class="separator separator-dashed my-10"></div>
+
+                    <!--begin::Signature-->
+                    <div class="row mt-15">
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <p class="mb-1">Guru yang Disupervisi,</p>
+                                <div class="my-10"></div>
+                                <div class="my-10"></div>
+                                <p class="mb-0 fw-bold text-decoration-underline">{{ $supervisi->guru->name }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <p class="mb-1">Supervisor,</p>
+                                <div class="my-10"></div>
+                                <div class="my-10"></div>
+                                <p class="mb-0 fw-bold text-decoration-underline">{{ $supervisi->supervisor->name }}</p>
+                                <p class="text-muted mb-0">Kepala Sekolah</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Signature-->
+
+                    <!--begin::Footer-->
+                    <div class="mt-10 text-end text-muted">
+                        <small>Dokumen dibuat pada: {{ $feedback->created_at->format('d F Y, H:i') }} WIB</small>
+                    </div>
+                    <!--end::Footer-->
+
                 </div>
             </div>
-            <!--end::Info Card-->
-
-            <!--begin::Instrumen Penilaian-->
-            @if ($instrumenPenilaian)
-                <div class="card mb-5">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="ki-outline ki-chart-simple text-primary fs-2 me-2"></i>
-                            Instrumen Penilaian Kinerja Guru
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-row-bordered">
-                                <thead>
-                                    <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
-                                        <th width="50">No</th>
-                                        <th>Aspek Penilaian</th>
-                                        <th width="150" class="text-center">Nilai</th>
-                                        <th width="150" class="text-center">Kategori</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                        $assessmentData = $instrumenPenilaian->assessment_data;
-                                        $aspects = [
-                                            'penguasaan_materi' => 'Penguasaan Materi',
-                                            'strategi_pembelajaran' => 'Strategi Pembelajaran',
-                                            'pengelolaan_kelas' => 'Pengelolaan Kelas',
-                                            'komunikasi' => 'Komunikasi dengan Siswa',
-                                            'media_pembelajaran' => 'Penggunaan Media/Alat Pembelajaran',
-                                        ];
-                                        $total = 0;
-                                    @endphp
-                                    @foreach ($aspects as $key => $label)
-                                        @php
-                                            $nilai = $assessmentData[$key] ?? 0;
-                                            $total += $nilai;
-                                            $kategori =
-                                                $nilai == 4
-                                                    ? 'Sangat Baik'
-                                                    : ($nilai == 3
-                                                        ? 'Baik'
-                                                        : ($nilai == 2
-                                                            ? 'Cukup'
-                                                            : 'Kurang'));
-                                            $badgeClass =
-                                                $nilai == 4
-                                                    ? 'badge-success'
-                                                    : ($nilai == 3
-                                                        ? 'badge-primary'
-                                                        : ($nilai == 2
-                                                            ? 'badge-warning'
-                                                            : 'badge-danger'));
-                                        @endphp
-                                        <tr>
-                                            <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td>{{ $label }}</td>
-                                            <td class="text-center fw-bold">{{ $nilai }}</td>
-                                            <td class="text-center">
-                                                <span class="badge {{ $badgeClass }}">{{ $kategori }}</span>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    <tr class="fw-bold bg-light">
-                                        <td colspan="2" class="text-end">TOTAL NILAI:</td>
-                                        <td class="text-center fs-4 text-primary">{{ $total }}</td>
-                                        <td class="text-center">
-                                            @php
-                                                $rataRata = $total / 5;
-                                                $kategoriTotal =
-                                                    $rataRata >= 3.5
-                                                        ? 'Sangat Baik'
-                                                        : ($rataRata >= 2.5
-                                                            ? 'Baik'
-                                                            : ($rataRata >= 1.5
-                                                                ? 'Cukup'
-                                                                : 'Kurang'));
-                                                $badgeTotal =
-                                                    $rataRata >= 3.5
-                                                        ? 'badge-success'
-                                                        : ($rataRata >= 2.5
-                                                            ? 'badge-primary'
-                                                            : ($rataRata >= 1.5
-                                                                ? 'badge-warning'
-                                                                : 'badge-danger'));
-                                            @endphp
-                                            <span class="badge {{ $badgeTotal }}">{{ $kategoriTotal }}</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        @if (isset($assessmentData['catatan']))
-                            <div class="mt-5">
-                                <div class="fw-bold text-gray-800 mb-2">Catatan Tambahan:</div>
-                                <div class="p-4 bg-light rounded">{{ $assessmentData['catatan'] }}</div>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            @endif
-            <!--end::Instrumen Penilaian-->
-
-            <!--begin::Lembar Observasi-->
-            @if ($lembarObservasi)
-                <div class="card mb-5">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="ki-outline ki-eye text-info fs-2 me-2"></i>
-                            Lembar Observasi Pembelajaran
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        @php
-                            $observasiData = $lembarObservasi->assessment_data;
-                        @endphp
-
-                        <!--Kegiatan Pendahuluan-->
-                        <div class="mb-6">
-                            <h5 class="fw-bold text-gray-800 mb-3">1. Kegiatan Pendahuluan</h5>
-                            @if (isset($observasiData['pendahuluan']))
-                                @foreach ($observasiData['pendahuluan'] as $item)
-                                    <div class="d-flex align-items-center mb-2">
-                                        <i class="ki-outline ki-check-circle text-success fs-2 me-2"></i>
-                                        <span>
-                                            @if ($item == 'apersepsi')
-                                                Melakukan apersepsi dengan baik
-                                            @elseif($item == 'motivasi')
-                                                Memberikan motivasi kepada siswa
-                                            @else
-                                                Menyampaikan tujuan pembelajaran
-                                            @endif
-                                        </span>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
-
-                        <!--Kegiatan Inti-->
-                        <div class="mb-6">
-                            <h5 class="fw-bold text-gray-800 mb-3">2. Kegiatan Inti</h5>
-                            @if (isset($observasiData['inti']))
-                                @foreach ($observasiData['inti'] as $item)
-                                    <div class="d-flex align-items-center mb-2">
-                                        <i class="ki-outline ki-check-circle text-success fs-2 me-2"></i>
-                                        <span>
-                                            @if ($item == 'materi_sistematis')
-                                                Menyampaikan materi secara sistematis
-                                            @elseif($item == 'siswa_aktif')
-                                                Melibatkan siswa secara aktif
-                                            @elseif($item == 'media_efektif')
-                                                Menggunakan media pembelajaran dengan efektif
-                                            @else
-                                                Mengelola waktu dengan efisien
-                                            @endif
-                                        </span>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
-
-                        <!--Kegiatan Penutup-->
-                        <div class="mb-6">
-                            <h5 class="fw-bold text-gray-800 mb-3">3. Kegiatan Penutup</h5>
-                            @if (isset($observasiData['penutup']))
-                                @foreach ($observasiData['penutup'] as $item)
-                                    <div class="d-flex align-items-center mb-2">
-                                        <i class="ki-outline ki-check-circle text-success fs-2 me-2"></i>
-                                        <span>
-                                            @if ($item == 'kesimpulan')
-                                                Membuat kesimpulan bersama siswa
-                                            @elseif($item == 'evaluasi')
-                                                Melakukan evaluasi pembelajaran
-                                            @else
-                                                Memberikan tindak lanjut
-                                            @endif
-                                        </span>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
-
-                        @if (isset($observasiData['catatan']))
-                            <div class="mt-5">
-                                <div class="fw-bold text-gray-800 mb-2">Catatan Observasi:</div>
-                                <div class="p-4 bg-light rounded">{{ $observasiData['catatan'] }}</div>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            @endif
-            <!--end::Lembar Observasi-->
-
-            <!--begin::Catatan Hasil-->
-            @if ($catatanHasil)
-                <div class="card mb-5">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="ki-outline ki-notepad text-warning fs-2 me-2"></i>
-                            Catatan Hasil Supervisi
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        @php
-                            $catatanData = $catatanHasil->assessment_data;
-                        @endphp
-
-                        <div class="mb-6">
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="ki-outline ki-like fs-2 text-success me-2"></i>
-                                <h5 class="fw-bold text-gray-800 mb-0">Kekuatan/Keunggulan Pembelajaran</h5>
-                            </div>
-                            <div class="p-4 bg-light-success rounded">
-                                {{ $catatanData['kekuatan'] ?? '-' }}
-                            </div>
-                        </div>
-
-                        <div class="mb-6">
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="ki-outline ki-information fs-2 text-warning me-2"></i>
-                                <h5 class="fw-bold text-gray-800 mb-0">Kelemahan/Area yang Perlu Diperbaiki</h5>
-                            </div>
-                            <div class="p-4 bg-light-warning rounded">
-                                {{ $catatanData['kelemahan'] ?? '-' }}
-                            </div>
-                        </div>
-
-                        <div class="mb-6">
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="ki-outline ki-message-text-2 fs-2 text-info me-2"></i>
-                                <h5 class="fw-bold text-gray-800 mb-0">Saran Perbaikan</h5>
-                            </div>
-                            <div class="p-4 bg-light-info rounded">
-                                {{ $catatanData['saran'] ?? '-' }}
-                            </div>
-                        </div>
-
-                        <div class="mb-6">
-                            <div class="d-flex align-items-center mb-3">
-                                <i class="ki-outline ki-document fs-2 text-primary me-2"></i>
-                                <h5 class="fw-bold text-gray-800 mb-0">Kesimpulan Umum</h5>
-                            </div>
-                            <div class="p-4 bg-light-primary rounded">
-                                {{ $catatanData['kesimpulan'] ?? '-' }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endif
-            <!--end::Catatan Hasil-->
-
-            <!--begin::Feedback-->
-            @if ($feedback)
-                <div class="card mb-5">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="ki-outline ki-message-text fs-2 text-success me-2"></i>
-                            Feedback & Rekomendasi
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-6">
-                            <h5 class="fw-bold text-gray-800 mb-3">Umpan Balik</h5>
-                            <div class="p-5 bg-light-success rounded border border-success border-dashed">
-                                <p class="text-gray-800 mb-0">{{ $feedback->feedback }}</p>
-                            </div>
-                        </div>
-
-                        @if ($feedback->rekomendasi)
-                            <div class="mb-6">
-                                <h5 class="fw-bold text-gray-800 mb-3">Rekomendasi Tindak Lanjut</h5>
-                                <div class="p-5 bg-light-primary rounded border border-primary border-dashed">
-                                    <p class="text-gray-800 mb-0">{{ $feedback->rekomendasi }}</p>
-                                </div>
-                            </div>
-                        @endif
-
-                        <div class="separator my-5"></div>
-
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <div class="text-muted mb-1">Dinilai oleh:</div>
-                                <div class="fw-bold text-gray-800">{{ $supervisi->supervisor->name }}</div>
-                            </div>
-                            <div class="text-end">
-                                <div class="text-muted mb-1">Tanggal Penilaian:</div>
-                                <div class="fw-bold text-gray-800">{{ $feedback->created_at->format('d F Y, H:i') }} WIB
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endif
-            <!--end::Feedback-->
+            <!--end::Main Card-->
 
         </div>
     </div>
@@ -409,7 +309,22 @@
 
             .card {
                 box-shadow: none !important;
-                border: 1px solid #ddd !important;
+                border: none !important;
+            }
+
+            .btn {
+                display: none !important;
+            }
+
+            body {
+                background: white !important;
+            }
+
+            .separator {
+                border-color: #000 !important;
+            }
+
+            table {
                 page-break-inside: avoid;
             }
         }
