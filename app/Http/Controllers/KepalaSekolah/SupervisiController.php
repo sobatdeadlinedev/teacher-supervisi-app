@@ -9,6 +9,7 @@ use App\Models\SupervisionFeedback;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SupervisiController extends Controller
 {
@@ -198,7 +199,6 @@ class SupervisiController extends Controller
      */
     public function show(Supervision $supervisi)
     {
-
         $supervisi->load(['guru', 'assessments', 'feedbacks', 'supervisor']);
 
         // Kelompokkan assessment berdasarkan tipe
@@ -221,7 +221,6 @@ class SupervisiController extends Controller
      */
     public function cancel(Supervision $supervisi)
     {
-
         if ($supervisi->status !== 'scheduled') {
             return redirect()->back()
                 ->with('error', 'Supervisi tidak dapat dibatalkan');
@@ -233,5 +232,86 @@ class SupervisiController extends Controller
 
         return redirect()->route('kepala-sekolah.supervisi.index')
             ->with('success', 'Supervisi berhasil dibatalkan');
+    }
+
+    /**
+     * Download PDF - 4 halaman terpisah
+     */
+    public function downloadPdf($id)
+    {
+        $supervisi = Supervision::with(['guru', 'supervisor'])->findOrFail($id);
+
+        // Ambil data assessment
+        $instrumenPenilaian = $supervisi->assessments()
+            ->where('assessment_type', 'instrumen_penilaian')
+            ->first();
+
+        $lembarObservasi = $supervisi->assessments()
+            ->where('assessment_type', 'lembar_observasi')
+            ->first();
+
+        $catatanHasil = $supervisi->assessments()
+            ->where('assessment_type', 'catatan_hasil')
+            ->first();
+
+        $feedback = $supervisi->feedbacks->first();
+
+        $data = [
+            'supervisi' => $supervisi,
+            'instrumenPenilaian' => $instrumenPenilaian,
+            'lembarObservasi' => $lembarObservasi,
+            'catatanHasil' => $catatanHasil,
+            'feedback' => $feedback,
+        ];
+
+        // Generate PDF dengan 4 halaman
+        $pdf = Pdf::loadView('kepala-sekolah.pages.supervisi.pdf-complete', $data);
+
+        // Set paper size dan orientasi
+        $pdf->setPaper('a4', 'portrait');
+
+        // Nama file
+        $filename = 'Supervisi_' . str_replace(' ', '_', $supervisi->guru->name) . '_' . date('YmdHis') . '.pdf';
+
+        // Download PDF
+        return $pdf->download($filename);
+    }
+
+    /**
+     * View PDF di browser
+     */
+    public function viewPdf($id)
+    {
+        $supervisi = Supervision::with(['guru', 'supervisor'])->findOrFail($id);
+
+        // Ambil data assessment
+        $instrumenPenilaian = $supervisi->assessments()
+            ->where('assessment_type', 'instrumen_penilaian')
+            ->first();
+
+        $lembarObservasi = $supervisi->assessments()
+            ->where('assessment_type', 'lembar_observasi')
+            ->first();
+
+        $catatanHasil = $supervisi->assessments()
+            ->where('assessment_type', 'catatan_hasil')
+            ->first();
+
+        $feedback = $supervisi->feedbacks->first();
+
+        $data = [
+            'supervisi' => $supervisi,
+            'instrumenPenilaian' => $instrumenPenilaian,
+            'lembarObservasi' => $lembarObservasi,
+            'catatanHasil' => $catatanHasil,
+            'feedback' => $feedback,
+        ];
+
+        // Generate PDF
+        $pdf = Pdf::loadView('kepala-sekolah.pages.supervisi.pdf-complete', $data);
+        $pdf->setPaper('a4', 'portrait');
+
+        // Stream PDF ke browser
+        return $pdf->stream('Supervisi_' . str_replace(' ', '_', $supervisi->guru->name) . '.pdf');
     }
 }

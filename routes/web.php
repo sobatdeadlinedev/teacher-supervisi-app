@@ -92,6 +92,8 @@ Route::middleware(['auth', 'role:kepala_sekolah'])->prefix('kepala-sekolah')->na
         Route::post('/{supervisi}/assessment', [KepalaSekolahSupervisiController::class, 'storeAssessment'])->name('assessment.store');
         Route::get('/{supervisi}', [KepalaSekolahSupervisiController::class, 'show'])->name('show');
         Route::post('/{supervisi}/cancel', [KepalaSekolahSupervisiController::class, 'cancel'])->name('cancel');
+        Route::get('/{id}/pdf/view', [KepalaSekolahSupervisiController::class, 'viewPdf'])->name('pdf.view');
+        Route::get('/{id}/pdf/download', [KepalaSekolahSupervisiController::class, 'downloadPdf'])->name('pdf.download');
     });
 });
 // Pengawas Routes
@@ -101,5 +103,7 @@ Route::middleware(['auth', 'role:pengawas'])->prefix('pengawas')->name('pengawas
     Route::prefix('supervisi')->name('supervisi.')->group(function () {
         Route::get('/', [PengawasSupervisiController::class, 'index'])->name('index');
         Route::get('/{supervisi}', [PengawasSupervisiController::class, 'show'])->name('show');
+        Route::get('/{id}/pdf/view', [KepalaSekolahSupervisiController::class, 'viewPdf'])->name('pdf.view');
+        Route::get('/{id}/pdf/download', [KepalaSekolahSupervisiController::class, 'downloadPdf'])->name('pdf.download');
     });
 });

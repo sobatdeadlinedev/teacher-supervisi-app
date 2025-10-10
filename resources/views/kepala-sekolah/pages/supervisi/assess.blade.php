@@ -408,32 +408,47 @@
             document.querySelectorAll('.observasi-item').forEach((item, index) => {
                 item.querySelector('.observasi-number').textContent = index + 1;
 
-                // Update semua name attributes
-                const itemIndex = index;
-                item.querySelectorAll('[name*="lembar_observasi["]').forEach(input => {
-                    const name = input.getAttribute('name');
-                    const match = name.match(/\[([^\]]+)\]$/);
-                    if (match) {
-                        const fieldName = match[1];
-                        input.setAttribute('name', `lembar_observasi[${itemIndex}][${fieldName}]`);
-                    }
-                });
+                // Update textarea names
+                const aspekStrategi = item.querySelector('[name*="[aspek_strategi]"]');
+                const catatanPengamatan = item.querySelector('[name*="[catatan_pengamatan]"]');
 
-                // Update radio button IDs dan labels
-                const statusRadios = item.querySelectorAll('input[type="radio"]');
-                statusRadios.forEach(radio => {
-                    const value = radio.value;
-                    const newId = `status_${value}_${itemIndex}`;
-                    radio.id = newId;
-                    radio.setAttribute('name', `lembar_observasi[${itemIndex}][status]`);
-                    const label = radio.nextElementSibling;
-                    if (label) {
+                if (aspekStrategi) {
+                    aspekStrategi.setAttribute('name', `lembar_observasi[${index}][aspek_strategi]`);
+                }
+                if (catatanPengamatan) {
+                    catatanPengamatan.setAttribute('name', `lembar_observasi[${index}][catatan_pengamatan]`);
+                }
+
+                // Update radio buttons - CRITICAL: Pastikan value tetap 'ada' atau 'tidak'
+                const radioAda = item.querySelector('input[type="radio"][value="ada"]');
+                const radioTidak = item.querySelector('input[type="radio"][value="tidak"]');
+
+                if (radioAda) {
+                    const newId = `status_ada_${index}`;
+                    radioAda.setAttribute('name', `lembar_observasi[${index}][status]`);
+                    radioAda.setAttribute('id', newId);
+                    radioAda.setAttribute('value', 'ada'); // Pastikan value tetap 'ada'
+
+                    const label = radioAda.nextElementSibling;
+                    if (label && label.tagName === 'LABEL') {
                         label.setAttribute('for', newId);
                     }
-                });
+                }
+
+                if (radioTidak) {
+                    const newId = `status_tidak_${index}`;
+                    radioTidak.setAttribute('name', `lembar_observasi[${index}][status]`);
+                    radioTidak.setAttribute('id', newId);
+                    radioTidak.setAttribute('value', 'tidak'); // Pastikan value tetap 'tidak'
+
+                    const label = radioTidak.nextElementSibling;
+                    if (label && label.tagName === 'LABEL') {
+                        label.setAttribute('for', newId);
+                    }
+                }
 
                 // Update data-index
-                item.setAttribute('data-index', itemIndex);
+                item.setAttribute('data-index', index);
             });
 
             // Show/hide remove buttons
@@ -459,8 +474,17 @@
                 textarea.value = '';
                 textarea.classList.remove('is-invalid');
             });
+
+            // CRITICAL: Clear radio buttons dan pastikan value tetap benar
             newItem.querySelectorAll('input[type="radio"]').forEach(radio => {
                 radio.checked = false;
+                // Pastikan value tidak berubah saat clone
+                const originalValue = radio.getAttribute('value');
+                if (originalValue === 'ada') {
+                    radio.setAttribute('value', 'ada');
+                } else if (originalValue === 'tidak') {
+                    radio.setAttribute('value', 'tidak');
+                }
             });
 
             // Set new index
@@ -570,17 +594,15 @@
 
         // Update tombol visibility
         function updateButtons() {
-            // Hitung total steps secara manual
             var allSteps = document.querySelectorAll('[data-kt-stepper-element="content"]');
             var totalSteps = allSteps.length;
 
-            // Cari step yang sedang aktif
             var currentStep = document.querySelector('[data-kt-stepper-element="content"].current');
             var currentIndex = 0;
 
             allSteps.forEach((step, index) => {
                 if (step === currentStep) {
-                    currentIndex = index + 1; // Index dimulai dari 1
+                    currentIndex = index + 1;
                 }
             });
 
@@ -590,14 +612,12 @@
             var nextButton = document.querySelector('[data-kt-stepper-action="next"]');
             var submitButton = document.querySelector('[data-kt-stepper-action="submit"]');
 
-            // Hide/show previous button
             if (currentIndex === 1) {
                 prevButton.style.display = 'none';
             } else {
                 prevButton.style.display = 'inline-block';
             }
 
-            // Hide/show next and submit buttons
             if (currentIndex === totalSteps) {
                 nextButton.style.display = 'none';
                 submitButton.style.display = 'inline-block';
@@ -610,7 +630,7 @@
         // Initial button state
         updateButtons();
 
-        // Custom handler untuk tombol Next (bypass stepper event)
+        // Custom handler untuk tombol Next
         document.querySelector('[data-kt-stepper-action="next"]').addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -620,7 +640,6 @@
             if (validateCurrentStep()) {
                 console.log('Validation passed, moving to next step');
 
-                // Manual step navigation
                 var allContentSteps = document.querySelectorAll('[data-kt-stepper-element="content"]');
                 var allNavSteps = document.querySelectorAll('[data-kt-stepper-element="nav"]');
                 var currentContentStep = document.querySelector('[data-kt-stepper-element="content"].current');
@@ -629,11 +648,9 @@
                 var nextIndex = currentIndex + 1;
 
                 if (nextIndex < allContentSteps.length) {
-                    // Remove current class from current step
                     currentContentStep.classList.remove('current');
                     allNavSteps[currentIndex].classList.remove('current');
 
-                    // Add current class to next step
                     allContentSteps[nextIndex].classList.add('current');
                     allNavSteps[nextIndex].classList.add('current');
 
@@ -656,12 +673,11 @@
             }
         });
 
-        // Custom handler untuk tombol Previous (bypass stepper event)
+        // Custom handler untuk tombol Previous
         document.querySelector('[data-kt-stepper-action="previous"]').addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
 
-            // Manual step navigation
             var allContentSteps = document.querySelectorAll('[data-kt-stepper-element="content"]');
             var allNavSteps = document.querySelectorAll('[data-kt-stepper-element="nav"]');
             var currentContentStep = document.querySelector('[data-kt-stepper-element="content"].current');
@@ -670,11 +686,9 @@
             var prevIndex = currentIndex - 1;
 
             if (prevIndex >= 0) {
-                // Remove current class from current step
                 currentContentStep.classList.remove('current');
                 allNavSteps[currentIndex].classList.remove('current');
 
-                // Add current class to previous step
                 allContentSteps[prevIndex].classList.add('current');
                 allNavSteps[prevIndex].classList.add('current');
 
@@ -695,7 +709,6 @@
 
             console.log('Submit button clicked');
 
-            // Validasi step terakhir
             if (!validateCurrentStep()) {
                 Swal.fire({
                     icon: 'error',
@@ -705,7 +718,6 @@
                 return;
             }
 
-            // Konfirmasi submit
             Swal.fire({
                 title: 'Konfirmasi Penilaian',
                 text: "Apakah Anda yakin ingin menyimpan penilaian ini? Data tidak dapat diubah setelah disimpan.",
@@ -719,7 +731,6 @@
                 if (result.isConfirmed) {
                     console.log('Form submitting...');
 
-                    // Tampilkan loading
                     Swal.fire({
                         title: 'Menyimpan...',
                         text: 'Mohon tunggu sebentar',
@@ -729,7 +740,6 @@
                         }
                     });
 
-                    // Submit form
                     var form = document.getElementById('kt_stepper_form');
                     if (form) {
                         form.submit();
@@ -743,6 +753,32 @@
                     }
                 }
             });
+        });
+
+        // Debug: Log data sebelum submit untuk troubleshooting
+        document.getElementById('kt_stepper_form').addEventListener('submit', function(e) {
+            console.log('=== FORM SUBMIT DEBUG ===');
+
+            // Log semua radio button yang tercentang
+            const checkedRadios = document.querySelectorAll('input[type="radio"][name*="status"]:checked');
+            console.log('Total radio buttons checked:', checkedRadios.length);
+
+            checkedRadios.forEach((radio, index) => {
+                console.log(`Radio ${index + 1}:`, {
+                    name: radio.name,
+                    value: radio.value,
+                    id: radio.id
+                });
+            });
+
+            // Log FormData untuk melihat data yang dikirim
+            const formData = new FormData(this);
+            console.log('Status values being sent:');
+            for (let [key, value] of formData.entries()) {
+                if (key.includes('status')) {
+                    console.log(key, '=', value, typeof value);
+                }
+            }
         });
 
         // Event listener untuk auto-remove invalid class saat user mengetik
@@ -767,22 +803,22 @@
         // Tambahkan CSS untuk invalid input dan radio error
         var style = document.createElement('style');
         style.textContent = `
-            .is-invalid {
-                border-color: #f1416c !important;
-            }
-            .is-invalid:focus {
-                box-shadow: 0 0 0 0.25rem rgba(241, 65, 108, 0.25) !important;
-            }
-            .radio-error {
-                border: 2px solid #f1416c;
-                border-radius: 0.475rem;
-                padding: 10px;
-                background-color: rgba(241, 65, 108, 0.05);
-            }
-            .radio-error label.form-label {
-                color: #f1416c;
-            }
-        `;
+    .is-invalid {
+        border-color: #f1416c !important;
+    }
+    .is-invalid:focus {
+        box-shadow: 0 0 0 0.25rem rgba(241, 65, 108, 0.25) !important;
+    }
+    .radio-error {
+        border: 2px solid #f1416c;
+        border-radius: 0.475rem;
+        padding: 10px;
+        background-color: rgba(241, 65, 108, 0.05);
+    }
+    .radio-error label.form-label {
+        color: #f1416c;
+    }
+`;
         document.head.appendChild(style);
 
         console.log('Stepper initialized:', stepper);
