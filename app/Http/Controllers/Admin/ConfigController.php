@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 class ConfigController extends Controller
 {
     /**
-     * Menampilkan halaman konfigurasi
+     * Show the about/settings page
      */
     public function index()
     {
+        // Get all configs and convert to array format key => value
         $allConfigs = Config::all();
         $configs = [];
 
@@ -24,7 +25,7 @@ class ConfigController extends Controller
     }
 
     /**
-     * Update konfigurasi
+     * Update configuration settings
      */
     public function update(Request $request)
     {
@@ -33,31 +34,25 @@ class ConfigController extends Controller
             $validated = $request->validate([
                 'app_name' => 'nullable|string|max:255',
                 'app_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-                'app_bg'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                'app_bg' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             ]);
 
-            // Upload logo
+            // Handle app_logo upload
             if ($request->hasFile('app_logo')) {
                 $file = $request->file('app_logo');
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('uploads/logo'), $filename);
-
-                $fullUrl = config('app.url') . '/uploads/logo/' . $filename;
-                Config::set('app_logo', $fullUrl);
+                $path = $file->store('uploads/logo', 'public');
+                Config::set('app_logo', '/storage/' . $path);
             }
 
-            // Upload background
+            // Handle app_bg upload
             if ($request->hasFile('app_bg')) {
                 $file = $request->file('app_bg');
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('uploads/bg'), $filename);
-
-                $fullUrl = config('app.url') . '/uploads/bg/' . $filename;
-                Config::set('app_bg', $fullUrl);
+                $path = $file->store('uploads/bg', 'public');
+                Config::set('app_bg', '/storage/' . $path);
             }
 
-            // Update nama aplikasi
-            if ($request->filled('app_name')) {
+            // Update app_name
+            if ($request->has('app_name') && $request->input('app_name') !== null) {
                 Config::set('app_name', $request->input('app_name'));
             }
 
