@@ -75,10 +75,6 @@
                 <!--begin::Card header-->
                 <div class="card-header border-0 pt-6">
                     <!--begin::Card title-->
-                    <div class="card-title">
-                        <h3>Daftar Laporan</h3>
-                    </div>
-                    <!--begin::Card title-->
                     <div class="card-header border-0 pt-6">
                         <div class="card-title">
                             <h3>Daftar Laporan</h3>
