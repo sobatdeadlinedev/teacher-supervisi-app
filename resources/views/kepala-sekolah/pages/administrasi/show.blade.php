@@ -146,6 +146,23 @@
                         <!--end::Card header-->
                         <!--begin::Card body-->
                         <div class="card-body pt-6">
+                            {{-- Preview & Download Buttons --}}
+                            <a href="{{ route('kepala-sekolah.administrasi.preview', $file->id) }}" target="_blank"
+                                class="btn btn-primary w-100 mb-3">
+                                <i class="ki-outline ki-eye fs-2"></i>
+                                Lihat File
+                            </a>
+
+                            <a href="{{ route('kepala-sekolah.administrasi.download', $file->id) }}"
+                                class="btn btn-info w-100 mb-3">
+                                <i class="ki-outline ki-download fs-2"></i>
+                                Download File
+                            </a>
+
+                            {{-- Separator --}}
+                            <div class="separator separator-dashed my-5"></div>
+
+                            {{-- Approval Actions --}}
                             @if ($file->status === 'waiting_approve')
                                 <form action="{{ route('kepala-sekolah.administrasi.approve', $file->id) }}" method="POST"
                                     class="mb-3">
@@ -167,7 +184,7 @@
                                     </button>
                                 </form>
                             @else
-                                <div class="alert alert-info d-flex align-items-center p-5">
+                                <div class="alert alert-info d-flex align-items-center p-5 mb-3">
                                     <i class="ki-outline ki-information fs-2hx text-info me-4"></i>
                                     <div class="d-flex flex-column">
                                         <span>File ini sudah diproses</span>
@@ -175,6 +192,10 @@
                                 </div>
                             @endif
 
+                            {{-- Separator --}}
+                            <div class="separator separator-dashed my-5"></div>
+
+                            {{-- Back Button --}}
                             <a href="{{ route('kepala-sekolah.administrasi.index') }}" class="btn btn-light w-100">
                                 <i class="ki-outline ki-left fs-2"></i>
                                 Kembali

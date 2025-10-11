@@ -23,7 +23,7 @@ Route::get('/', function () {
         } elseif ($user->hasRole('guru')) {
             return redirect()->route('guru.dashboard.index');
         } elseif ($user->hasRole('kepala_sekolah')) {
-            return redirect()->route('kepala-sekolah.dashboard.index');
+            return redirect()->route('kepala-sekolah.supervisi.index');
         } elseif ($user->hasRole('pengawas')) {
             return redirect()->route('pengawas.dashboard.index');
         }
@@ -79,6 +79,8 @@ Route::middleware(['auth', 'role:kepala_sekolah'])->prefix('kepala-sekolah')->na
         Route::get('/{id}', [KepalaSekolahAdministrasiController::class, 'show'])->name('show');
         Route::post('/{id}/approve', [KepalaSekolahAdministrasiController::class, 'approve'])->name('approve');
         Route::post('/{id}/reject', [KepalaSekolahAdministrasiController::class, 'reject'])->name('reject');
+        Route::get('/{id}/preview', [KepalaSekolahAdministrasiController::class, 'preview'])->name('preview');
+        Route::get('/{id}/download', [KepalaSekolahAdministrasiController::class, 'download'])->name('download');
     });
     // Jurnal Route
     Route::prefix('jurnal')->name('jurnal.')->group(function () {
