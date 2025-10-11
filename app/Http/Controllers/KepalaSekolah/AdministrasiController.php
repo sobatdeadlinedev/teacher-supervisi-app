@@ -37,19 +37,36 @@ class AdministrasiController extends Controller
         return redirect()->route('kepala-sekolah.administrasi.index')->with('success', 'File berhasil ditolak');
     }
 
+    public function revision(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'feedback' => 'required|string|min:10|max:1000',
+        ], [
+            'feedback.required' => 'Catatan revisi harus diisi',
+            'feedback.min' => 'Catatan revisi minimal 10 karakter',
+            'feedback.max' => 'Catatan revisi maksimal 1000 karakter',
+        ]);
+
+        $file = LearningAdministrationFile::findOrFail($id);
+        $file->update([
+            'status' => 'revision',
+            'feedback' => $validated['feedback'],
+        ]);
+
+        return redirect()->route('kepala-sekolah.administrasi.index')
+            ->with('success', 'File diminta untuk revisi');
+    }
+
     public function preview($id)
     {
         $file = LearningAdministrationFile::findOrFail($id);
 
-        // Pastikan file exists di storage local
         if (!Storage::disk('local')->exists($file->file_path)) {
             abort(404, 'File tidak ditemukan');
         }
 
-        // Ambil file dari storage local
         $filePath = Storage::disk('local')->path($file->file_path);
 
-        // Return response dengan header yang tepat untuk preview di browser
         return response()->file($filePath, [
             'Content-Type' => $file->mime_type,
             'Content-Disposition' => 'inline; filename="' . $file->original_filename . '"'

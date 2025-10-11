@@ -89,7 +89,7 @@
                                     <th class="min-w-100px">Kelas</th>
                                     <th class="min-w-100px">Semester</th>
                                     <th class="min-w-150px">Nama File</th>
-                                    <th class="min-w-100px">Status</th>
+                                    <th class="min-w-150px">Status</th>
                                     <th class="text-end min-w-100px">Aksi</th>
                                 </tr>
                             </thead>
@@ -106,12 +106,14 @@
                                                 <span class="badge badge-light-warning">Menunggu Persetujuan</span>
                                             @elseif ($file->status === 'approved')
                                                 <span class="badge badge-light-success">Disetujui</span>
+                                            @elseif ($file->status === 'revision')
+                                                <span class="badge badge-light-danger">Perlu Revisi</span>
                                             @else
                                                 <span class="badge badge-light-danger">Ditolak</span>
                                             @endif
                                         </td>
                                         <td class="text-end">
-                                            @if ($file->status === 'waiting_approve')
+                                            @if ($file->status === 'waiting_approve' || $file->status === 'revision')
                                                 <button class="btn btn-light btn-active-light-primary btn-sm"
                                                     data-bs-toggle="modal" data-bs-target="#administrasiModal"
                                                     onclick="editFile({{ $file->toJson() }})">
@@ -158,6 +160,15 @@
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                        <!-- Feedback Alert (hidden by default) -->
+                        <div id="feedbackAlert" class="alert alert-warning mb-4" style="display:none;">
+                            <div class="alert-icon"><i class="ki-outline ki-information fs-1"></i></div>
+                            <div class="alert-text">
+                                <h5>Feedback dari Reviewer</h5>
+                                <p id="feedbackText" class="mb-0"></p>
+                            </div>
+                        </div>
+
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">Tipe File</label>
@@ -221,10 +232,22 @@
             document.getElementById('modalTitle').textContent = 'Edit File';
             document.getElementById('administrasiForm').action = `/guru/administrasi/${file.id}`;
 
+            const fileRequired = file.status === 'revision' ? 'required' : '';
+
             document.getElementById('administrasiForm').innerHTML = `
                 @csrf
                 @method('PUT')
                 <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                    ${file.status === 'revision' && file.feedback ? `
+                            <div class="alert alert-warning mb-4">
+                                <div class="alert-icon"><i class="ki-outline ki-information fs-1"></i></div>
+                                <div class="alert-text">
+                                    <h5>Feedback dari Reviewer</h5>
+                                    <p class="mb-0">${file.feedback}</p>
+                                </div>
+                            </div>
+                        ` : ''}
+
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <label class="form-label">Tipe File</label>
@@ -266,9 +289,9 @@
                     <div class="mb-4">
                         <label class="form-label">File Saat Ini</label>
                         <p class="text-muted">${file.original_filename}</p>
-                        <label class="form-label mt-3">Ganti File (Opsional)</label>
-                        <input type="file" class="form-control" name="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx">
-                        <small class="text-muted d-block mt-2">Biarkan kosong jika tidak ingin mengganti file</small>
+                        <label class="form-label mt-3">Ganti File ${file.status === 'revision' ? '(Wajib)' : '(Opsional)'}</label>
+                        <input type="file" class="form-control" name="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" ${fileRequired}>
+                        <small class="text-muted d-block mt-2">${file.status === 'revision' ? 'File harus diganti untuk memproses revisi' : 'Biarkan kosong jika tidak ingin mengganti file'}</small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -283,6 +306,7 @@
             document.getElementById('modalTitle').textContent = 'Upload File';
             document.getElementById('administrasiForm').action = '{{ route('guru.administrasi.store') }}';
             document.getElementById('administrasiForm').reset();
+            document.getElementById('feedbackAlert').style.display = 'none';
         });
     </script>
 @endsection

@@ -52,7 +52,7 @@ class AdministrasiController extends Controller
     {
         $file = LearningAdministrationFile::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
 
-        if ($file->status !== 'waiting_approve') {
+        if (!in_array($file->status, ['waiting_approve', 'revision'])) {
             return redirect()->route('guru.administrasi.index')->with('error', 'File tidak bisa diedit karena sudah di-approve atau ditolak');
         }
 
@@ -63,7 +63,7 @@ class AdministrasiController extends Controller
     {
         $file = LearningAdministrationFile::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
 
-        if ($file->status !== 'waiting_approve') {
+        if (!in_array($file->status, ['waiting_approve', 'revision'])) {
             return redirect()->route('guru.administrasi.index')->with('error', 'File tidak bisa diupdate karena sudah di-approve atau ditolak');
         }
 
@@ -95,16 +95,23 @@ class AdministrasiController extends Controller
             $validated['file_size'] = $fileSize;
         }
 
+        // Jika file sebelumnya status revisi, ubah status menjadi waiting_approve
+        if ($file->status === 'revision') {
+            $validated['status'] = 'waiting_approve';
+        }
+
         $file->update($validated);
 
-        return redirect()->route('guru.administrasi.index')->with('success', 'File berhasil diupdate');
+        $message = $file->status === 'revision' ? 'File revisi berhasil diupload. Menunggu persetujuan.' : 'File berhasil diupdate';
+
+        return redirect()->route('guru.administrasi.index')->with('success', $message);
     }
 
     public function destroy($id)
     {
         $file = LearningAdministrationFile::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
 
-        if ($file->status !== 'waiting_approve') {
+        if (!in_array($file->status, ['waiting_approve', 'revision'])) {
             return redirect()->route('guru.administrasi.index')->with('error', 'File tidak bisa dihapus karena sudah di-approve atau ditolak');
         }
 

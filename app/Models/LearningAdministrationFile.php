@@ -22,6 +22,7 @@ class LearningAdministrationFile extends Model
         'file_size',
         'description',
         'status',
+        'feedback',
     ];
 
     protected $casts = [

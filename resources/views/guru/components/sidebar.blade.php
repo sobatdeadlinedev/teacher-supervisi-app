@@ -81,6 +81,24 @@
                 </div>
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
+                <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link {{ Route::is('guru.laporan*') ? 'active' : '' }}"
+                        href="{{ route('guru.laporan.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-note-2 fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                                <span class="path4"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Laporan</span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+                <!--end:Menu item-->
+                <!--begin:Menu item-->
                 <div data-kt-menu-trigger="click"
                     class="menu-item menu-accordion {{ Route::is('guru.supervisi*') ? 'here show' : '' }}">
                     <!--begin:Menu link-->

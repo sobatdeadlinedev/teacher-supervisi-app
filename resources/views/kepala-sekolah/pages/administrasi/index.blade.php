@@ -94,6 +94,8 @@
                                                 <span class="badge badge-light-warning">Menunggu Persetujuan</span>
                                             @elseif ($file->status === 'approved')
                                                 <span class="badge badge-light-success">Disetujui</span>
+                                            @elseif ($file->status === 'revision')
+                                                <span class="badge badge-light-info">Revision</span>
                                             @else
                                                 <span class="badge badge-light-danger">Ditolak</span>
                                             @endif

@@ -21,9 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Register view composer untuk sidebar
         View::composer('guru.layouts.app', GlobalComposer::class);
         View::composer('kepala-sekolah.layouts.app', GlobalComposer::class);
         View::composer('pengawas.layouts.app', GlobalComposer::class);
+
+        \Carbon\Carbon::setLocale('id');
     }
 }

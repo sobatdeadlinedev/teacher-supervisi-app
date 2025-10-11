@@ -6,10 +6,12 @@ use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
 use App\Http\Controllers\Guru\AdministrasiController as GuruAdministrasiController;
 use App\Http\Controllers\Guru\JurnalController as GuruJurnalController;
 use App\Http\Controllers\Guru\SupervisiController as GuruSupervisiController;
+use App\Http\Controllers\Guru\LaporanController as GuruLaporanController;
 use App\Http\Controllers\KepalaSekolah\DashboardController as KepalaSekolahDashboardController;
 use App\Http\Controllers\KepalaSekolah\AdministrasiController as KepalaSekolahAdministrasiController;
 use App\Http\Controllers\KepalaSekolah\JurnalController as KepalaSekolahJurnalController;
 use App\Http\Controllers\KepalaSekolah\SupervisiController as KepalaSekolahSupervisiController;
+use App\Http\Controllers\KepalaSekolah\LaporanController as KepalaSekolahLaporanController;
 use App\Http\Controllers\Pengawas\DashboardController as PengawasDashboardController;
 use App\Http\Controllers\Pengawas\SupervisiController as PengawasSupervisiController;
 use Illuminate\Support\Facades\Route;
@@ -69,6 +71,13 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
         Route::get('/history', [GuruSupervisiController::class, 'log'])->name('log');
         Route::get('/{supervisi}', [GuruSupervisiController::class, 'show'])->name('show');
     });
+    // Laporan Route
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/', [GuruLaporanController::class, 'index'])->name('index');
+        Route::post('/', [GuruLaporanController::class, 'store'])->name('store');
+        Route::put('/{laporan}', [GuruLaporanController::class, 'update'])->name('update');
+        Route::delete('/{laporan}', [GuruLaporanController::class, 'destroy'])->name('destroy');
+    });
 });
 // Kepala Sekolah Routes
 Route::middleware(['auth', 'role:kepala_sekolah'])->prefix('kepala-sekolah')->name('kepala-sekolah.')->group(function () {
@@ -81,6 +90,7 @@ Route::middleware(['auth', 'role:kepala_sekolah'])->prefix('kepala-sekolah')->na
         Route::post('/{id}/reject', [KepalaSekolahAdministrasiController::class, 'reject'])->name('reject');
         Route::get('/{id}/preview', [KepalaSekolahAdministrasiController::class, 'preview'])->name('preview');
         Route::get('/{id}/download', [KepalaSekolahAdministrasiController::class, 'download'])->name('download');
+        Route::post('/{id}/revision', [KepalaSekolahAdministrasiController::class, 'revision'])->name('revision');
     });
     // Jurnal Route
     Route::prefix('jurnal')->name('jurnal.')->group(function () {
@@ -96,6 +106,11 @@ Route::middleware(['auth', 'role:kepala_sekolah'])->prefix('kepala-sekolah')->na
         Route::post('/{supervisi}/cancel', [KepalaSekolahSupervisiController::class, 'cancel'])->name('cancel');
         Route::get('/{id}/pdf/view', [KepalaSekolahSupervisiController::class, 'viewPdf'])->name('pdf.view');
         Route::get('/{id}/pdf/download', [KepalaSekolahSupervisiController::class, 'downloadPdf'])->name('pdf.download');
+    });
+    // Laporan Route
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/', [KepalaSekolahLaporanController::class, 'index'])->name('index');
+        Route::put('/{laporan}', [KepalaSekolahLaporanController::class, 'update'])->name('update');
     });
 });
 // Pengawas Routes

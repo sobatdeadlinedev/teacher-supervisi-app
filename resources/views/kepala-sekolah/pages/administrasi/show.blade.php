@@ -118,11 +118,19 @@
                                                     <span class="badge badge-light-warning">Menunggu Persetujuan</span>
                                                 @elseif ($file->status === 'approved')
                                                     <span class="badge badge-light-success">Disetujui</span>
+                                                @elseif ($file->status === 'revision')
+                                                    <span class="badge badge-light-info">Revision</span>
                                                 @else
                                                     <span class="badge badge-light-danger">Ditolak</span>
                                                 @endif
                                             </td>
                                         </tr>
+                                        @if ($file->feedback)
+                                            <tr>
+                                                <td class="fw-bold text-gray-800">Feedback</td>
+                                                <td class="text-gray-600">{{ $file->feedback }}</td>
+                                            </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -174,6 +182,12 @@
                                     </button>
                                 </form>
 
+                                <button type="button" class="btn btn-warning w-100 mb-3" data-bs-toggle="modal"
+                                    data-bs-target="#revisionModal">
+                                    <i class="ki-outline ki-pencil fs-2"></i>
+                                    Minta Revisi
+                                </button>
+
                                 <form action="{{ route('kepala-sekolah.administrasi.reject', $file->id) }}" method="POST"
                                     class="mb-3">
                                     @csrf
@@ -211,4 +225,33 @@
         <!--end::Content container-->
     </div>
     <!--end::Content-->
+
+    <!-- Revision Modal -->
+    <div class="modal fade" id="revisionModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Minta Revisi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="{{ route('kepala-sekolah.administrasi.revision', $file->id) }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Catatan Revisi</label>
+                            <textarea class="form-control @error('feedback') is-invalid @enderror" name="feedback" rows="4"
+                                placeholder="Tulis catatan revisi untuk guru..."></textarea>
+                            @error('feedback')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-warning">Kirim Revisi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
