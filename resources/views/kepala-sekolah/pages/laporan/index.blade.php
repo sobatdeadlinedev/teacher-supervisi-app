@@ -79,6 +79,24 @@
                         <h3>Daftar Laporan</h3>
                     </div>
                     <!--begin::Card title-->
+                    <div class="card-header border-0 pt-6">
+                        <div class="card-title">
+                            <h3>Daftar Laporan</h3>
+                        </div>
+                        <!--begin::Card toolbar-->
+                        <div class="card-toolbar">
+                            <!--begin::Toolbar-->
+                            <div class="d-flex justify-content-end gap-2">
+                                <!-- Tombol Download PDF -->
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#downloadModal">
+                                    <i class="ki-outline ki-file-down fs-2"></i>Download PDF
+                                </button>
+                            </div>
+                            <!--end::Toolbar-->
+                        </div>
+                        <!--end::Card toolbar-->
+                    </div>
                 </div>
                 <!--end::Card header-->
                 <!--begin::Card body-->

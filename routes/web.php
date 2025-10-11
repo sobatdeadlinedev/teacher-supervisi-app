@@ -125,6 +125,7 @@ Route::middleware(['auth', 'role:kepala_sekolah'])->prefix('kepala-sekolah')->na
     Route::prefix('laporan')->name('laporan.')->group(function () {
         Route::get('/', [KepalaSekolahLaporanController::class, 'index'])->name('index');
         Route::put('/{laporan}', [KepalaSekolahLaporanController::class, 'update'])->name('update');
+        Route::get('/download-pdf', [KepalaSekolahLaporanController::class, 'downloadPdf'])->name('download-pdf');
     });
 });
 // Pengawas Routes
