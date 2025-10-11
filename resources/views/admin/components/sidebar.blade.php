@@ -41,6 +41,19 @@
                     <!--end:Menu link-->
                 </div>
                 <!--end:Menu item-->
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link {{ Route::is('admin.users*') ? 'active' : '' }}"
+                        href="{{ route('admin.users.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-outline ki-element-11 fs-2"></i>
+                        </span>
+                        <span class="menu-title">User Management</span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+                <!--end:Menu item-->
             </div>
             <!--end::Menu-->
         </div>

@@ -1,21 +1,22 @@
 <?php
 
-use App\Http\Controllers\Admin\ConfigController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Guest\AuthController;
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
-use App\Http\Controllers\Guru\AdministrasiController as GuruAdministrasiController;
+use App\Http\Controllers\Admin\ConfigController;
+use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Guru\JurnalController as GuruJurnalController;
-use App\Http\Controllers\Guru\SupervisiController as GuruSupervisiController;
 use App\Http\Controllers\Guru\LaporanController as GuruLaporanController;
-use App\Http\Controllers\KepalaSekolah\DashboardController as KepalaSekolahDashboardController;
-use App\Http\Controllers\KepalaSekolah\AdministrasiController as KepalaSekolahAdministrasiController;
-use App\Http\Controllers\KepalaSekolah\JurnalController as KepalaSekolahJurnalController;
-use App\Http\Controllers\KepalaSekolah\SupervisiController as KepalaSekolahSupervisiController;
-use App\Http\Controllers\KepalaSekolah\LaporanController as KepalaSekolahLaporanController;
+use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
+use App\Http\Controllers\Guru\SupervisiController as GuruSupervisiController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Guru\AdministrasiController as GuruAdministrasiController;
 use App\Http\Controllers\Pengawas\DashboardController as PengawasDashboardController;
 use App\Http\Controllers\Pengawas\SupervisiController as PengawasSupervisiController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KepalaSekolah\JurnalController as KepalaSekolahJurnalController;
+use App\Http\Controllers\KepalaSekolah\LaporanController as KepalaSekolahLaporanController;
+use App\Http\Controllers\KepalaSekolah\DashboardController as KepalaSekolahDashboardController;
+use App\Http\Controllers\KepalaSekolah\SupervisiController as KepalaSekolahSupervisiController;
+use App\Http\Controllers\KepalaSekolah\AdministrasiController as KepalaSekolahAdministrasiController;
 
 // Home Route
 Route::get('/', function () {
@@ -48,6 +49,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::prefix('config')->name('config.')->group(function () {
         Route::get('/', [ConfigController::class, 'index'])->name('index');
         Route::post('/update', [ConfigController::class, 'update'])->name('update');
+    });
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/', [UserManagementController::class, 'index'])->name('index');
+        Route::post('/', [UserManagementController::class, 'store'])->name('store');
+        Route::put('/{id}', [UserManagementController::class, 'update'])->name('update');
+        Route::delete('/{id}', [UserManagementController::class, 'destroy'])->name('destroy');
     });
 });
 // Guru Routes
