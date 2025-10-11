@@ -8,51 +8,67 @@
             <div class="d-flex flex-center flex-column align-items-stretch h-lg-100 w-md-400px">
                 <!--begin::Wrapper-->
                 <div class="d-flex flex-center flex-column flex-column-fluid pb-15 pb-lg-20">
+
+                    <!--begin::Alert Errors-->
+                    @if ($errors->any())
+                        <div class="alert alert-danger d-flex align-items-center p-5 mb-10">
+                            <i class="ki-duotone ki-shield-cross fs-2hx text-danger me-4">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                            </i>
+                            <div class="d-flex flex-column">
+                                <h4 class="mb-1 text-danger">Terjadi Kesalahan</h4>
+                                @foreach ($errors->all() as $error)
+                                    <span>{{ $error }}</span>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+                    <!--end::Alert Errors-->
+
                     <!--begin::Form-->
-                    <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" action="{{ route('login.process') }}"
-                        method="POST">
+                    <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form"
+                        action="{{ route('login.process') }}" method="POST">
                         @csrf
+
                         <!--begin::Heading-->
                         <div class="text-center mb-11">
-                            <!--begin::Title-->
                             <h1 class="text-gray-900 fw-bolder mb-3">Sign In</h1>
-                            <!--end::Title-->
                         </div>
-                        <!--begin::Heading-->
-                        <!--begin::Input group=-->
+                        <!--end::Heading-->
+
+                        <!--begin::Input group Email-->
                         <div class="fv-row mb-8">
-                            <!--begin::Email-->
                             <input type="text" placeholder="Email" name="email" autocomplete="off"
-                                class="form-control bg-transparent" value="{{ old('email') }}" />
-                            <!--end::Email-->
+                                class="form-control bg-transparent @error('email') is-invalid @enderror"
+                                value="{{ old('email') }}" />
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                        <!--end::Input group=-->
+                        <!--end::Input group-->
+
+                        <!--begin::Input group Password-->
                         <div class="fv-row mb-8">
-                            <!--begin::Password-->
                             <input type="password" placeholder="Password" name="password" autocomplete="off"
-                                class="form-control bg-transparent" />
-                            <!--end::Password-->
+                                class="form-control bg-transparent @error('password') is-invalid @enderror" />
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                        <!--end::Input group=-->
+                        <!--end::Input group-->
+
                         <!--begin::Submit button-->
                         <div class="d-grid mb-10">
                             <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
-                                <!--begin::Indicator label-->
                                 <span class="indicator-label">Sign In</span>
-                                <!--end::Indicator label-->
-                                <!--begin::Indicator progress-->
                                 <span class="indicator-progress">Please wait...
-                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                <!--end::Indicator progress-->
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
                             </button>
                         </div>
                         <!--end::Submit button-->
-                        <!--begin::Sign up-->
-                        {{-- <div class="text-gray-500 text-center fw-semibold fs-6">Not a Member yet?
-                            <a href="authentication/layouts/overlay/sign-up.html" class="link-primary">Sign
-                                up</a>
-                        </div> --}}
-                        <!--end::Sign up-->
                     </form>
                     <!--end::Form-->
                 </div>

@@ -21,11 +21,11 @@ Route::get('/', function () {
         if ($user->hasRole('admin')) {
             return redirect()->route('admin.dashboard.index');
         } elseif ($user->hasRole('guru')) {
-            return redirect()->route('guru.dashboard.index');
+            return redirect()->route('guru.administrasi.index');
         } elseif ($user->hasRole('kepala_sekolah')) {
             return redirect()->route('kepala-sekolah.supervisi.index');
         } elseif ($user->hasRole('pengawas')) {
-            return redirect()->route('pengawas.dashboard.index');
+            return redirect()->route('pengawas.supervisi.index');
         }
     }
     return redirect()->route('login');

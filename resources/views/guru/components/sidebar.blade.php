@@ -31,7 +31,7 @@
             <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold px-1" id="#kt_app_sidebar_menu"
                 data-kt-menu="true" data-kt-menu-expand="false">
                 <!--begin:Menu item-->
-                <div class="menu-item">
+                {{-- <div class="menu-item">
                     <!--begin:Menu link-->
                     <a class="menu-link {{ Route::is('guru.dashboard*') ? 'active' : '' }}"
                         href="{{ route('guru.dashboard.index') }}">
@@ -41,7 +41,7 @@
                         <span class="menu-title">Dashboards</span>
                     </a>
                     <!--end:Menu link-->
-                </div>
+                </div> --}}
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
                 <div class="menu-item">
