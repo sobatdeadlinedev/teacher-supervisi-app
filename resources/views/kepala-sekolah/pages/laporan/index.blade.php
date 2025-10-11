@@ -201,7 +201,58 @@
         </div>
     </div>
     <!--end::Modal - Laporan Form-->
-
+    <div class="modal fade" id="downloadModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mw-500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="fw-bold">Download Laporan PDF</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="{{ route('kepala-sekolah.laporan.download-pdf') }}" method="GET">
+                    <div class="modal-body mx-5 my-7">
+                        <div class="mb-4">
+                            <label class="form-label">Pilih Kelas</label>
+                            <select class="form-select" name="kelas">
+                                <option value="Semua" selected>Semua Kelas</option>
+                                @php
+                                    $kelasOptions = \App\Models\LaporanSiswaBermasalah::distinct('kelas')
+                                        ->orderBy('kelas')
+                                        ->pluck('kelas');
+                                @endphp
+                                @foreach ($kelasOptions as $kelasOption)
+                                    <option value="{{ $kelasOption }}">{{ $kelasOption }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Pilih Bulan</label>
+                            <select class="form-select" name="month" required>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="{{ $i }}" {{ $i == now()->month ? 'selected' : '' }}>
+                                        {{ \Carbon\Carbon::create()->month($i)->locale('id')->translatedFormat('F') }}
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Pilih Tahun</label>
+                            <select class="form-select" name="year" required>
+                                @for ($y = now()->year; $y >= now()->year - 5; $y--)
+                                    <option value="{{ $y }}">{{ $y }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="ki-outline ki-file-down"></i>Download
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <script>
         function editLaporan(laporan, guruName) {
             document.getElementById('modalTitle').textContent = 'Edit Laporan';
