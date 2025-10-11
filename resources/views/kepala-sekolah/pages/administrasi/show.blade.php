@@ -155,11 +155,11 @@
                         <!--begin::Card body-->
                         <div class="card-body pt-6">
                             {{-- Preview & Download Buttons --}}
-                            {{-- <a href="{{ route('kepala-sekolah.administrasi.preview', $file->id) }}" target="_blank"
+                            <a href="{{ route('kepala-sekolah.administrasi.preview', $file->id) }}" target="_blank"
                                 class="btn btn-primary w-100 mb-3">
                                 <i class="ki-outline ki-eye fs-2"></i>
                                 Lihat File
-                            </a> --}}
+                            </a>
 
                             <a href="{{ route('kepala-sekolah.administrasi.download', $file->id) }}"
                                 class="btn btn-info w-100 mb-3">
