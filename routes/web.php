@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ConfigController;
 use App\Http\Controllers\Guest\AuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
@@ -43,6 +44,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 // Admin Routes
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard.index');
+    // Administrasi Route
+    Route::prefix('config')->name('config.')->group(function () {
+        Route::get('/', [ConfigController::class, 'index'])->name('index');
+        Route::post('/update', [ConfigController::class, 'update'])->name('update');
+    });
 });
 // Guru Routes
 Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(function () {

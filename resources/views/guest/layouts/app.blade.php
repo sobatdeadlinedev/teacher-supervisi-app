@@ -52,11 +52,11 @@
     <!--begin::Page bg image-->
     <style>
         body {
-            background-image: url('{{ asset('assets/media/logos/school-bg.jpg') }}');
+            background-image: url('{{ $appBg ?? asset('assets/media/logos/school-bg.jpg') }}');
         }
 
         [data-bs-theme="dark"] body {
-            background-image: url('{{ asset('assets/media/logos/school-bg.jpg') }}');
+            background-image: url('{{ $appBg ?? asset('assets/media/logos/school-bg.jpg') }}');
         }
     </style>
     <!--end::Page bg image-->
@@ -71,9 +71,9 @@
                 <div class="d-flex flex-column flex-center pb-0 pb-lg-10 p-10 w-100">
                     <!--begin::Image-->
                     <img class="theme-light-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20"
-                        src="{{ asset('assets/media/logos/school-logo.png') }}" alt="" />
+                        src="{{ $appLogo }}" alt="" />
                     <img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20"
-                        src="{{ asset('assets/media/logos/school-logo.png') }}" alt="" />
+                        src="{{ $appLogo }}" alt="" />
                     <!--end::Image-->
                 </div>
                 <!--end::Content-->

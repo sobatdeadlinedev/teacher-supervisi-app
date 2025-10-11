@@ -5,11 +5,9 @@
     <div class="app-sidebar-logo flex-shrink-0 d-none d-md-flex align-items-center px-8" id="kt_app_sidebar_logo">
         <!--begin::Logo-->
         <a href="{{ route('guru.dashboard.index') }}" class="d-flex align-items-center text-decoration-none">
-            <img alt="Logo" src="{{ asset('assets/media/logos/school-logo.png') }}"
-                class="h-75px app-sidebar-logo-default theme-light-show" />
-            <img alt="Logo" src="{{ asset('assets/media/logos/school-logo.png') }}"
-                class="h-75px theme-dark-show" />
-            <span class="ms-3 fw-bolder fs-2 text-gray-800 d-none d-lg-inline">Mandara</span>
+            <img alt="Logo" src="{{ $appLogo }}" class="h-75px app-sidebar-logo-default theme-light-show" />
+            <img alt="Logo" src="{{ $appLogo }}" class="h-75px theme-dark-show" />
+            <span class="ms-3 fw-bolder fs-2 text-gray-800 d-none d-lg-inline">{{ $appName }}</span>
         </a>
         <!--end::Logo-->
         <!--begin::Aside toggle-->

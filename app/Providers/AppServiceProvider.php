@@ -21,9 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('guru.layouts.app', GlobalComposer::class);
-        View::composer('kepala-sekolah.layouts.app', GlobalComposer::class);
-        View::composer('pengawas.layouts.app', GlobalComposer::class);
+        // Register GlobalComposer untuk semua views
+        View::composer('*', GlobalComposer::class);
 
         \Carbon\Carbon::setLocale('id');
     }
