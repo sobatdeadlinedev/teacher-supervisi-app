@@ -81,10 +81,17 @@
                     <!--begin::Card toolbar-->
                     <div class="card-toolbar">
                         <!--begin::Toolbar-->
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-end gap-2">
+                            <!-- Tombol Download PDF -->
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                data-bs-target="#downloadModal">
+                                <i class="ki-outline ki-file-down fs-2"></i>Download PDF
+                            </button>
+
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#laporanModal" onclick="resetForm()">
-                                <i class="ki-outline ki-plus fs-2"></i>Tambah Laporan</button>
+                                <i class="ki-outline ki-plus fs-2"></i>Tambah Laporan
+                            </button>
                         </div>
                         <!--end::Toolbar-->
                     </div>
@@ -204,7 +211,46 @@
         </div>
     </div>
     <!--end::Modal - Laporan Form-->
-
+    <!--begin::Modal - Download PDF-->
+    <div class="modal fade" id="downloadModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mw-500px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="fw-bold">Download Laporan PDF</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="{{ route('guru.laporan.download-pdf') }}" method="GET">
+                    <div class="modal-body mx-5 my-7">
+                        <div class="mb-4">
+                            <label class="form-label">Pilih Bulan</label>
+                            <select class="form-select" name="month" required>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="{{ $i }}" {{ $i == now()->month ? 'selected' : '' }}>
+                                        {{ \Carbon\Carbon::create()->month($i)->locale('id')->translatedFormat('F') }}
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Pilih Tahun</label>
+                            <select class="form-select" name="year" required>
+                                @for ($y = now()->year; $y >= now()->year - 5; $y--)
+                                    <option value="{{ $y }}">{{ $y }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="ki-outline ki-file-down"></i>Download
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal - Download PDF-->
     <script>
         function editLaporan(laporan) {
             document.getElementById('modalTitle').textContent = 'Edit Laporan';

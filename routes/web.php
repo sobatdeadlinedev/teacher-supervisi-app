@@ -90,6 +90,7 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
         Route::post('/', [GuruLaporanController::class, 'store'])->name('store');
         Route::put('/{laporan}', [GuruLaporanController::class, 'update'])->name('update');
         Route::delete('/{laporan}', [GuruLaporanController::class, 'destroy'])->name('destroy');
+        Route::get('/download-pdf', [GuruLaporanController::class, 'downloadPdf'])->name('download-pdf');
     });
 });
 // Kepala Sekolah Routes

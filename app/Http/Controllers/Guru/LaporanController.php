@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Guru;
 
+use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\LaporanSiswaBermasalah;
-use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
@@ -81,5 +82,56 @@ class LaporanController extends Controller
 
         return redirect()->route('guru.laporan.index')
             ->with('success', 'Laporan berhasil dihapus');
+    }
+
+    /**
+     * Download laporan per bulan dalam format PDF
+     */
+    public function downloadPdf(Request $request)
+    {
+        $month = $request->input('month', now()->month);
+        $year = $request->input('year', now()->year);
+        $kelas = auth()->user()->kelas ?? ''; // Asumsi user punya field kelas
+
+        $laporans = LaporanSiswaBermasalah::where('user_id', auth()->id())
+            ->byMonth($month, $year)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $data = [
+            'laporans' => $laporans,
+            'kelas' => $kelas,
+            'bulan' => $this->getIndonesianMonth($month) . ' ' . $year,
+            'wali_kelas' => auth()->user()->name,
+        ];
+
+        $pdf = Pdf::loadView('guru.pages.laporan.pdf', $data);
+        $pdf->setPaper('a4', 'landscape');
+
+        $filename = 'Laporan_Siswa_Bermasalah_' . $month . '_' . $year . '.pdf';
+
+        return $pdf->download($filename);
+    }
+
+    /**
+     * Helper untuk nama bulan Indonesia
+     */
+    private function getIndonesianMonth($month)
+    {
+        $months = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember'
+        ];
+        return $months[$month];
     }
 }
