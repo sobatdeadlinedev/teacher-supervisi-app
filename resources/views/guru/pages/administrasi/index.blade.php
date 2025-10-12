@@ -174,11 +174,14 @@
                                 <label class="form-label">Tipe File</label>
                                 <select class="form-select form-select-solid" name="file_type" required>
                                     <option value="">Pilih Tipe File</option>
-                                    <option value="RPP">RPP</option>
-                                    <option value="Silabus">Silabus</option>
+                                    <option value="ATP">ATP</option>
+                                    <option value="Capaian Pembelajaran">Capaian Pembelajaran</option>
+                                    <option value="Modul Ajar">Modul Ajar</option>
                                     <option value="Prota">Prota</option>
                                     <option value="Promes">Promes</option>
-                                    <option value="Kontrak Pembelajaran">Kontrak Pembelajaran</option>
+                                    <option value="Pemetaan">Pemetaan</option>
+                                    <option value="Tujuan Pembelajaran">Tujuan Pembelajaran</option>
+                                    <option value="Daftar Nilai">Daftar Nilai</option>
                                     <option value="Lainnya">Lainnya</option>
                                 </select>
                             </div>
@@ -239,24 +242,27 @@
                 @method('PUT')
                 <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                     ${file.status === 'revision' && file.feedback ? `
-                            <div class="alert alert-warning mb-4">
-                                <div class="alert-icon"><i class="ki-outline ki-information fs-1"></i></div>
-                                <div class="alert-text">
-                                    <h5>Feedback dari Reviewer</h5>
-                                    <p class="mb-0">${file.feedback}</p>
-                                </div>
-                            </div>
-                        ` : ''}
+                                                        <div class="alert alert-warning mb-4">
+                                                            <div class="alert-icon"><i class="ki-outline ki-information fs-1"></i></div>
+                                                            <div class="alert-text">
+                                                                <h5>Feedback dari Reviewer</h5>
+                                                                <p class="mb-0">${file.feedback}</p>
+                                                            </div>
+                                                        </div>
+                                                    ` : ''}
 
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <label class="form-label">Tipe File</label>
                             <select class="form-select form-select-solid" name="file_type" required>
-                                <option value="RPP" ${file.file_type === 'RPP' ? 'selected' : ''}>RPP</option>
-                                <option value="Silabus" ${file.file_type === 'Silabus' ? 'selected' : ''}>Silabus</option>
+                                <option value="ATP" ${file.file_type === 'ATP' ? 'selected' : ''}>ATP</option>
+                                <option value="Capaian Pembelajaran" ${file.file_type === 'Capaian Pembelajaran' ? 'selected' : ''}>Capaian Pembelajaran</option>
+                                <option value="Modul Ajar" ${file.file_type === 'Modul Ajar' ? 'selected' : ''}>Modul Ajar</option>
                                 <option value="Prota" ${file.file_type === 'Prota' ? 'selected' : ''}>Prota</option>
                                 <option value="Promes" ${file.file_type === 'Promes' ? 'selected' : ''}>Promes</option>
-                                <option value="Kontrak Pembelajaran" ${file.file_type === 'Kontrak Pembelajaran' ? 'selected' : ''}>Kontrak Pembelajaran</option>
+                                <option value="Pemetaan" ${file.file_type === 'Pemetaan' ? 'selected' : ''}>Pemetaan</option>
+                                <option value="Tujuan Pembelajaran" ${file.file_type === 'Tujuan Pembelajaran' ? 'selected' : ''}>Tujuan Pembelajaran</option>
+                                <option value="Daftar Nilai" ${file.file_type === 'Daftar Nilai' ? 'selected' : ''}>Daftar Nilai</option>
                                 <option value="Lainnya" ${file.file_type === 'Lainnya' ? 'selected' : ''}>Lainnya</option>
                             </select>
                         </div>

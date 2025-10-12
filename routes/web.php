@@ -90,6 +90,7 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
         Route::post('/', [GuruLaporanController::class, 'store'])->name('store');
         Route::put('/{laporan}', [GuruLaporanController::class, 'update'])->name('update');
         Route::delete('/{laporan}', [GuruLaporanController::class, 'destroy'])->name('destroy');
+        Route::get('/preview-pdf', [GuruLaporanController::class, 'previewPdf'])->name('preview-pdf');
         Route::get('/download-pdf', [GuruLaporanController::class, 'downloadPdf'])->name('download-pdf');
     });
 });
@@ -125,6 +126,7 @@ Route::middleware(['auth', 'role:kepala_sekolah'])->prefix('kepala-sekolah')->na
     Route::prefix('laporan')->name('laporan.')->group(function () {
         Route::get('/', [KepalaSekolahLaporanController::class, 'index'])->name('index');
         Route::put('/{laporan}', [KepalaSekolahLaporanController::class, 'update'])->name('update');
+        Route::get('/preview-pdf', [KepalaSekolahLaporanController::class, 'previewPdf'])->name('preview-pdf');
         Route::get('/download-pdf', [KepalaSekolahLaporanController::class, 'downloadPdf'])->name('download-pdf');
     });
 });

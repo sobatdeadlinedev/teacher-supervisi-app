@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\KepalaSekolah;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\LaporanSiswaBermasalah;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class LaporanController extends Controller
 {
@@ -34,6 +35,47 @@ class LaporanController extends Controller
             ->with('success', 'Laporan berhasil diperbarui');
     }
 
+    public function previewPdf(Request $request)
+    {
+        try {
+            $request->validate([
+                'month' => 'required|integer|between:1,12',
+                'year' => 'required|integer',
+                'kelas' => 'nullable|string',
+            ]);
+
+            $month = $request->month;
+            $year = $request->year;
+            $kelas = $request->kelas ?? 'Semua';
+
+            $query = LaporanSiswaBermasalah::whereYear('created_at', $year)
+                ->whereMonth('created_at', $month)
+                ->with('user')
+                ->orderBy('created_at', 'desc');
+
+            if ($kelas !== 'Semua') {
+                $query->where('kelas', $kelas);
+            }
+
+            $laporans = $query->get();
+            $bulanName = Carbon::create()->month($month)->locale('id')->translatedFormat('F');
+
+            $pdf = PDF::loadView('kepala-sekolah.laporan.pdf', [
+                'laporans' => $laporans,
+                'bulan' => $bulanName,
+                'tahun' => $year,
+                'kelas' => $kelas,
+            ]);
+
+            $kelasName = $kelas === 'Semua' ? 'Semua_Kelas' : str_replace(' ', '_', $kelas);
+            $filename = "Laporan_Siswa_Bermasalah_{$bulanName}_{$year}_{$kelasName}.pdf";
+
+            return $pdf->stream($filename);
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Gagal membuka preview PDF: ' . $e->getMessage());
+        }
+    }
     /**
      * Download laporan PDF untuk kepala sekolah
      */

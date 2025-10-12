@@ -83,7 +83,31 @@ class LaporanController extends Controller
         return redirect()->route('guru.laporan.index')
             ->with('success', 'Laporan berhasil dihapus');
     }
+    public function previewPdf(Request $request)
+    {
+        $month = $request->input('month', now()->month);
+        $year = $request->input('year', now()->year);
+        $kelas = auth()->user()->kelas ?? '';
 
+        $laporans = LaporanSiswaBermasalah::where('user_id', auth()->id())
+            ->byMonth($month, $year)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $data = [
+            'laporans' => $laporans,
+            'kelas' => $kelas,
+            'bulan' => $this->getIndonesianMonth($month) . ' ' . $year,
+            'wali_kelas' => auth()->user()->name,
+        ];
+
+        $pdf = Pdf::loadView('guru.pages.laporan.pdf', $data);
+        $pdf->setPaper('a4', 'landscape');
+
+        $filename = 'Laporan_Siswa_Bermasalah_' . $month . '_' . $year . '.pdf';
+
+        return $pdf->stream($filename);
+    }
     /**
      * Download laporan per bulan dalam format PDF
      */
