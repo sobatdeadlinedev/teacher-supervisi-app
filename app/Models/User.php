@@ -33,4 +33,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Jurnal::class);
     }
+    public function learningAdministrationFiles()
+    {
+        return $this->hasMany(LearningAdministrationFile::class);
+    }
 }

@@ -100,7 +100,8 @@ Route::middleware(['auth', 'role:kepala_sekolah'])->prefix('kepala-sekolah')->na
     // Administrasi Route
     Route::prefix('administrasi')->name('administrasi.')->group(function () {
         Route::get('/', [KepalaSekolahAdministrasiController::class, 'index'])->name('index');
-        Route::get('/{id}', [KepalaSekolahAdministrasiController::class, 'show'])->name('show');
+        Route::get('/guru/{teacherId}', [KepalaSekolahAdministrasiController::class, 'showTeacherFiles'])->name('teacher-files');
+        Route::get('/file/{id}', [KepalaSekolahAdministrasiController::class, 'show'])->name('show');
         Route::post('/{id}/approve', [KepalaSekolahAdministrasiController::class, 'approve'])->name('approve');
         Route::post('/{id}/reject', [KepalaSekolahAdministrasiController::class, 'reject'])->name('reject');
         Route::get('/{id}/preview', [KepalaSekolahAdministrasiController::class, 'preview'])->name('preview');

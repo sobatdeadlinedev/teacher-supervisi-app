@@ -48,21 +48,21 @@
                 <div class="card-header border-0 pt-6">
                     <!--begin::Card title-->
                     <div class="card-title">
-                        <h3>Daftar File Administrasi</h3>
+                        <h3>Daftar Guru</h3>
                     </div>
                     <!--begin::Card title-->
                 </div>
                 <!--end::Card header-->
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
-                    @if ($files->isEmpty())
+                    @if ($teachers->isEmpty())
                         <!--begin::Empty state-->
                         <div class="text-center py-15">
                             <div class="mb-4">
                                 <i class="ki-outline ki-information fs-4x text-muted"></i>
                             </div>
-                            <h4 class="fw-semibold text-gray-800 mb-2">Belum Ada File</h4>
-                            <p class="text-gray-600 mb-6">Belum ada file administrasi yang perlu disetujui</p>
+                            <h4 class="fw-semibold text-gray-800 mb-2">Belum Ada Data</h4>
+                            <p class="text-gray-600 mb-6">Belum ada guru yang mengupload file administrasi</p>
                         </div>
                         <!--end::Empty state-->
                     @else
@@ -70,40 +70,71 @@
                         <table class="table align-middle table-row-dashed fs-6 gy-5">
                             <thead>
                                 <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                    <th class="min-w-125px">Nama Guru</th>
-                                    <th class="min-w-125px">Tipe File</th>
-                                    <th class="min-w-125px">Mata Pelajaran</th>
-                                    <th class="min-w-100px">Kelas</th>
-                                    <th class="min-w-100px">Semester</th>
-                                    <th class="min-w-100px">Tahun Ajaran</th>
-                                    <th class="min-w-100px">Status</th>
+                                    <th class="min-w-200px">Nama Guru</th>
+                                    <th class="min-w-100px text-center">Total File</th>
+                                    <th class="min-w-100px text-center">Menunggu</th>
+                                    <th class="min-w-100px text-center">Disetujui</th>
+                                    <th class="min-w-100px text-center">Revisi</th>
+                                    <th class="min-w-100px text-center">Ditolak</th>
                                     <th class="text-end min-w-100px">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
-                                @foreach ($files as $file)
+                                @foreach ($teachers as $teacher)
                                     <tr>
-                                        <td>{{ $file->user->name }}</td>
-                                        <td>{{ $file->file_type }}</td>
-                                        <td>{{ $file->mata_pelajaran }}</td>
-                                        <td>{{ $file->kelas }}</td>
-                                        <td>{{ $file->semester }}</td>
-                                        <td>{{ $file->tahun_ajaran }}</td>
                                         <td>
-                                            @if ($file->status === 'waiting_approve')
-                                                <span class="badge badge-light-warning">Menunggu Persetujuan</span>
-                                            @elseif ($file->status === 'approved')
-                                                <span class="badge badge-light-success">Disetujui</span>
-                                            @elseif ($file->status === 'revision')
-                                                <span class="badge badge-light-info">Revision</span>
+                                            <div class="d-flex align-items-center">
+                                                <div class="symbol symbol-50px me-3">
+                                                    <div class="symbol-label bg-light-primary">
+                                                        <i class="ki-outline ki-user fs-2x text-primary"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <span class="text-gray-800 fw-bold">{{ $teacher->name }}</span>
+                                                    <span class="text-gray-600 fs-7">{{ $teacher->email }}</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span
+                                                class="badge badge-light-primary fs-6">{{ $teacher->learning_administration_files_count }}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($teacher->waiting_count > 0)
+                                                <span
+                                                    class="badge badge-light-warning fs-6">{{ $teacher->waiting_count }}</span>
                                             @else
-                                                <span class="badge badge-light-danger">Ditolak</span>
+                                                <span class="text-gray-400">-</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($teacher->approved_count > 0)
+                                                <span
+                                                    class="badge badge-light-success fs-6">{{ $teacher->approved_count }}</span>
+                                            @else
+                                                <span class="text-gray-400">-</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($teacher->revision_count > 0)
+                                                <span
+                                                    class="badge badge-light-info fs-6">{{ $teacher->revision_count }}</span>
+                                            @else
+                                                <span class="text-gray-400">-</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($teacher->rejected_count > 0)
+                                                <span
+                                                    class="badge badge-light-danger fs-6">{{ $teacher->rejected_count }}</span>
+                                            @else
+                                                <span class="text-gray-400">-</span>
                                             @endif
                                         </td>
                                         <td class="text-end">
-                                            <a href="{{ route('kepala-sekolah.administrasi.show', $file->id) }}"
+                                            <a href="{{ route('kepala-sekolah.administrasi.teacher-files', $teacher->id) }}"
                                                 class="btn btn-light btn-active-light-primary btn-sm">
-                                                Detail
+                                                Lihat File
                                             </a>
                                         </td>
                                     </tr>

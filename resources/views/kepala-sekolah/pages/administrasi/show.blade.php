@@ -37,6 +37,17 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">
+                            <a href="{{ route('kepala-sekolah.administrasi.teacher-files', $file->user_id) }}"
+                                class="text-muted text-hover-primary">{{ $file->user->name }}</a>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-500 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">Detail</li>
                         <!--end::Item-->
                     </ul>
@@ -210,7 +221,8 @@
                             <div class="separator separator-dashed my-5"></div>
 
                             {{-- Back Button --}}
-                            <a href="{{ route('kepala-sekolah.administrasi.index') }}" class="btn btn-light w-100">
+                            <a href="{{ route('kepala-sekolah.administrasi.teacher-files', $file->user_id) }}"
+                                class="btn btn-light w-100">
                                 <i class="ki-outline ki-left fs-2"></i>
                                 Kembali
                             </a>

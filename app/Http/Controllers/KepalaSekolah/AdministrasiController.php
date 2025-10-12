@@ -4,17 +4,49 @@ namespace App\Http\Controllers\KepalaSekolah;
 
 use App\Http\Controllers\Controller;
 use App\Models\LearningAdministrationFile;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class AdministrasiController extends Controller
 {
+    // Menampilkan daftar guru yang memiliki file administrasi
     public function index()
     {
-        $files = LearningAdministrationFile::with('user')->latest()->get();
-        return view('kepala-sekolah.pages.administrasi.index', compact('files'));
+        // Ambil guru yang memiliki file administrasi, beserta jumlah file per status
+        $teachers = User::whereHas('learningAdministrationFiles')
+            ->withCount([
+                'learningAdministrationFiles',
+                'learningAdministrationFiles as waiting_count' => function ($query) {
+                    $query->where('status', 'waiting_approve');
+                },
+                'learningAdministrationFiles as approved_count' => function ($query) {
+                    $query->where('status', 'approved');
+                },
+                'learningAdministrationFiles as revision_count' => function ($query) {
+                    $query->where('status', 'revision');
+                },
+                'learningAdministrationFiles as rejected_count' => function ($query) {
+                    $query->where('status', 'rejected');
+                }
+            ])
+            ->get();
+
+        return view('kepala-sekolah.pages.administrasi.index', compact('teachers'));
     }
 
+    // Menampilkan daftar file per guru
+    public function showTeacherFiles($teacherId)
+    {
+        $teacher = User::findOrFail($teacherId);
+        $files = LearningAdministrationFile::where('user_id', $teacherId)
+            ->latest()
+            ->get();
+
+        return view('kepala-sekolah.pages.administrasi.teacher-files', compact('teacher', 'files'));
+    }
+
+    // Menampilkan detail file
     public function show($id)
     {
         $file = LearningAdministrationFile::with('user')->findOrFail($id);
@@ -26,7 +58,7 @@ class AdministrasiController extends Controller
         $file = LearningAdministrationFile::findOrFail($id);
         $file->update(['status' => 'approved']);
 
-        return redirect()->route('kepala-sekolah.administrasi.index')->with('success', 'File berhasil di-approve');
+        return redirect()->back()->with('success', 'File berhasil di-approve');
     }
 
     public function reject($id)
@@ -34,7 +66,7 @@ class AdministrasiController extends Controller
         $file = LearningAdministrationFile::findOrFail($id);
         $file->update(['status' => 'rejected']);
 
-        return redirect()->route('kepala-sekolah.administrasi.index')->with('success', 'File berhasil ditolak');
+        return redirect()->back()->with('success', 'File berhasil ditolak');
     }
 
     public function revision(Request $request, $id)
@@ -53,7 +85,7 @@ class AdministrasiController extends Controller
             'feedback' => $validated['feedback'],
         ]);
 
-        return redirect()->route('kepala-sekolah.administrasi.index')
+        return redirect()->back()
             ->with('success', 'File diminta untuk revisi');
     }
 
