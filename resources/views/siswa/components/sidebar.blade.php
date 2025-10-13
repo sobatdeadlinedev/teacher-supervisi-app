@@ -4,7 +4,7 @@
     data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
     <div class="app-sidebar-logo flex-shrink-0 d-none d-md-flex align-items-center px-8" id="kt_app_sidebar_logo">
         <!--begin::Logo-->
-        <a href="{{ route('guru.dashboard.index') }}" class="d-flex align-items-center text-decoration-none">
+        <a href="{{ route('siswa.dashboard.index') }}" class="d-flex align-items-center text-decoration-none">
             <img alt="Logo" src="{{ $appLogo }}" class="h-75px app-sidebar-logo-default theme-light-show" />
             <img alt="Logo" src="{{ $appLogo }}" class="h-75px theme-dark-show" />
             <span class="ms-3 fw-bolder fs-2 text-gray-800 d-none d-lg-inline">{{ $appName }}</span>
@@ -29,32 +29,27 @@
             <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold px-1" id="#kt_app_sidebar_menu"
                 data-kt-menu="true" data-kt-menu-expand="false">
                 <!--begin:Menu item-->
-                {{-- <div class="menu-item">
+                <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{ Route::is('pengawas.dashboard*') ? 'active' : '' }}"
-                        href="{{ route('pengawas.dashboard.index') }}">
+                    <a class="menu-link {{ Route::is('siswa.dashboard*') ? 'active' : '' }}"
+                        href="{{ route('siswa.dashboard.index') }}">
                         <span class="menu-icon">
                             <i class="ki-outline ki-element-11 fs-2"></i>
                         </span>
                         <span class="menu-title">Dashboards</span>
                     </a>
                     <!--end:Menu link-->
-                </div> --}}
+                </div>
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{ Route::is('pengawas.supervisi*') ? 'active' : '' }}"
-                        href="{{ route('pengawas.supervisi.index') }}">
+                    <a class="menu-link {{ Route::is('siswa.journal*') ? 'active' : '' }}"
+                        href="{{ route('siswa.journal.index') }}">
                         <span class="menu-icon">
-                            <i class="ki-duotone ki-chart-simple-2 fs-2">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                                <span class="path3"></span>
-                                <span class="path4"></span>
-                            </i>
+                            <i class="ki-outline ki-element-11 fs-2"></i>
                         </span>
-                        <span class="menu-title">Supervisi</span>
+                        <span class="menu-title">Journal</span>
                     </a>
                     <!--end:Menu link-->
                 </div>

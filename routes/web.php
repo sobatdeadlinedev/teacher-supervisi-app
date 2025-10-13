@@ -18,6 +18,7 @@ use App\Http\Controllers\KepalaSekolah\DashboardController as KepalaSekolahDashb
 use App\Http\Controllers\KepalaSekolah\SupervisiController as KepalaSekolahSupervisiController;
 use App\Http\Controllers\KepalaSekolah\AdministrasiController as KepalaSekolahAdministrasiController;
 use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
+use App\Http\Controllers\Siswa\JournalController as SiswaJournalController;
 
 // Home Route
 Route::get('/', function () {
@@ -31,6 +32,8 @@ Route::get('/', function () {
             return redirect()->route('kepala-sekolah.supervisi.index');
         } elseif ($user->hasRole('pengawas')) {
             return redirect()->route('pengawas.supervisi.index');
+        } elseif ($user->hasRole('siswa')) {
+            return redirect()->route('siswa.dashboard.index');
         }
     }
     return redirect()->route('login');
@@ -143,7 +146,18 @@ Route::middleware(['auth', 'role:pengawas'])->prefix('pengawas')->name('pengawas
         Route::get('/{id}/pdf/download', [KepalaSekolahSupervisiController::class, 'downloadPdf'])->name('pdf.download');
     });
 });
+
 // Siswa Routes
 Route::middleware(['auth', 'role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {
     Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('dashboard.index');
+
+    // Journal Route
+    Route::prefix('journal')->name('journal.')->group(function () {
+        Route::get('/', [SiswaJournalController::class, 'index'])->name('index');
+        Route::post('/{type}', [SiswaJournalController::class, 'store'])->name('store');
+        Route::get('/{journal}', [SiswaJournalController::class, 'show'])->name('show');
+        Route::get('/{journal}/edit', [SiswaJournalController::class, 'edit'])->name('edit');
+        Route::put('/{journal}', [SiswaJournalController::class, 'update'])->name('update');
+        Route::delete('/{journal}', [SiswaJournalController::class, 'destroy'])->name('destroy');
+    });
 });
