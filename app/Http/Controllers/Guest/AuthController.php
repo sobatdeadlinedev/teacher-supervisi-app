@@ -58,6 +58,9 @@ class AuthController extends Controller
                 } elseif ($user->hasRole('pengawas')) {
                     return redirect()->route('pengawas.supervisi.index')
                         ->with('success', 'Selamat datang, ' . $user->name);
+                } elseif ($user->hasRole('siswa')) {
+                    return redirect()->route('siswa.dashboard.index')
+                        ->with('success', 'Selamat datang, ' . $user->name);
                 }
 
                 // Fallback jika tidak ada role yang cocok

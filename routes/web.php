@@ -17,6 +17,7 @@ use App\Http\Controllers\KepalaSekolah\LaporanController as KepalaSekolahLaporan
 use App\Http\Controllers\KepalaSekolah\DashboardController as KepalaSekolahDashboardController;
 use App\Http\Controllers\KepalaSekolah\SupervisiController as KepalaSekolahSupervisiController;
 use App\Http\Controllers\KepalaSekolah\AdministrasiController as KepalaSekolahAdministrasiController;
+use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
 
 // Home Route
 Route::get('/', function () {
@@ -141,4 +142,8 @@ Route::middleware(['auth', 'role:pengawas'])->prefix('pengawas')->name('pengawas
         Route::get('/{id}/pdf/view', [KepalaSekolahSupervisiController::class, 'viewPdf'])->name('pdf.view');
         Route::get('/{id}/pdf/download', [KepalaSekolahSupervisiController::class, 'downloadPdf'])->name('pdf.download');
     });
+});
+// Siswa Routes
+Route::middleware(['auth', 'role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {
+    Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('dashboard.index');
 });
