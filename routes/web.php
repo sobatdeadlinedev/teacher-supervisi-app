@@ -10,6 +10,7 @@ use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
 use App\Http\Controllers\Guru\SupervisiController as GuruSupervisiController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Guru\AdministrasiController as GuruAdministrasiController;
+use App\Http\Controllers\Guru\StudentJournalController as GuruStudentJournalController;
 use App\Http\Controllers\Pengawas\DashboardController as PengawasDashboardController;
 use App\Http\Controllers\Pengawas\SupervisiController as PengawasSupervisiController;
 use App\Http\Controllers\KepalaSekolah\JurnalController as KepalaSekolahJurnalController;
@@ -96,6 +97,11 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
         Route::delete('/{laporan}', [GuruLaporanController::class, 'destroy'])->name('destroy');
         Route::get('/preview-pdf', [GuruLaporanController::class, 'previewPdf'])->name('preview-pdf');
         Route::get('/download-pdf', [GuruLaporanController::class, 'downloadPdf'])->name('download-pdf');
+    });
+    // Student Journal Route
+    Route::prefix('student-journal')->name('student-journal.')->group(function () {
+        Route::get('/', [GuruStudentJournalController::class, 'index'])->name('index');
+        Route::get('/{userId}', [GuruStudentJournalController::class, 'show'])->name('show');
     });
 });
 // Kepala Sekolah Routes

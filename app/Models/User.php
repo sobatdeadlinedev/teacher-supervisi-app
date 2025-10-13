@@ -37,4 +37,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(LearningAdministrationFile::class);
     }
+    public function studentJournals()
+    {
+        return $this->hasMany(StudentJournal::class, 'user_id');
+    }
 }
