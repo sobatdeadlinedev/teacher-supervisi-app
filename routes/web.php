@@ -18,6 +18,7 @@ use App\Http\Controllers\KepalaSekolah\LaporanController as KepalaSekolahLaporan
 use App\Http\Controllers\KepalaSekolah\DashboardController as KepalaSekolahDashboardController;
 use App\Http\Controllers\KepalaSekolah\SupervisiController as KepalaSekolahSupervisiController;
 use App\Http\Controllers\KepalaSekolah\AdministrasiController as KepalaSekolahAdministrasiController;
+use App\Http\Controllers\KepalaSekolah\StudentJournalController as KepalaSekolahStudentJournalController;
 use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
 use App\Http\Controllers\Siswa\JournalController as SiswaJournalController;
 
@@ -139,6 +140,10 @@ Route::middleware(['auth', 'role:kepala_sekolah'])->prefix('kepala-sekolah')->na
         Route::put('/{laporan}', [KepalaSekolahLaporanController::class, 'update'])->name('update');
         Route::get('/preview-pdf', [KepalaSekolahLaporanController::class, 'previewPdf'])->name('preview-pdf');
         Route::get('/download-pdf', [KepalaSekolahLaporanController::class, 'downloadPdf'])->name('download-pdf');
+    });
+    Route::prefix('student-journal')->name('student-journal.')->group(function () {
+        Route::get('/', [KepalaSekolahStudentJournalController::class, 'index'])->name('index');
+        Route::get('/{userId}', [KepalaSekolahStudentJournalController::class, 'show'])->name('show');
     });
 });
 // Pengawas Routes
