@@ -135,7 +135,7 @@
                                         <td class="text-end">
                                             <button class="btn btn-light btn-active-light-primary btn-sm"
                                                 data-bs-toggle="modal" data-bs-target="#userModal"
-                                                onclick='editUser(@json($user), "{{ $user->roles->first() ? $user->roles->first()->name : '' }}")'>
+                                                onclick='editUser(@json($user))'>
                                                 Edit
                                             </button>
                                             <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
@@ -173,11 +173,11 @@
                     <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                         <div class="mb-4">
                             <label class="form-label required">Nama</label>
-                            <input type="text" class="form-control" name="name" required>
+                            <input type="text" class="form-control" name="name" id="user_name" required>
                         </div>
                         <div class="mb-4">
                             <label class="form-label required">Email</label>
-                            <input type="email" class="form-control" name="email" required>
+                            <input type="email" class="form-control" name="email" id="user_email" required>
                         </div>
                         <div class="mb-4">
                             <label class="form-label required">Password</label>
@@ -190,8 +190,9 @@
                                 @foreach ($roles as $role)
                                     @if ($role->name !== 'admin')
                                         <div class="form-check form-check-custom form-check-solid mb-3">
-                                            <input class="form-check-input" type="radio" name="role"
-                                                value="{{ $role->name }}" id="role_{{ $role->id }}">
+                                            <input class="form-check-input role-radio" type="radio" name="role"
+                                                value="{{ $role->name }}" id="role_{{ $role->id }}"
+                                                onchange="toggleWaliKelasField()">
                                             <label class="form-check-label" for="role_{{ $role->id }}">
                                                 {{ $role->name }}
                                             </label>
@@ -199,6 +200,18 @@
                                     @endif
                                 @endforeach
                             </div>
+                        </div>
+
+                        <!-- Wali Kelas Field (Hidden by default) -->
+                        <div class="mb-4" id="waliKelasField" style="display: none;">
+                            <label class="form-label">Wali Kelas</label>
+                            <select class="form-select" name="wali_kelas_id" id="wali_kelas_select">
+                                <option value="">-- Pilih Wali Kelas --</option>
+                                @foreach ($waliKelas as $wk)
+                                    <option value="{{ $wk->id }}">{{ $wk->name }}</option>
+                                @endforeach
+                            </select>
+                            <div class="form-text">Pilih guru sebagai wali kelas siswa ini</div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -212,11 +225,27 @@
     <!--end::Modal - User Form-->
 
     <script>
-        function editUser(user, userRole) {
-            console.log('Edit User:', user, 'Role:', userRole);
+        // Toggle Wali Kelas field based on role selection
+        function toggleWaliKelasField() {
+            const selectedRole = document.querySelector('input[name="role"]:checked');
+            const waliKelasField = document.getElementById('waliKelasField');
+
+            if (selectedRole && selectedRole.value === 'siswa') {
+                waliKelasField.style.display = 'block';
+            } else {
+                waliKelasField.style.display = 'none';
+                document.getElementById('wali_kelas_select').value = '';
+            }
+        }
+
+        function editUser(user) {
+            console.log('Edit User:', user);
 
             document.getElementById('modalTitle').textContent = 'Edit User';
             document.getElementById('userForm').action = `/admin/users/${user.id}`;
+
+            const userRole = user.roles && user.roles.length > 0 ? user.roles[0].name : '';
+            const userWaliKelasId = user.wali_kelas && user.wali_kelas.length > 0 ? user.wali_kelas[0].id : null;
 
             // Build roles radio buttons with checked state
             let rolesHtml = '';
@@ -225,8 +254,9 @@
                     const isChecked{{ $role->id }} = userRole === '{{ $role->name }}' ? 'checked' : '';
                     rolesHtml += `
                         <div class="form-check form-check-custom form-check-solid mb-3">
-                            <input class="form-check-input" type="radio" name="role" 
-                                   value="{{ $role->name }}" id="role_{{ $role->id }}_edit" ${isChecked{{ $role->id }}}>
+                            <input class="form-check-input role-radio" type="radio" name="role" 
+                                   value="{{ $role->name }}" id="role_{{ $role->id }}_edit" 
+                                   ${isChecked{{ $role->id }}} onchange="toggleWaliKelasField()">
                             <label class="form-check-label" for="role_{{ $role->id }}_edit">
                                 {{ $role->name }}
                             </label>
@@ -234,6 +264,16 @@
                     `;
                 @endif
             @endforeach
+
+            // Build wali kelas options
+            let waliKelasOptions = '<option value="">-- Pilih Wali Kelas --</option>';
+            @foreach ($waliKelas as $wk)
+                const isSelected{{ $wk->id }} = userWaliKelasId === {{ $wk->id }} ? 'selected' : '';
+                waliKelasOptions +=
+                    `<option value="{{ $wk->id }}" ${isSelected{{ $wk->id }}}>{{ $wk->name }}</option>`;
+            @endforeach
+
+            const showWaliKelas = userRole === 'siswa' ? 'block' : 'none';
 
             document.getElementById('userForm').innerHTML = `
                 @csrf
@@ -257,6 +297,13 @@
                         <div class="d-flex flex-column">
                             ${rolesHtml}
                         </div>
+                    </div>
+                    <div class="mb-4" id="waliKelasField" style="display: ${showWaliKelas};">
+                        <label class="form-label">Wali Kelas</label>
+                        <select class="form-select" name="wali_kelas_id" id="wali_kelas_select">
+                            ${waliKelasOptions}
+                        </select>
+                        <div class="form-text">Pilih guru sebagai wali kelas siswa ini</div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -295,8 +342,9 @@
                             @foreach ($roles as $role)
                                 @if ($role->name !== 'admin')
                                 <div class="form-check form-check-custom form-check-solid mb-3">
-                                    <input class="form-check-input" type="radio" name="role" 
-                                           value="{{ $role->name }}" id="role_{{ $role->id }}">
+                                    <input class="form-check-input role-radio" type="radio" name="role" 
+                                           value="{{ $role->name }}" id="role_{{ $role->id }}"
+                                           onchange="toggleWaliKelasField()">
                                     <label class="form-check-label" for="role_{{ $role->id }}">
                                         {{ $role->name }}
                                     </label>
@@ -304,6 +352,16 @@
                                 @endif
                             @endforeach
                         </div>
+                    </div>
+                    <div class="mb-4" id="waliKelasField" style="display: none;">
+                        <label class="form-label">Wali Kelas</label>
+                        <select class="form-select" name="wali_kelas_id" id="wali_kelas_select">
+                            <option value="">-- Pilih Wali Kelas --</option>
+                            @foreach ($waliKelas as $wk)
+                                <option value="{{ $wk->id }}">{{ $wk->name }}</option>
+                            @endforeach
+                        </select>
+                        <div class="form-text">Pilih guru sebagai wali kelas siswa ini</div>
                     </div>
                 </div>
                 <div class="modal-footer">

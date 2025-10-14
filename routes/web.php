@@ -9,6 +9,7 @@ use App\Http\Controllers\Guru\LaporanController as GuruLaporanController;
 use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
 use App\Http\Controllers\Guru\SupervisiController as GuruSupervisiController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\WaliKelasController as AdminWaliKelasController;
 use App\Http\Controllers\Guru\AdministrasiController as GuruAdministrasiController;
 use App\Http\Controllers\Guru\StudentJournalController as GuruStudentJournalController;
 use App\Http\Controllers\Pengawas\DashboardController as PengawasDashboardController;
@@ -61,6 +62,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         Route::post('/', [UserManagementController::class, 'store'])->name('store');
         Route::put('/{id}', [UserManagementController::class, 'update'])->name('update');
         Route::delete('/{id}', [UserManagementController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('/wali-kelas')->name('wali-kelas.')->group(function () {
+        Route::get('/', [AdminWaliKelasController::class, 'index'])->name('index');
+        Route::post('/assign', [AdminWaliKelasController::class, 'assign'])->name('assign');
+        Route::delete('/remove/{siswaId}', [AdminWaliKelasController::class, 'remove'])->name('remove');
+        Route::post('/bulk-assign', [AdminWaliKelasController::class, 'bulkAssign'])->name('bulk-assign');
     });
 });
 // Guru Routes

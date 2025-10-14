@@ -54,6 +54,19 @@
                     <!--end:Menu link-->
                 </div>
                 <!--end:Menu item-->
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link {{ Route::is('admin.wali-kelas*') ? 'active' : '' }}"
+                        href="{{ route('admin.wali-kelas.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-outline ki-element-11 fs-2"></i>
+                        </span>
+                        <span class="menu-title">Mapping Wali Kelas</span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+                <!--end:Menu item-->
             </div>
             <!--end::Menu-->
         </div>
@@ -125,7 +138,8 @@
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-3 my-0">
-                            <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="dark">
+                            <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
+                                data-kt-value="dark">
                                 <span class="menu-icon" data-kt-element="icon">
                                     <i class="ki-outline ki-moon fs-2"></i>
                                 </span>

@@ -16,12 +16,15 @@ class UserManagementController extends Controller
         $users = User::with('roles')->latest()->get();
         $roles = Role::all();
 
+        // Ambil semua guru untuk dropdown wali kelas
+        $waliKelas = User::role('guru')->orderBy('name')->get();
+
         Log::info('User Management Index accessed', [
             'total_users' => $users->count(),
             'total_roles' => $roles->count()
         ]);
 
-        return view('admin.pages.user-management.index', compact('users', 'roles'));
+        return view('admin.pages.user-management.index', compact('users', 'roles', 'waliKelas'));
     }
 
     public function store(Request $request)
@@ -33,7 +36,8 @@ class UserManagementController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:8',
-                'role' => 'nullable|string|exists:roles,name' // Ubah ke singular
+                'role' => 'nullable|string|exists:roles,name',
+                'wali_kelas_id' => 'nullable|exists:users,id'
             ]);
 
             Log::info('Validation passed', $validated);
@@ -50,6 +54,15 @@ class UserManagementController extends Controller
             if (isset($validated['role'])) {
                 $user->assignRole($validated['role']);
                 Log::info('Role assigned', ['role' => $validated['role']]);
+
+                // Jika role siswa dan ada wali kelas, assign ke tabel wali_kelas_siswa
+                if ($validated['role'] === 'siswa' && isset($validated['wali_kelas_id'])) {
+                    $user->waliKelas()->attach($validated['wali_kelas_id']);
+                    Log::info('Wali Kelas assigned to siswa', [
+                        'siswa_id' => $user->id,
+                        'wali_kelas_id' => $validated['wali_kelas_id']
+                    ]);
+                }
             }
 
             return redirect()->route('admin.users.index')
@@ -80,7 +93,8 @@ class UserManagementController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $id,
                 'password' => 'nullable|min:8',
-                'role' => 'nullable|string|exists:roles,name' // Ubah ke singular
+                'role' => 'nullable|string|exists:roles,name',
+                'wali_kelas_id' => 'nullable|exists:users,id'
             ]);
 
             Log::info('Update validation passed', $validated);
@@ -99,8 +113,27 @@ class UserManagementController extends Controller
             if (isset($validated['role'])) {
                 $user->syncRoles([$validated['role']]);
                 Log::info('Role synced', ['role' => $validated['role']]);
+
+                // Handle wali kelas untuk siswa
+                if ($validated['role'] === 'siswa') {
+                    if (isset($validated['wali_kelas_id'])) {
+                        // Sync wali kelas (replace yang lama)
+                        $user->waliKelas()->sync([$validated['wali_kelas_id']]);
+                        Log::info('Wali Kelas synced', [
+                            'siswa_id' => $user->id,
+                            'wali_kelas_id' => $validated['wali_kelas_id']
+                        ]);
+                    } else {
+                        // Hapus wali kelas jika tidak dipilih
+                        $user->waliKelas()->detach();
+                    }
+                } else {
+                    // Jika bukan siswa, hapus relasi wali kelas (jika ada)
+                    $user->waliKelas()->detach();
+                }
             } else {
                 $user->syncRoles([]); // Remove all roles if none selected
+                $user->waliKelas()->detach(); // Remove wali kelas relation
             }
 
             return redirect()->route('admin.users.index')
