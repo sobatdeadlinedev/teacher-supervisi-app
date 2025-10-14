@@ -75,6 +75,13 @@
                     <img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20"
                         src="{{ $appLogo }}" alt="" />
                     <!--end::Image-->
+                    <!--begin::Title-->
+                    <!--begin::Title-->
+                    <div class="text-center mb-7">
+                        <h1 class="text-white fs-2qx fw-bold mb-3" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">
+                            {{ $appName ?? 'Nama Aplikasi' }} </h1>
+                    </div>
+                    <!--end::Title-->
                 </div>
                 <!--end::Content-->
             </div>
