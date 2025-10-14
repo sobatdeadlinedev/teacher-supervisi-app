@@ -11,8 +11,14 @@ class StudentJournalController extends Controller
 {
     public function index()
     {
-        // Ambil semua siswa yang punya jurnal, dengan hitungan per tipe
+        // Ambil ID guru yang login
+        $guruId = auth()->id();
+
+        // Ambil hanya siswa yang wali kelasnya adalah guru yang login
         $students = User::role('siswa')
+            ->whereHas('waliKelas', function ($query) use ($guruId) {
+                $query->where('users.id', $guruId);
+            })
             ->whereHas('studentJournals')
             ->withCount([
                 'studentJournals as total_journals',
@@ -45,7 +51,14 @@ class StudentJournalController extends Controller
 
     public function show($userId)
     {
-        $student = User::role('siswa')->findOrFail($userId);
+        $guruId = auth()->id();
+
+        // Cek apakah siswa ini adalah siswa bimbingan guru yang login
+        $student = User::role('siswa')
+            ->whereHas('waliKelas', function ($query) use ($guruId) {
+                $query->where('users.id', $guruId);
+            })
+            ->findOrFail($userId);
 
         $journals = StudentJournal::where('user_id', $userId)
             ->orderBy('journal_date', 'desc')
