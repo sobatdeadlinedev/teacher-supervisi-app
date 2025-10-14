@@ -59,7 +59,7 @@ class AuthController extends Controller
                     return redirect()->route('pengawas.supervisi.index')
                         ->with('success', 'Selamat datang, ' . $user->name);
                 } elseif ($user->hasRole('siswa')) {
-                    return redirect()->route('siswa.dashboard.index')
+                    return redirect()->route('siswa.journal.index')
                         ->with('success', 'Selamat datang, ' . $user->name);
                 }
 
