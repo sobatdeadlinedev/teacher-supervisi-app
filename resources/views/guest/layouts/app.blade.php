@@ -79,11 +79,13 @@
                     <!--begin::Title-->
                     <!--begin::Title-->
                     <div class="text-center mb-7">
-                        <h1 class="text-white fs-2qx fw-bold mb-3" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">
+                        <h1 class="text-white fw-bold mb-4"
+                            style="font-size: 4rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">
                             MANDARA
                         </h1>
-                        <div class="text-white fs-base fw-semibold" style="text-shadow: 1px 1px 6px rgba(0,0,0,0.7);">
-                            Manajemen Digitalisasi Supervisi Refelektif dan Adaptif
+                        <div class="text-white fw-semibold"
+                            style="font-size: 1.5rem; text-shadow: 1px 1px 6px rgba(0,0,0,0.7);">
+                            Manajemen Digitalisasi Supervisi Refelektif dan Adaptif
                         </div>
                     </div>
                     <!--end::Title-->
