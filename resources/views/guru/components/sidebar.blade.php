@@ -55,7 +55,7 @@
                                 <span class="path5"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Administrasi Pembelajaran</span>
+                        <span class="menu-title">Administrasi Guru</span>
                     </a>
                     <!--end:Menu link-->
                 </div>
@@ -158,7 +158,7 @@
                                 <span class="path4"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Student Journal</span>
+                        <span class="menu-title">Jurnal 7 KAIH</span>
                     </a>
                     <!--end:Menu link-->
                 </div>

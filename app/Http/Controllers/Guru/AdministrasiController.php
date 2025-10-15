@@ -27,6 +27,12 @@ class AdministrasiController extends Controller
             'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx|max:10240',
         ]);
 
+        // Jika file_type adalah "Lainnya", set kelas dan semester jadi "-"
+        if ($validated['file_type'] === 'Lainnya') {
+            $validated['kelas'] = '-';
+            $validated['semester'] = '-';
+        }
+
         $file = $request->file('file');
         $originalName = $file->getClientOriginalName();
         $storedName = time() . '_' . auth()->id() . '_' . $file->hashName();
@@ -76,6 +82,12 @@ class AdministrasiController extends Controller
             'description' => 'nullable|string',
             'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx|max:10240',
         ]);
+
+        // Jika file_type adalah "Lainnya", set kelas dan semester jadi "-"
+        if ($validated['file_type'] === 'Lainnya') {
+            $validated['kelas'] = '-';
+            $validated['semester'] = '-';
+        }
 
         if ($request->hasFile('file')) {
             Storage::disk('local')->delete($file->file_path);
