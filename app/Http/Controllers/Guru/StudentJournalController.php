@@ -11,13 +11,11 @@ class StudentJournalController extends Controller
 {
     public function index()
     {
-        // Ambil ID guru yang login
         $guruId = auth()->id();
 
-        // Ambil hanya siswa yang wali kelasnya adalah guru yang login
         $students = User::role('siswa')
             ->whereHas('waliKelas', function ($query) use ($guruId) {
-                $query->where('users.id', $guruId);
+                $query->where('wali_kelas_id', $guruId);
             })
             ->whereHas('studentJournals')
             ->withCount([
