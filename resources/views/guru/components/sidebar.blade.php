@@ -176,9 +176,9 @@
             <!--begin::User info-->
             <div class="d-flex align-items-center" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
                 data-kt-menu-overflow="true" data-kt-menu-placement="top-start">
-                <div class="d-flex flex-center cursor-pointer symbol symbol-circle symbol-40px">
+                {{-- <div class="d-flex flex-center cursor-pointer symbol symbol-circle symbol-40px">
                     <img src="{{ asset('assets/media/avatars/300-1.jpg') }}" alt="image" />
-                </div>
+                </div> --}}
                 <!--begin::Name-->
                 <div class="d-flex flex-column align-items-start justify-content-center ms-3">
                     <span class="text-gray-500 fs-8 fw-semibold">Hello</span>
