@@ -7,176 +7,325 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
+use Exception;
 
 class UserManagementController extends Controller
 {
+    /**
+     * Display a list of all users with their roles
+     *
+     * Retrieves all users with their assigned roles and available roles for assignment.
+     * Also loads teacher users for wali kelas (class teacher) assignment.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
-        $users = User::with('roles')->latest()->get();
-        $roles = Role::all();
-
-        // Ambil semua guru untuk dropdown wali kelas
-        $waliKelas = User::role('guru')->orderBy('name')->get();
-
-        Log::info('User Management Index accessed', [
-            'total_users' => $users->count(),
-            'total_roles' => $roles->count()
-        ]);
-
-        return view('admin.pages.user-management.index', compact('users', 'roles', 'waliKelas'));
-    }
-
-    public function store(Request $request)
-    {
-        Log::info('User Store Request', $request->except('password'));
-
         try {
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required|min:8',
-                'role' => 'nullable|string|exists:roles,name',
-                'wali_kelas_id' => 'nullable|exists:users,id'
+            $users = User::with('roles')->latest()->paginate(15);
+            $roles = Role::all();
+            $waliKelas = User::role('guru')->orderBy('name')->get();
+
+            Log::info('User Management Index accessed', [
+                'total_users' => $users->total(),
+                'total_roles' => $roles->count(),
+                'user_id' => auth()->id(),
             ]);
 
-            Log::info('Validation passed', $validated);
-
-            $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['password']),
-            ]);
-
-            Log::info('User created', ['user_id' => $user->id]);
-
-            // Assign single role
-            if (isset($validated['role'])) {
-                $user->assignRole($validated['role']);
-                Log::info('Role assigned', ['role' => $validated['role']]);
-
-                // Jika role siswa dan ada wali kelas, assign ke tabel wali_kelas_siswa
-                if ($validated['role'] === 'siswa' && isset($validated['wali_kelas_id'])) {
-                    $user->waliKelas()->attach($validated['wali_kelas_id']);
-                    Log::info('Wali Kelas assigned to siswa', [
-                        'siswa_id' => $user->id,
-                        'wali_kelas_id' => $validated['wali_kelas_id']
-                    ]);
-                }
-            }
-
-            return redirect()->route('admin.users.index')
-                ->with('success', 'User berhasil ditambahkan');
-        } catch (\Exception $e) {
-            Log::error('Error storing user', [
+            return view('admin.pages.user-management.index', compact('users', 'roles', 'waliKelas'));
+        } catch (Exception $e) {
+            Log::error('Failed to retrieve users', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'user_id' => auth()->id(),
             ]);
 
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Gagal menambahkan user: ' . $e->getMessage());
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal memuat data pengguna. Silakan coba lagi.');
         }
     }
 
+    /**
+     * Store a newly created user in storage
+     *
+     * Creates a new user with hashed password, assigns a role, and optionally
+     * assigns a wali kelas (class teacher) if the user is a student.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
+        Log::info('User Create Request initiated', [
+            'email' => $request->input('email'),
+            'user_id' => auth()->id(),
+        ]);
+
+        try {
+            $validated = $this->validateUserInput($request);
+
+            // Use transaction to ensure data consistency
+            $user = DB::transaction(function () use ($validated) {
+                $user = User::create([
+                    'name' => $validated['name'],
+                    'email' => $validated['email'],
+                    'password' => Hash::make($validated['password']),
+                ]);
+
+                // Assign role if provided
+                if (!empty($validated['role'])) {
+                    $user->assignRole($validated['role']);
+
+                    // Assign wali kelas if user is siswa (student)
+                    if ($validated['role'] === 'siswa' && !empty($validated['wali_kelas_id'])) {
+                        $user->waliKelas()->attach($validated['wali_kelas_id']);
+                    }
+                }
+
+                return $user;
+            });
+
+            Log::info('User created successfully', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'role' => $validated['role'] ?? 'none',
+                'created_by' => auth()->id(),
+            ]);
+
+            return redirect()
+                ->route('admin.users.index')
+                ->with('success', 'User berhasil ditambahkan.');
+        } catch (ValidationException $e) {
+            return redirect()
+                ->back()
+                ->withErrors($e->errors())
+                ->withInput();
+        } catch (Exception $e) {
+            Log::error('Failed to create user', [
+                'error' => $e->getMessage(),
+                'email' => $request->input('email'),
+                'user_id' => auth()->id(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal menambahkan user. Silakan coba lagi.')
+                ->withInput();
+        }
+    }
+
+    /**
+     * Update the specified user in storage
+     *
+     * Updates user information, password (if provided), role assignment,
+     * and wali kelas relationship for students.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id)
     {
-        Log::info('User Update Request', [
-            'id' => $id,
-            'data' => $request->except('password')
+        Log::info('User Update Request initiated', [
+            'target_user_id' => $id,
+            'user_id' => auth()->id(),
         ]);
 
         try {
             $user = User::findOrFail($id);
 
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email,' . $id,
-                'password' => 'nullable|min:8',
-                'role' => 'nullable|string|exists:roles,name',
-                'wali_kelas_id' => 'nullable|exists:users,id'
-            ]);
+            // Prevent users from modifying others' accounts without proper authorization
+            if (!auth()->user()->can('edit users') && $user->id !== auth()->id()) {
+                Log::warning('Unauthorized update attempt', [
+                    'target_user_id' => $id,
+                    'user_id' => auth()->id(),
+                ]);
 
-            Log::info('Update validation passed', $validated);
-
-            $user->update([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-            ]);
-
-            if (!empty($validated['password'])) {
-                $user->update(['password' => Hash::make($validated['password'])]);
-                Log::info('Password updated');
+                return redirect()
+                    ->back()
+                    ->with('error', 'Anda tidak memiliki izin untuk mengubah user ini.');
             }
 
-            // Sync single role
-            if (isset($validated['role'])) {
-                $user->syncRoles([$validated['role']]);
-                Log::info('Role synced', ['role' => $validated['role']]);
+            $validated = $this->validateUserInput($request, $id);
 
-                // Handle wali kelas untuk siswa
-                if ($validated['role'] === 'siswa') {
-                    if (isset($validated['wali_kelas_id'])) {
-                        // Sync wali kelas (replace yang lama)
-                        $user->waliKelas()->sync([$validated['wali_kelas_id']]);
-                        Log::info('Wali Kelas synced', [
-                            'siswa_id' => $user->id,
-                            'wali_kelas_id' => $validated['wali_kelas_id']
-                        ]);
-                    } else {
-                        // Hapus wali kelas jika tidak dipilih
-                        $user->waliKelas()->detach();
-                    }
+            // Use transaction to ensure data consistency
+            DB::transaction(function () use ($user, $validated) {
+                $user->update([
+                    'name' => $validated['name'],
+                    'email' => $validated['email'],
+                ]);
+
+                // Update password only if provided
+                if (!empty($validated['password'])) {
+                    $user->update(['password' => Hash::make($validated['password'])]);
+                }
+
+                // Sync roles
+                if (!empty($validated['role'])) {
+                    $user->syncRoles([$validated['role']]);
+
+                    // Handle wali kelas assignment
+                    $this->syncWaliKelas($user, $validated);
                 } else {
-                    // Jika bukan siswa, hapus relasi wali kelas (jika ada)
+                    $user->syncRoles([]);
                     $user->waliKelas()->detach();
                 }
-            } else {
-                $user->syncRoles([]); // Remove all roles if none selected
-                $user->waliKelas()->detach(); // Remove wali kelas relation
-            }
+            });
 
-            return redirect()->route('admin.users.index')
-                ->with('success', 'User berhasil diupdate');
-        } catch (\Exception $e) {
-            Log::error('Error updating user', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+            Log::info('User updated successfully', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'role' => $validated['role'] ?? 'none',
+                'updated_by' => auth()->id(),
             ]);
 
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Gagal mengupdate user: ' . $e->getMessage());
+            return redirect()
+                ->route('admin.users.index')
+                ->with('success', 'User berhasil diperbarui.');
+        } catch (ValidationException $e) {
+            return redirect()
+                ->back()
+                ->withErrors($e->errors())
+                ->withInput();
+        } catch (Exception $e) {
+            Log::error('Failed to update user', [
+                'error' => $e->getMessage(),
+                'target_user_id' => $id,
+                'user_id' => auth()->id(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal memperbarui user. Silakan coba lagi.')
+                ->withInput();
         }
     }
 
+    /**
+     * Remove the specified user from storage
+     *
+     * Soft delete a user from the system. Prevents users from deleting their own account.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
-        Log::info('User Delete Request', ['id' => $id]);
+        Log::info('User Delete Request initiated', [
+            'target_user_id' => $id,
+            'user_id' => auth()->id(),
+        ]);
 
         try {
             $user = User::findOrFail($id);
 
             // Prevent deleting own account
             if ($user->id === auth()->id()) {
-                return redirect()->route('admin.users.index')
-                    ->with('error', 'Tidak dapat menghapus akun sendiri');
+                Log::warning('User attempted to delete own account', [
+                    'user_id' => auth()->id(),
+                ]);
+
+                return redirect()
+                    ->route('admin.users.index')
+                    ->with('error', 'Tidak dapat menghapus akun sendiri.');
             }
 
-            $user->delete();
+            // Prevent deleting admin/super admin users without proper authorization
+            if ($user->hasAnyRole(['admin', 'super_admin']) && !auth()->user()->hasRole('super_admin')) {
+                Log::warning('Unauthorized admin deletion attempt', [
+                    'target_user_id' => $id,
+                    'user_id' => auth()->id(),
+                ]);
 
-            Log::info('User deleted successfully', ['id' => $id]);
+                return redirect()
+                    ->back()
+                    ->with('error', 'Anda tidak dapat menghapus pengguna administrator.');
+            }
 
-            return redirect()->route('admin.users.index')
-                ->with('success', 'User berhasil dihapus');
-        } catch (\Exception $e) {
-            Log::error('Error deleting user', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+            DB::transaction(function () use ($user) {
+                $user->waliKelas()->detach();
+                $user->delete();
+            });
+
+            Log::info('User deleted successfully', [
+                'deleted_user_id' => $id,
+                'deleted_by' => auth()->id(),
             ]);
 
-            return redirect()->back()
-                ->with('error', 'Gagal menghapus user: ' . $e->getMessage());
+            return redirect()
+                ->route('admin.users.index')
+                ->with('success', 'User berhasil dihapus.');
+        } catch (Exception $e) {
+            Log::error('Failed to delete user', [
+                'error' => $e->getMessage(),
+                'target_user_id' => $id,
+                'user_id' => auth()->id(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal menghapus user. Silakan coba lagi.');
+        }
+    }
+
+    /**
+     * Validate user input data
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int|null $userId
+     * @return array
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    private function validateUserInput(Request $request, ?int $userId = null): array
+    {
+        $emailUnique = $userId ? "unique:users,email,$userId" : 'unique:users,email';
+
+        return $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => "required|email|{$emailUnique}",
+            'password' => $userId ? 'nullable|min:8' : 'required|min:8',
+            'role' => 'nullable|string|exists:roles,name',
+            'wali_kelas_id' => 'nullable|exists:users,id',
+        ], [
+            'name.required' => 'Nama pengguna wajib diisi.',
+            'name.max' => 'Nama pengguna tidak boleh lebih dari 255 karakter.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Email harus valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal harus 8 karakter.',
+            'role.exists' => 'Role yang dipilih tidak valid.',
+            'wali_kelas_id.exists' => 'Wali kelas yang dipilih tidak valid.',
+        ]);
+    }
+
+    /**
+     * Sync wali kelas relationship for students
+     *
+     * Handles the assignment and removal of wali kelas (class teacher)
+     * for student users.
+     *
+     * @param \App\Models\User $user
+     * @param array $validated
+     * @return void
+     */
+    private function syncWaliKelas(User $user, array $validated): void
+    {
+        if ($validated['role'] === 'siswa') {
+            if (!empty($validated['wali_kelas_id'])) {
+                $user->waliKelas()->sync([$validated['wali_kelas_id']]);
+            } else {
+                $user->waliKelas()->detach();
+            }
+        } else {
+            // Remove wali kelas relation if user is not a student
+            $user->waliKelas()->detach();
         }
     }
 }
