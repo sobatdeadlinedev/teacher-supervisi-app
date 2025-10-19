@@ -54,7 +54,7 @@ class StudentJournalController extends Controller
         // Cek apakah siswa ini adalah siswa bimbingan guru yang login
         $student = User::role('siswa')
             ->whereHas('waliKelas', function ($query) use ($guruId) {
-                $query->where('users.id', $guruId);
+                $query->where('wali_kelas_id', $guruId); // Ubah jadi ini
             })
             ->findOrFail($userId);
 
