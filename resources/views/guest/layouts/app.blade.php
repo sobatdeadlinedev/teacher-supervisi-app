@@ -85,7 +85,7 @@
                         </h1>
                         <div class="text-white fw-semibold"
                             style="font-size: 1.5rem; text-shadow: 1px 1px 6px rgba(0,0,0,0.7);">
-                            Manajemen Digitalisasi Supervisi Refelektif dan Adaptif
+                            Manajemen Digitalisasi Supervisi Reflektif dan Adaptif
                         </div>
                     </div>
                     <!--end::Title-->
